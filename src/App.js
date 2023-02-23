@@ -8,8 +8,9 @@ import {
 } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import React, { useCallback, useState, useEffect } from "react";
-import { DesktopOutlined } from "@ant-design/icons";
+import { DesktopOutlined, UserAddOutlined } from "@ant-design/icons";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 const { Header, Content, Footer } = Layout;
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginScreen />,
   },
+  {
+    path: "/customer/register",
+    element: <RegisterScreen />,
+  },
 ]);
 
 export default function App() {
@@ -39,8 +44,9 @@ export default function App() {
   console.log(router)
 
   const items = [
-    getItem("home", <a href="home">Homepage</a>, <DesktopOutlined />),
-    getItem("login", <a href="login">login</a>, <DesktopOutlined />),
+    getItem("home", <a href="/home">Homepage</a>, <DesktopOutlined />),
+    getItem("login", <a href="/login">login</a>, <DesktopOutlined />),
+    getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
   ];
 
   return (
