@@ -1,36 +1,15 @@
-import React from "react";
-import { Button, Form, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-const LoginScreen = () => {
-  return (
-    <Form
-      labelCol={{
-        span: 4,
-      }}
-      wrapperCol={{
-        span: 14,
-      }}
-      layout="horizontal"
-      style={{
-        maxWidth: 600,
-      }}
-    >
-      <Form.Item label="Upload" valuePropName="fileList">
-        <Upload action="/upload.do" listType="picture-card">
-          <div>
-            <PlusOutlined />
-            <div
-              style={{
-                marginTop: 8,
-              }}
-            >
-              Upload
-            </div>
-          </div>
-        </Upload>
-      </Form.Item>
-    </Form>
-  );
-};
+import React, { useCallback } from "react";
+import { Button } from "antd";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/features/user";
 
-export default LoginScreen;
+export default function LoginScreen() {
+  const dispatch = useDispatch();
+  const handleLogin = useCallback(() => dispatch(login({username: 'anntc', password: 'anntc'})), []);
+  handleLogin();
+  return (
+    <div>
+      <Button>aaa</Button>
+    </div>
+  );
+}
