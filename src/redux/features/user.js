@@ -1,4 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const config = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+};
 
 const initialState = {
   user: {
@@ -17,6 +25,30 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const login = createAsyncThunk(
+  "@user/login",
+  ({ username, password }, { rejectWithValue }) => {
+    try {
+      axios
+        .post(
+          "http://localhost:8080/api/customer/login",
+          {
+            username,
+            password,
+          },
+          config
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(console.log);
+      return { username, password };
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
 const { reducer } = createSlice({
   initialState,
   name: "user",
@@ -27,6 +59,15 @@ const { reducer } = createSlice({
       Object.assign(state, action.payload);
     },
     extraReducers: {
+      [getUser.pending]: (state) => {
+        state.datagrid.loading = true;
+      },
+      [getUser.fulfilled]: (state, { payload: { data, _error } }) => {
+        console.log(data);
+      },
+      [getUser.rejected]: (state) => {
+        state.datagrid.loading = false;
+      },
       [getUser.pending]: (state) => {
         state.datagrid.loading = true;
       },

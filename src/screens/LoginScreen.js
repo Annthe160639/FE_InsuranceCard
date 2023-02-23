@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button } from "antd";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/features/user";
 
-const LoginScreen = () => {
+export default function LoginScreen() {
+  const dispatch = useDispatch();
+  const handleLogin = useCallback(() => dispatch(login({username: 'anntc', password: 'anntc'})), []);
+  handleLogin();
   return (
     <div>
-      <Button type="primary">aaa</Button>
+      <Button>aaa</Button>
     </div>
   );
-};
-
-export default LoginScreen;
+}
