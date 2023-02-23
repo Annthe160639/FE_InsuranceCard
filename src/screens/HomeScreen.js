@@ -1,16 +1,16 @@
-import {
-  FileOutlined,
-  PieChartOutlined,
-  UserOutlined,
-  DesktopOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { useState } from "react";
-const { Header, Content, Footer, Sider } = Layout;
+import { Breadcrumb, theme } from "antd";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { getUser } from "../redux/features/user";
 
-const HomePage = () => {
-  const [collapsed, setCollapsed] = useState(false);
+export default function HomeScreen() {
+  const dispatch = useDispatch();
+
+  const handleGetUser = useCallback(async () => {
+    const data = await dispatch(getUser({username: 'Ky'}));
+    console.log(data);
+  }, []);
+  handleGetUser();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -35,6 +35,4 @@ const HomePage = () => {
       </div>
     </div>
   );
-};
-
-export default HomePage;
+}
