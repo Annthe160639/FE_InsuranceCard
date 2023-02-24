@@ -2,6 +2,7 @@ import { Breadcrumb, theme } from "antd";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { getUser } from "../redux/features/user";
+import Banner from "../components/Banner";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function HomeScreen() {
   } = theme.useToken();
   return (
     <div>
-      <Breadcrumb
+      {/* <Breadcrumb
         style={{
           margin: "16px 0",
         }}
@@ -32,7 +33,8 @@ export default function HomeScreen() {
         }}
       >
         Bill is a cat.
-      </div>
+      </div> */}
+      <Banner/>
     </div>
   );
 }

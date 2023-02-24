@@ -5,7 +5,9 @@ import { DesktopOutlined } from "@ant-design/icons";
 import { Provider as ReduxProvider } from "react-redux";
 import "./App.css";
 import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
+import LoginScreen from "./screens/LoginScreen/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
+import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
 import store from "./redux/store";
 
 const { Header, Content, Footer } = Layout;
@@ -54,7 +56,9 @@ export default function App() {
             >
               <Routes>
                 <Route path="/home" element={<HomeScreen />} />
+                <Route path="/register" element={<RegisterScreen />} />
                 <Route path="/customer/login" element={<LoginScreen />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
               </Routes>
             </Content>
             <Footer
@@ -62,7 +66,7 @@ export default function App() {
                 textAlign: "center",
               }}
             >
-              Insurance card of motorbikes
+              Insurance Card for Motorbikes
             </Footer>
           </Layout>
         </Layout>
