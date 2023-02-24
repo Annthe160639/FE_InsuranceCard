@@ -36,15 +36,16 @@ export default function App() {
       onClick: callbackFn,
     };
   }
-  console.log(router)
+  console.log(router);
 
   const items = [
     getItem("home", <a href="home">Homepage</a>, <DesktopOutlined />),
-    getItem("login", <a href="login">login</a>, <DesktopOutlined />),
+    getItem("login", <a href="login">Login</a>, <DesktopOutlined />),
   ];
 
   return (
     <Layout
+      className="flex flex-col"
       style={{
         minHeight: "100vh",
       }}
@@ -53,19 +54,13 @@ export default function App() {
         <div className="logo" />
         <Menu
           theme="dark"
-          defaultSelectedKeys={["home"]}
+          // defaultSelectedKeys={["home"]}
           mode="horizontal"
           items={items}
         />
       </Header>
       <Layout className="site-layout">
-        <Content
-          style={{
-            margin: "0 16px",
-          }}
-        >
-          <RouterProvider router={router}  />
-        </Content>
+        <RouterProvider router={router} />
         <Footer
           style={{
             textAlign: "center",
