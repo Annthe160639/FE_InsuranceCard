@@ -1,31 +1,16 @@
-import "./App.css";
-import HomePage from "./screens/HomeScreen";
-import {
-  createBrowserRouter,
-  Router,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
-import { Layout, Menu } from "antd";
 import React, { useCallback, useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import { DesktopOutlined } from "@ant-design/icons";
-import LoginScreen from "./screens/LoginScreen";
-const { Header, Content, Footer } = Layout;
+import { Provider as ReduxProvider } from "react-redux";
+import "./App.css";
+import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
+import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
+import store from "./redux/store";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/home",
-    element: <HomePage />,
-  },
-  {
-    path: "/login",
-    element: <LoginScreen />,
-  },
-]);
+const { Header, Content, Footer } = Layout;
 
 export default function App() {
   function getItem(key, label, icon, callbackFn) {
