@@ -1,12 +1,18 @@
-import { Button, Checkbox, Form, Input } from "antd";
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+import { Breadcrumb, Button, Checkbox, Form, Input, theme } from "antd";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { customerRegister } from "../redux/features/user";
+
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
 const RegisterScreen = () => {
+  const dispatch = useDispatch();
+  
+  const handleSubmit = useCallback((values) => {
+    dispatch(customerRegister(values));
+  }, []);
   return (
     <div>
       <Form
@@ -25,7 +31,7 @@ const RegisterScreen = () => {
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
+        onFinish={handleSubmit}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
@@ -38,7 +44,7 @@ const RegisterScreen = () => {
           <h1
             style={{
               fontSize: 24,
-              marginBottom: '0px'
+              marginBottom: "0px",
             }}
           >
             ĐĂNG KÝ
@@ -55,7 +61,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Tên người dùng" />
         </Form.Item>
 
         <Form.Item
@@ -68,7 +74,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password placeholder="Mật khẩu" />
         </Form.Item>
         <Form.Item
           label="Nhập lại mật khẩu"
@@ -80,7 +86,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input.Password placeholder="Mật khẩu" />
         </Form.Item>
         <Form.Item
           label="Tên"
@@ -92,7 +98,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Tên" />
         </Form.Item>
         <Form.Item
           label="Gmail"
@@ -104,8 +110,9 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Gmail" />
         </Form.Item>
+
         <Form.Item
           label="Số điện thoại"
           name="phone"
@@ -116,7 +123,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Số điện thoại" />
         </Form.Item>
         <Form.Item
           label="Địa chỉ"
@@ -128,7 +135,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Địa chỉ" />
         </Form.Item>
         <Form.Item
           label="Căn cước công dân"
@@ -140,7 +147,7 @@ const RegisterScreen = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Căn cước công dân" />
         </Form.Item>
 
         <Form.Item
