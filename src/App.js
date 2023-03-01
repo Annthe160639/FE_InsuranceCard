@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { DesktopOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Provider as ReduxProvider } from "react-redux";
-import "./App.css";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
