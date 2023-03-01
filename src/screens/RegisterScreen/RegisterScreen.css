@@ -1,0 +1,14 @@
+.register-form {
+  max-width: 500px;
+  position: sticky;
+  width: 500px;
+  height: 500px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.register-form-button {
+  width: 100%;
+  margin-left: 165px;
+}

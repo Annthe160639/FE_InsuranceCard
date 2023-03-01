@@ -1,0 +1,21 @@
+.login-form {
+  max-width: 500px;
+  position: sticky;
+  width: 500px;
+  height: 500px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.login-form-forgot {
+  float: left;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.login-form-button {
+  width: 100%;
+}
+.login-register-form {
+  float: right;
+}

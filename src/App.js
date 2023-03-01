@@ -6,6 +6,7 @@ import "./App.css";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ForgotPassword from "./screens/ForgotPassword";
 
 import store from "./redux/store";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
@@ -57,6 +58,7 @@ export default function App() {
                 <Route path="/customer/login" element={<LoginScreen />} />
                 <Route path="/customer/register" element={<RegisterScreen />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
               </Routes>
             </Content>
             <Footer
@@ -64,7 +66,7 @@ export default function App() {
                 textAlign: "center",
               }}
             >
-              Insurance card of motorbikes
+              Insurance Card for Motorbikes
             </Footer>
           </Layout>
         </Layout>
