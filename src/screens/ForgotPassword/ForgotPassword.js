@@ -10,7 +10,7 @@ function ForgotPassword() {
     if (/\S+@\S+\.\S+/.test(email)) {
       // Gửi yêu cầu reset mật khẩu đến email
       // Ở đây là nơi bạn thực hiện việc gửi email reset mật khẩu
-      <Link to="/forgotpassword"></Link>;
+      setMessage(<p style={{color: "blue"}}>Email chính xác</p>);
       // Thêm lớp success-message cho phần tử p
     } else {
       // Hiển thị thông báo lỗi nếu email không hợp lệ
@@ -34,7 +34,8 @@ function ForgotPassword() {
           fontSize:"large",boxShadow: "2px 8px 16px 0 gray",
         }}
       />
-      <button className="reset" type="submit" onClick={resetPassword}>Lấy lại mật khẩu</button>
+      <button className="reset" type="submit" onClick={resetPassword}>
+      <Link to="/register" style={{color:"white"}}> Lấy lại mật khẩu</Link></button>
       {/* <Button type="primary" htmlType="submit" onClick={resetPassword}>Quang Thanh</Button> */}
       <p>{message}</p>
     </div>

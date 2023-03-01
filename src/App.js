@@ -8,6 +8,8 @@ import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
+import ResetPassword from "./screens/ResetPasswordScreen/ResetPassword";
+
 import store from "./redux/store";
 
 const { Header, Content, Footer } = Layout;
@@ -59,6 +61,8 @@ export default function App() {
                 <Route path="/register" element={<RegisterScreen />} />
                 <Route path="/customer/login" element={<LoginScreen />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/resetpassword" element={<ResetPassword />} />
+
               </Routes>
             </Content>
             <Footer
