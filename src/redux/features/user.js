@@ -25,6 +25,52 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const customerRegister = createAsyncThunk(
+  "@Customer/Register",
+  (
+    { username, password, name, gmail, phone, address, ci },
+    { rejectWithValue }
+  ) => {
+    try {
+      axios
+        .post(
+          "http://localhost:8080/api/customer/register",
+          { username, password, name, gmail, phone, address, ci },
+          config
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(console.log);
+      return { username, password, name, gmail, phone, address, ci };
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+export const customerResetPassword = createAsyncThunk(
+  "@Customer/Password",
+  (
+    { username},
+    { rejectWithValue }
+  ) => {
+    try {
+      axios
+        .post(
+          "http://localhost:8080/api/customer/password/reset",
+          { username},
+          config
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(console.log);
+      return { username};
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
 export const login = createAsyncThunk(
   "@user/login",
   ({ username, password }, { rejectWithValue }) => {

@@ -1,14 +1,15 @@
-import React, { useCallback, useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { DesktopOutlined } from "@ant-design/icons";
+import { DesktopOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Provider as ReduxProvider } from "react-redux";
 import "./App.css";
 import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
-import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ForgotPassword from "./screens/ForgotPassword";
+
 import store from "./redux/store";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 const { Header, Content, Footer } = Layout;
 
@@ -24,8 +25,10 @@ export default function App() {
   console.log(router);
 
   const items = [
-    getItem("home", <a href="home">Homepage</a>, <DesktopOutlined />),
-    getItem("login", <a href="login">Login</a>, <DesktopOutlined />),
+    getItem("home", <a href="/home">Home</a>, <DesktopOutlined />),
+    getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
+    getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
+    getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
   ];
 
   return (
@@ -45,14 +48,39 @@ export default function App() {
         />
       </Header>
       <Layout className="site-layout">
-        <RouterProvider router={router} />
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Insurance card of motorbikes
-        </Footer>
+        <RouterProvider router={router}>
+          <Header>
+            <div className="logo" />
+            <Menu
+              theme="dark"
+              defaultSelectedKeys={["home"]}
+              mode="horizontal"
+              items={items}
+            />
+          </Header>
+          <Layout className="site-layout">
+            <Content
+              style={{
+                margin: "0 16px",
+              }}
+            >
+              <Routes>
+                <Route path="/home" element={<HomeScreen />} />
+                <Route path="/customer/login" element={<LoginScreen />} />
+                <Route path="/customer/register" element={<RegisterScreen />} />
+                <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+              </Routes>
+            </Content>
+            <Footer
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Insurance Card for Motorbikes
+            </Footer>
+          </Layout>
+        </RouterProvider>
       </Layout>
     </Layout>
   );
