@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 import { Button, Layout, Menu, theme } from "antd";
-import { useToken } from "antd/es/theme/internal";
 import {
   DesktopOutlined,
   UserAddOutlined,
@@ -21,6 +20,7 @@ import EditContractTypeScreen from "./screens/EditContractTypeScreen";
 import CheckCompensationScreen from "./screens/CheckCompensation";
 import { ROUTES } from "./constants/routerConst";
 import store from "./redux/store";
+import Headers from "./components/Header";
 
 import "./App.style.css";
 
