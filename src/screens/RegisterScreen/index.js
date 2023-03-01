@@ -1,146 +1,168 @@
-import React from "react";
-import { Button, Form, Input, Typography } from "antd";
-import "./RegisterScreen.css";
+import { Button, Checkbox, Form, Input } from "antd";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { customerRegister } from "../../redux/features/customer";
+const onFinish = (values) => {
+  console.log("Success:", values);
+};
+const onFinishFailed = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
 
 const RegisterScreen = () => {
-  const formItemLayout = {
-    labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 8,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
-  };
+  const dispatch = useDispatch();
+  const handleSubmite = useCallback(async (values) => {
+    await dispatch(customerRegister(values));
+  })
+
   return (
-    <Form className="register-form" {...formItemLayout}>
-      <Typography.Title
-        level={1}
-        style={{
-          margin: 0,
-          textAlign: "center",
-          marginLeft: "150px"
+    <div>
+      <Form
+        name="basic"
+        labelCol={{
+          span: 6,
         }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 600,
+          margin: "auto",
+          textAlign: "center",
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        Đăng ký
-      </Typography.Title>
-      <br></br>
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: "email",
-            message: "Email không đúng định dạng!",
-          },
-          {
-            required: true,
-            message: "Hãy nhập Email của bạn!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            span: 16,
+            offset: 6,
+          }}
+        >
+          <h1
+            style={{
+              fontSize: 24,
+              marginBottom: '0px'
+            }}
+          >
+            ĐĂNG KÝ
+          </h1>
+        </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Mật khẩu"
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập Password của bạn!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        label="Nhập lại mật khẩu"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập Password của bạn!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error("Nhập lại mật khẩu không đúng!"));
+        <Form.Item
+          label="Tên người dùng"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập tên người dùng!",
             },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        name="name"
-        label="Họ và tên"
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập Họ và tên của bạn!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="phoneNumber"
-        label="Số điện thoại"
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập Số điện thoại của bạn!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="ci"
-        label="CMTND/CCCD"
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập CMTND/CCCD của bạn!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="address"
-        label="Địa chỉ"
-        rules={[
-          {
-            required: true,
-            message: "Hãy nhập Địa chỉ của bạn!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="register-form-button">
-          Đăng ký
-        </Button>
-      </Form.Item>
-    </Form>
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Mật khẩu"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập mật khẩu!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Nhập lại mật khẩu"
+          name="password2"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập lại mật khẩu!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Tên"
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập tên của bạn!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Gmail"
+          name="gmail"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập gmail của bạn!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Số điện thoại"
+          name="phone"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập số điện thoại của bạn!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Địa chỉ"
+          name="address"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập địa chỉ của bạn!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Căn cước công dân"
+          name="ci"
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập số căn cước công dân của bạn!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 6,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit" onSubmit={handleSubmite}>
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

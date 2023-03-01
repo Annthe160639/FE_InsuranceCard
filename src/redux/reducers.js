@@ -1,7 +1,8 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers } from "@reduxjs/toolkit";
 
-import user from './features/user';
-
+import customer from "./features/customer";
+import contract from "./features/contract";
 export default combineReducers({
-  user
+  customer,
+  contract,
 });

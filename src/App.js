@@ -25,7 +25,7 @@ export default function App() {
 
   const items = [
     getItem("home", <a href="/home">Home</a>, <DesktopOutlined />),
-    getItem("login", <a href="/login">Login</a>, <DesktopOutlined />),
+    getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
     getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
     getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
   ];
