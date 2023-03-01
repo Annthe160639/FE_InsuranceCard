@@ -40,7 +40,7 @@ export default function App() {
     getItem("addContractType", <a href="/manager/contract/type/add">Add new contract type</a>, <UserAddOutlined />),
     getItem("editContractType", <a href="/manager/contract/type/edit">Edit contract type</a>, <UserAddOutlined />),
     getItem("editContractType", <a href="/staff/compensation/check">Check compensation</a>, <UserAddOutlined />),
-
+    getItem("/customer/forgotpassword", <a href="/customer/forgotpassword">Forget password</a>, <UserAddOutlined />),
   ];
 
   return (
@@ -70,15 +70,14 @@ export default function App() {
                 <Route path="/home" element={<HomeScreen />} />
                 <Route path="/customer/login" element={<LoginScreen />} />
                 <Route path="/customer/register" element={<RegisterScreen />} />
+                <Route path="/customer/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/customer/contract/request" element={<RequestContractScreen />} />
                 <Route path="/customer/compensation/request" element={<RequestCompensation />} />
                 <Route path="/customer/profile" element={<EditProfileScreen />} />
                 <Route path="/manager/contract/type/add" element={<AddContractTypeScreen />} />
                 <Route path="/manager/contract/type/edit" element={<EditContractTypeScreen />} />
                 <Route path="/staff/compensation/check" element={<CheckCompensationScreen />} />
-
               </Routes>
             </Content>
             <Footer
