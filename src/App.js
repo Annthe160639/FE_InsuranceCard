@@ -22,33 +22,23 @@ export default function App() {
       onClick: callbackFn,
     };
   }
-  console.log(router);
 
   const items = [
     getItem("home", <a href="/home">Home</a>, <DesktopOutlined />),
     getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
     getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
     getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
+    getItem("/customer/forgotpassword", <a href="/customer/forgotpassword">Forget password</a>, <UserAddOutlined />),
   ];
 
   return (
-    <Layout
-      className="flex flex-col"
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          // defaultSelectedKeys={["home"]}
-          mode="horizontal"
-          items={items}
-        />
-      </Header>
-      <Layout className="site-layout">
-        <RouterProvider router={router}>
+    <ReduxProvider store={store}>
+      <Router>
+        <Layout
+          style={{
+            minHeight: "100vh",
+          }}
+        >
           <Header>
             <div className="logo" />
             <Menu
@@ -69,7 +59,7 @@ export default function App() {
                 <Route path="/customer/login" element={<LoginScreen />} />
                 <Route path="/customer/register" element={<RegisterScreen />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/customer/forgotpassword" element={<ForgotPassword />} />
               </Routes>
             </Content>
             <Footer
@@ -80,8 +70,8 @@ export default function App() {
               Insurance Card for Motorbikes
             </Footer>
           </Layout>
-        </RouterProvider>
-      </Layout>
-    </Layout>
+        </Layout>
+      </Router>
+    </ReduxProvider>
   );
 }
