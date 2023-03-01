@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { customerRegister } from "../../redux/features/customer";
