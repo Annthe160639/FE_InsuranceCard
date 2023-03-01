@@ -39,9 +39,8 @@ export const customerRegister = createAsyncThunk(
           config
         )
         .then((res) => {
-          console.log(res.data);
         })
-        .catch(console.log);
+        .catch();
       return { username, password, name, gmail, phone, address, ci };
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
@@ -50,29 +49,25 @@ export const customerRegister = createAsyncThunk(
 );
 export const customerResetPassword = createAsyncThunk(
   "@Customer/Password",
-  (
-    { username},
-    { rejectWithValue }
-  ) => {
+  ({ username }, { rejectWithValue }) => {
     try {
       axios
         .post(
           "http://localhost:8080/api/customer/password/reset",
-          { username},
+          { username },
           config
         )
         .then((res) => {
-          console.log(res.data);
         })
-        .catch(console.log);
-      return { username};
+        .catch();
+      return { username };
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
   }
 );
-export const login = createAsyncThunk(
-  "@user/login",
+export const customerLogin = createAsyncThunk(
+  "@Customer/Login",
   ({ username, password }, { rejectWithValue }) => {
     try {
       axios
@@ -85,9 +80,10 @@ export const login = createAsyncThunk(
           config
         )
         .then((res) => {
-          console.log(res.data);
         })
-        .catch(console.log);
+        .catch((_err) => {
+          throw new Error(_err)
+        });
       return { username, password };
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
@@ -97,33 +93,16 @@ export const login = createAsyncThunk(
 
 const { reducer } = createSlice({
   initialState,
-  name: "user",
+  name: "customer",
   reducers: {
     setUserLocale(state, action) {
       const { locale } = action.payload;
       localStorage.setItem("_locale", locale || "en_US");
       Object.assign(state, action.payload);
     },
-    extraReducers: {
-      [getUser.pending]: (state) => {
-        state.datagrid.loading = true;
-      },
-      [getUser.fulfilled]: (state, { payload: { data, _error } }) => {
-        console.log(data);
-      },
-      [getUser.rejected]: (state) => {
-        state.datagrid.loading = false;
-      },
-      [getUser.pending]: (state) => {
-        state.datagrid.loading = true;
-      },
-      [getUser.fulfilled]: (state, { payload: { data, _error } }) => {
-        console.log(data);
-      },
-      [getUser.rejected]: (state) => {
-        state.datagrid.loading = false;
-      },
-    },
+  },
+  extraReducers: {
+    
   },
 });
 
