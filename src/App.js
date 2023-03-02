@@ -25,6 +25,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 
 import store from "./redux/store";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import RequestContractScreen from "./screens/RequestContractScreen";
 
 const { Content, Footer } = Layout;
 
@@ -74,7 +75,12 @@ export default function App() {
                 <Route path="/customer/chat" element={<Chat />} />
                 <Route path="/customer/register" element={<RegisterScreen />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
+<<<<<<< HEAD
                 <Route path="/customer/forgotpassword" element={<ForgotPassword />} />
+=======
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/customer/contract/request" element={<RequestContractScreen />} />
+>>>>>>> main
               </Routes>
             </Content>
             <Footer
