@@ -20,7 +20,7 @@ export default function LoginScreen({ location, history }) {
         level={1}
         style={{
           margin: 0,
-          textAlign: "center",
+          textAlign: "center", 
         }}
       >
         Đăng nhập

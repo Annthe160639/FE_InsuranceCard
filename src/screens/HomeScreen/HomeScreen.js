@@ -1,8 +1,8 @@
 import { Breadcrumb, theme } from "antd";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { getUser } from "../redux/features/user";
-import Banner from "../components/Banner";
+import { getUser } from "../../redux/features/user";
+import Banner from "../../components/Banner";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
