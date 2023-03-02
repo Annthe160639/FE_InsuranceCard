@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel, Image } from "antd";
 const contentStyle = {
-  height: "400px",
+  height: "300px",
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
@@ -13,7 +13,7 @@ const Banner = () => {
       <div>
         <h3 style={contentStyle}>
           <Image
-            height={400}
+            height={300}
             width={1000}
             src="https://mybic.vn/uploads/slide/36/Nam-moi.jpg"
           />
@@ -22,7 +22,7 @@ const Banner = () => {
       <div>
         <h3 style={contentStyle}>
           <Image
-            height={400}
+            height={300}
             width={1000}
             src="https://mybic.vn/uploads/photos/75/xe-may.jpg"
           />
@@ -31,7 +31,7 @@ const Banner = () => {
       <div>
         <h3 style={contentStyle}>
           <Image
-            height={400}
+            height={300}
             width={1000}
             src="https://mybic.vn/uploads/slide/22/MVL.jpg"
           />
