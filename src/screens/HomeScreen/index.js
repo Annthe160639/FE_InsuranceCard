@@ -9,9 +9,11 @@ import {
   contractTypeDetailsById,
   contractTypeList,
 } from "../../redux/features/contract";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [contractTypes, setContractTypes] = useState([]);
   const [contractDetails, setContractDetails] = useState(null);
 
@@ -122,7 +124,14 @@ export default function HomeScreen() {
                     }}
                   >
                     <Button type="default">Chi tiết</Button>
-                    <Button type="primary">Mua ngay</Button>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        navigate(`/customer/contract/request`)
+                      }}
+                    >
+                      Mua ngay
+                    </Button>
                   </Space>
                 </Content>
               </Layout>

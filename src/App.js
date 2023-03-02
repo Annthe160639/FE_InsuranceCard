@@ -10,6 +10,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 
 import store from "./redux/store";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import RequestContractScreen from "./screens/RequestContractScreen";
 
 const { Header, Content, Footer } = Layout;
 
@@ -28,6 +29,8 @@ export default function App() {
     getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
     getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
     getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
+    getItem("forgotpassword", <a href="/forgotpassword">Forgot password</a>, <UserAddOutlined />),
+    
   ];
 
   return (
@@ -59,6 +62,7 @@ export default function App() {
                 <Route path="/customer/register" element={<RegisterScreen />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/customer/contract/request" element={<RequestContractScreen />} />
               </Routes>
             </Content>
             <Footer
