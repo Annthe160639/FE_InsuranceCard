@@ -75,12 +75,15 @@ export default function App() {
                 <Route path="/customer/chat" element={<Chat />} />
                 <Route path="/customer/register" element={<RegisterScreen />} />
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
-<<<<<<< HEAD
                 <Route path="/customer/forgotpassword" element={<ForgotPassword />} />
-=======
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/customer/mainscreen" element={<MainScreen />} />
+                <Route path="/customer/createcontract" element={<CreateContract />} />
+                <Route path="/customer/requestcompensation" element={<RequestCompensation />} />
+                <Route path="/customer/viewcontract" element={<ViewContract />} />
+                <Route path="/customer/viewcompensation" element={<ViewCompensation />} />
+                <Route path="/customer/updateprofile" element={<UpdateProfile />} />
+                <Route path="/customer/chat" element={<Chat />} />
                 <Route path="/customer/contract/request" element={<RequestContractScreen />} />
->>>>>>> main
               </Routes>
             </Content>
             <Footer
