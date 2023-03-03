@@ -5,7 +5,7 @@ const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
-  background: "#FFFFFF",
+  background: "#FFFFFF ",
 };
 const Banner = () => {
   return (
