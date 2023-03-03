@@ -60,6 +60,7 @@ const data = [
   },
 ];
 
+
 const ViewContract = () => {
   return (
     <div>

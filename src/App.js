@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-<<<<<<< HEAD
 import { Layout } from "antd";
 import { Provider as ReduxProvider } from "react-redux";
 import "./App.css";
@@ -16,11 +15,9 @@ import UpdateProfile from "./screens/Personal/UpdateProfile";
 import Chat from "./screens/Personal/Chat";
 import store from "./redux/store";
 import Headers from "./components/Header";
-=======
 import { Layout, Menu } from "antd";
 import { DesktopOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Provider as ReduxProvider } from "react-redux";
-import "./App.css";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -29,13 +26,10 @@ import ForgotPassword from "./screens/ForgotPassword";
 import store from "./redux/store";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import RequestContractScreen from "./screens/RequestContractScreen";
->>>>>>> main
 
 const { Content, Footer } = Layout;
 
 export default function App() {
-<<<<<<< HEAD
-=======
   function getItem(key, label, icon, callbackFn) {
     return {
       key,
@@ -50,11 +44,9 @@ export default function App() {
     getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
     getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
     getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
-    getItem("forgotpassword", <a href="/forgotpassword">Forgot password</a>, <UserAddOutlined />),
-    
+    getItem("/customer/forgotpassword", <a href="/customer/forgotpassword">Forget password</a>, <UserAddOutlined />),
   ];
 
->>>>>>> main
   return (
     <ReduxProvider store={store}>
       <Router>
@@ -73,10 +65,7 @@ export default function App() {
               <Routes>
                 <Route path="/home" element={<HomeScreen />} />
                 <Route path="/customer/login" element={<LoginScreen />} />
-                <Route path="/customer/register" element={<RegisterScreen />} />
-                <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
-<<<<<<< HEAD
                 <Route path="/customer/mainscreen" element={<MainScreen />} />
                 <Route path="/customer/createcontract" element={<CreateContract />} />
                 <Route path="/customer/requestcompensation" element={<RequestCompensation />} />
@@ -84,9 +73,17 @@ export default function App() {
                 <Route path="/customer/viewcompensation" element={<ViewCompensation />} />
                 <Route path="/customer/updateprofile" element={<UpdateProfile />} />
                 <Route path="/customer/chat" element={<Chat />} />
-=======
+                <Route path="/customer/register" element={<RegisterScreen />} />
+                <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
+                <Route path="/customer/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/customer/mainscreen" element={<MainScreen />} />
+                <Route path="/customer/createcontract" element={<CreateContract />} />
+                <Route path="/customer/requestcompensation" element={<RequestCompensation />} />
+                <Route path="/customer/viewcontract" element={<ViewContract />} />
+                <Route path="/customer/viewcompensation" element={<ViewCompensation />} />
+                <Route path="/customer/updateprofile" element={<UpdateProfile />} />
+                <Route path="/customer/chat" element={<Chat />} />
                 <Route path="/customer/contract/request" element={<RequestContractScreen />} />
->>>>>>> main
               </Routes>
             </Content>
             <Footer
