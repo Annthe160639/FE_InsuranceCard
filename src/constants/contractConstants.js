@@ -1,3 +1,5 @@
+import { theme } from "antd";
+
 export const CONTRACT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
 export const CONTRACT_LIST_SUCCESS = 'PRODUCT_LIST_SUCCESS'
 export const CONTRACT_LIST_FAIL = 'PRODUCT_LIST_FAIL'

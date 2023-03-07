@@ -15,10 +15,6 @@ export default function HomeScreen() {
   const [contractTypes, setContractTypes] = useState([]);
   const [contractDetails, setContractDetails] = useState(null);
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   const handleSelectedContract = useCallback(({ key }) => {
     dispatch(contractTypeDetailsById(key)).then(({ payload }) => {
       if (payload) {
@@ -52,15 +48,9 @@ export default function HomeScreen() {
       <Layout
         style={{
           padding: "24px 0",
-          background: colorBgContainer,
         }}
       >
-        <Sider
-          style={{
-            background: colorBgContainer,
-          }}
-          width={200}
-        >
+        <Sider width={200}>
           <Menu
             mode="inline"
             defaultSelectedKeys={["1"]}
@@ -82,16 +72,8 @@ export default function HomeScreen() {
           >
             <Layout style={{ height: "100%" }}>
               <Sider style={{ height: "100%" }}></Sider>
-              <Layout
-                style={{
-                  background: colorBgContainer,
-                }}
-              >
-                <Header
-                  style={{
-                    background: colorBgContainer,
-                  }}
-                >
+              <Layout>
+                <Header>
                   <h2 style={{ textAlign: "center" }}>
                     {contractDetails.name}
                   </h2>
