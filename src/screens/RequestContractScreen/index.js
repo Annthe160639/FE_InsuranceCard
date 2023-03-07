@@ -1,4 +1,5 @@
-import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
+import { BgColorsOutlined } from "@ant-design/icons";
+import { AutoComplete, Button, Checkbox, Col, DatePicker, Form, Input, Row, Select } from "antd";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -7,18 +8,18 @@ const onFinishFailed = (errorInfo) => {
 };
 export default function RequestContractScreen() {
   return (
-    <div>
-      <h1>Thông tin bảo hiểm</h1>
+    <div style={{backgroundColor: "lightsteelblue", textAlign: "center"}}>
       <Form
         name="basic"
         labelCol={{
-          span: 8,
+          span: 6,
         }}
         wrapperCol={{
-          span: 16,
+          span: 18,
         }}
         style={{
           maxWidth: 600,
+          margin: '0 auto'          
         }}
         initialValues={{
           remember: true,
@@ -27,6 +28,11 @@ export default function RequestContractScreen() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <Row>
+          <Col offset={6} span={18}>
+            <h1>Thông tin bảo hiểm</h1>
+          </Col>
+        </Row>
         <Form.Item
           label="Loại bảo hiểm"
           name="contractType"
@@ -99,7 +105,7 @@ export default function RequestContractScreen() {
           rules={[
             {
               required: true,
-              message: "Hãy nhập số biển kiểm soát."
+              message: "Hãy chọn ngày bắt đầu."
             },
           ]}
         >
@@ -109,11 +115,20 @@ export default function RequestContractScreen() {
         <Form.Item
             label="Thời hạn"
             name="duration"
-
+            rules={[
+              {
+                required: true,
+                message: "Hãy chọn thời hạn."
+              },
+            ]}
+            style={{
+              textAlign: 'left',
+            }}
         >
             <Select
         defaultValue={"1 năm"}
         style={{
+          textAlign: 'left',
           width: 120,
         }}
         options={[
@@ -136,23 +151,81 @@ export default function RequestContractScreen() {
           label="Ngày kết thúc"
           name="endDate"
           
-          rules={[
-            {
-              required: true,
-              message: "Hãy nhập số biển kiểm soát."
-            },
-          ]}
+          
         >
           <Input type="date" readOnly/>
         </Form.Item>
+        <Row>
+          <Col offset={6} span={18}>
+            <h1>Thông tin người mua</h1>
+          </Col>
+        </Row>
+        <Form.Item
+          label="CMTND/CCCD"
+          name="ci"
+          
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập số căn cước công dân."
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item> 
+        <Form.Item
+          label="Họ và Tên"
+          name="name"
+          
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập tên người mua."
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item> 
+        <Form.Item
+          label="Địa chỉ"
+          name="address"
+          
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập địa chỉ."
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item> 
+        <Form.Item
+          label="Số điện thoại"
+          name="phone"
+          
+          rules={[
+            {
+              required: true,
+              message: "Hãy nhập số điện thoại."
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item> 
+        <Form.Item
+          label="Ghi chú"
+          name="name"
+        >
+          <Input />
+        </Form.Item> 
         <Form.Item
           wrapperCol={{
-            offset: 8,
-            span: 16,
+            offset: 6,
+            span: 18,
           }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Gửi
           </Button>
         </Form.Item>
         

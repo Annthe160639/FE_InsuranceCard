@@ -9,9 +9,9 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
-const RegisterScreen = () => {
+export default function RegisterScreen () {
   const dispatch = useDispatch();
-  const handleSubmite = useCallback(async (values) => {
+  const handleSubmit = useCallback(async (values) => {
     await dispatch(customerRegister(values));
   })
 
@@ -157,7 +157,7 @@ const RegisterScreen = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" onSubmit={handleSubmite}>
+          <Button type="primary" htmlType="submit" onSubmit={handleSubmit}>
             Submit
           </Button>
         </Form.Item>
@@ -165,5 +165,3 @@ const RegisterScreen = () => {
     </div>
   );
 };
-
-export default RegisterScreen;

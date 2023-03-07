@@ -39,6 +39,7 @@ export const contractTypeDetailsById = createAsyncThunk(
       const res = await axios
         .get(`http://localhost:8080/api/contract/type/detail/${id}`, {}, config)
         .then((res) => {
+          console.log(res)
           return res.data;
         })
         .catch(() => {
