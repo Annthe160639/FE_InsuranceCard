@@ -1,6 +1,6 @@
-import { Button, Form, Input } from "antd";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { Button, Form, Input } from "antd";
 import { customerRegister } from "../../redux/features/customer";
 const onFinish = (values) => {
   console.log("Success:", values);
@@ -16,7 +16,7 @@ export default function RegisterScreen () {
   })
 
   return (
-    <div>
+    <>
       <Form
         name="basic"
         labelCol={{
@@ -148,7 +148,7 @@ export default function RegisterScreen () {
             },
           ]}
         >
-          <Input />
+          <Input type="date" />
         </Form.Item>
 
         <Form.Item
@@ -162,6 +162,6 @@ export default function RegisterScreen () {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </>
   );
 };
