@@ -8,7 +8,7 @@ const onFinishFailed = (errorInfo) => {
 };
 export default function RequestContractScreen() {
   return (
-    <div style={{backgroundColor: "lightsteelblue", textAlign: "center"}}>
+    <div style={{textAlign: "center"}}>
       <Form
         name="basic"
         labelCol={{
@@ -218,6 +218,8 @@ export default function RequestContractScreen() {
         >
           <Input />
         </Form.Item> 
+
+        <h1 style={{color:"red"}}>TỔNG PHÍ THỰC THU (GỒM VAT): <span></span>VNĐ</h1>
         <Form.Item
           wrapperCol={{
             offset: 6,

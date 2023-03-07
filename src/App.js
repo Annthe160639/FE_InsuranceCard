@@ -11,7 +11,6 @@ import ForgotPassword from "./screens/ForgotPassword";
 import store from "./redux/store";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import RequestContractScreen from "./screens/RequestContractScreen";
-import RequestCompensation from "./screens/RequestCompensation";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import AddContractTypeScreen from "./screens/AddContractTypeScreen";
 import EditContractTypeScreen from "./screens/EditContractTypeScreen";
@@ -35,14 +34,12 @@ export default function App() {
     getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
     getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
     getItem("forgotpassword", <a href="/forgotpassword">Forgot password</a>, <UserAddOutlined />),
-    getItem("requestCompensation", <a href="/customer/compensation/request">Request Compensation</a>, <UserAddOutlined />),
     getItem("editProfile", <a href="/customer/profile">Edit profile</a>, <UserAddOutlined />),
     getItem("addContractType", <a href="/manager/contract/type/add">Add new contract type</a>, <UserAddOutlined />),
     getItem("editContractType", <a href="/manager/contract/type/edit">Edit contract type</a>, <UserAddOutlined />),
-    getItem("editContractType", <a href="/staff/compensation/check">Check compensation</a>, <UserAddOutlined />),
+    getItem("checkCompensation", <a href="/staff/compensation/check">Check compensation</a>, <UserAddOutlined />),
 
   ];
-
   return (
     <ReduxProvider store={store}>
       <Router>
@@ -73,7 +70,6 @@ export default function App() {
                 <Route path="/customer/password/reset" element={<ResetPasswordScreen />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/customer/contract/request" element={<RequestContractScreen />} />
-                <Route path="/customer/compensation/request" element={<RequestCompensation />} />
                 <Route path="/customer/profile" element={<EditProfileScreen />} />
                 <Route path="/manager/contract/type/add" element={<AddContractTypeScreen />} />
                 <Route path="/manager/contract/type/edit" element={<EditContractTypeScreen />} />

@@ -1,8 +1,30 @@
-import { Button, Form, Input, Row } from "antd";
-
+import { Button, Col, Form, Input, Row } from "antd";
+import './style.css'
 export default function EditProfileScreen() {
   return (
-    <div 
+    <Row span={15}>
+      <Col span={8} className="left">
+        <div className="avatar">
+          <img src="../../jisoo.png"></img>
+          
+          
+        
+        </div>
+        <Button type="primary" htmlType="submit">
+            Thay đổi ảnh
+          </Button>
+
+          <Button type="primary" htmlType="submit">
+            Đổi mật khẩu
+          </Button>
+          
+          <Button className="logout" type="primary" htmlType="submit">
+            
+            Đăng xuất
+          </Button>
+      </Col>
+      <Col span={15} className="right">
+      <div 
       
       style={{
         textAlign: "center"
@@ -12,10 +34,10 @@ export default function EditProfileScreen() {
       <Form
         name="basic"
         labelCol={{
-          span: 8,
+          span: 7,
         }}
         wrapperCol={{
-          span: 16,
+          span: 17,
         }}
         style={{
           maxWidth: 600,
@@ -31,7 +53,7 @@ export default function EditProfileScreen() {
           name="username"
           
         >
-          <Input readOnly />
+          <Input readOnly placeholder="Tên đăng nhập" />
         </Form.Item>
 
         <Form.Item
@@ -44,7 +66,7 @@ export default function EditProfileScreen() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Tên"/>
         </Form.Item>
         <Form.Item
           label="Số điện thoại"
@@ -56,7 +78,7 @@ export default function EditProfileScreen() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Số điện thoại"/>
         </Form.Item>
         <Form.Item
           label="Gmail"
@@ -68,7 +90,7 @@ export default function EditProfileScreen() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Gmail" />
         </Form.Item>
         <Form.Item
           label="Địa chỉ"
@@ -80,7 +102,7 @@ export default function EditProfileScreen() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Địa chỉ"/>
         </Form.Item>
         <Form.Item
           label="CMND/CCCD"
@@ -92,15 +114,15 @@ export default function EditProfileScreen() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Căn cước công dân"/>
         </Form.Item>
         <div 
           
         >
         <Form.Item
           wrapperCol={{
-            offset: 8,
-            span: 16,
+           
+            span: 24,
           }}
         >
 
@@ -109,18 +131,10 @@ export default function EditProfileScreen() {
             Lưu
           </Button>
         </Form.Item>
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Thay đổi mật khẩu
-          </Button>
-        </Form.Item>
+        
         </div>
       </Form>
-    </div>
+    </div></Col>
+    </Row>
   );
 }
