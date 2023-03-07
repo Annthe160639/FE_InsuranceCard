@@ -1,6 +1,8 @@
 import React from "react";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Button } from "antd";
 import { DesktopOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import "./Header.css";
 
 const { Header } = Layout;
 const Headers = () => {
@@ -26,19 +28,26 @@ const Headers = () => {
       <DesktopOutlined />
     ),
   ];
-  const onClick = (e) => {
-    console.log("click", e);
-  };
+
   return (
     <Header>
-      <div className="logo" />
       <Menu
-        onClick={onClick}
+        className="menu"
         theme="dark"
         defaultSelectedKeys={["home"]}
         mode="horizontal"
-        items={items}
-      />
+        //items={items}
+      >
+        <Menu.Item className="mainscreen" key="customer/mainscreen">
+          <Link to="/customer/mainscreen">Main Screen</Link>
+        </Menu.Item>
+        <Menu.Item className="register" key="customer/register">
+          <Link to="/customer/register">Register</Link>
+        </Menu.Item>
+        <Menu.Item className="login" key="customer/login">
+          <Link to="/customer/login">Login</Link>
+        </Menu.Item>
+      </Menu>
     </Header>
   );
 };
