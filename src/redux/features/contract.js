@@ -51,6 +51,42 @@ export const contractTypeDetailsById = createAsyncThunk(
   }
 );
 
+export const fetchAllContractHistory = createAsyncThunk(
+  "@Contract/History",
+  async (id, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/customer/contract/history`, {}, config)
+        .then((res) => {
+          console.log(res.data)
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const requestNewContract = createAsyncThunk(
+  "@Contract/Request",
+  async (value, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/customer/contract/request/${value.id}`, value, config)
+        .then((res) => {
+          console.log(res.data)
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+
+
 const { reducer } = createSlice({
   initialState,
   name: "contract",

@@ -9,9 +9,8 @@ const config = {
 };
 
 const initialState = {
-  user: {
-    username: "user",
-  },
+  customer: {},
+  loading: false,
 };
 
 export const getUser = createAsyncThunk(
@@ -38,8 +37,7 @@ export const customerRegister = createAsyncThunk(
           { username, password, name, gmail, phone, address, ci },
           config
         )
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch();
       return { username, password, name, gmail, phone, address, ci };
     } catch (_error) {
@@ -57,8 +55,7 @@ export const customerResetPassword = createAsyncThunk(
           { username },
           config
         )
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch();
       return { username };
     } catch (_error) {
@@ -68,9 +65,9 @@ export const customerResetPassword = createAsyncThunk(
 );
 export const customerLogin = createAsyncThunk(
   "@Customer/Login",
-  ({ username, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
-      axios
+      return await axios
         .post(
           "http://localhost:8080/api/customer/login",
           {
@@ -80,30 +77,72 @@ export const customerLogin = createAsyncThunk(
           config
         )
         .then((res) => {
+          return res;
         })
         .catch((_err) => {
-          throw new Error(_err)
+          throw new Error(_err);
         });
-      return { username, password };
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
   }
 );
 
-const { reducer } = createSlice({
+// export const customerLogout = createAsyncThunk(
+//   "@Customer/Login",
+//   async ({ username, password }, { rejectWithValue }) => {
+//     try {
+//       return await axios
+//         .post(
+//           "http://localhost:8080/api/customer/login",
+//           {
+//             username,
+//             password,
+//           },
+//           config
+//         )
+//         .then((res) => {
+//           return res;
+//         })
+//         .catch((_err) => {
+//           throw new Error(_err);
+//         });
+//     } catch (_error) {
+//       return rejectWithValue("An error occurred while open local directory");
+//     }
+//   }
+// );
+const { reducer, actions } = createSlice({
   initialState,
   name: "customer",
   reducers: {
-    setUserLocale(state, action) {
-      const { locale } = action.payload;
-      localStorage.setItem("_locale", locale || "en_US");
-      Object.assign(state, action.payload);
+    getUserSession: (state, action) => {
+      try {
+        const customer =
+          state.customer ?? JSON.parse(localStorage.getItem("custoemr"));
+      } catch (_err) {}
+    },
+    logout: (state, action) => {
+      localStorage.removeItem("customer");
     },
   },
   extraReducers: {
-    
+    [customerLogin.pending]: (state) => {
+      state.loading = true;
+    },
+    [customerLogin.fulfilled]: (state, { payload: { data, _error } }) => {
+      if (data && !_error) {
+        console.log(state);
+        localStorage.setItem("customer", JSON.stringify(data));
+        state.customer = data;
+      }
+      state.loading = false;
+    },
+    [customerLogin.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
+export const { logout, getUserSession } = actions;
 
 export default reducer;

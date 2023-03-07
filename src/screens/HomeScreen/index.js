@@ -9,16 +9,18 @@ import {
   contractTypeDetailsById,
   contractTypeList,
 } from "../../redux/features/contract";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [contractTypes, setContractTypes] = useState([]);
-  const [contractDetails, setContractDetails] = useState(null);
+  const [contractTypeDetails, setContractTypeDetails] = useState(null);
 
   const handleSelectedContract = useCallback(({ key }) => {
     dispatch(contractTypeDetailsById(key)).then(({ payload }) => {
       if (payload) {
-        setContractDetails(payload);
+        setContractTypeDetails(payload);
       }
     });
   }, []);
@@ -31,7 +33,6 @@ export default function HomeScreen() {
         label: contractType.name,
       }));
       setContractTypes(payload);
-      console.log(payload[0]);
       handleSelectedContract({ key: payload[0].key });
     });
   }, []);
@@ -63,7 +64,7 @@ export default function HomeScreen() {
             items={contractTypes}
           />
         </Sider>
-        {contractDetails && (
+        {contractTypeDetails && (
           <Content
             style={{
               padding: "0 24px",
@@ -75,7 +76,7 @@ export default function HomeScreen() {
               <Layout>
                 <Header>
                   <h2 style={{ textAlign: "center" }}>
-                    {contractDetails.name}
+                    {contractTypeDetails.name}
                   </h2>
                 </Header>
                 <Content
@@ -93,8 +94,8 @@ export default function HomeScreen() {
                       display: "flex",
                     }}
                   >
-                    <div>Phân khúc: {contractDetails.vehicleType}</div>
-                    <div>Giá bán: {contractDetails.price}</div>
+                    <div>Phân khúc: {contractTypeDetails.vehicleType}</div>
+                    <div>Giá bán: {contractTypeDetails.price}</div>
                   </Space>
                   <Space
                     direction="horizontal"
@@ -104,7 +105,16 @@ export default function HomeScreen() {
                     }}
                   >
                     <Button type="default">Chi tiết</Button>
-                    <Button type="primary">Mua ngay</Button>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        navigate(`/customer/contract/request`, {
+                          state: { contractTypeDetails },
+                        });
+                      }}
+                    >
+                      Mua ngay
+                    </Button>
                   </Space>
                 </Content>
               </Layout>
