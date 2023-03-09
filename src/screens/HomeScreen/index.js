@@ -10,6 +10,7 @@ import {
   contractTypeList,
 } from "../../redux/features/contract";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routerConst";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -114,7 +115,7 @@ export default function HomeScreen() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        navigate(`/customer/contract/request`, {
+                        navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
                           state: { contractTypeDetails },
                         });
                       }}

@@ -58,7 +58,11 @@ export default function App() {
               }}
             >
               <Routes>
-                <Route index path={ROUTES.HOME_ROUTER} element={<HomeScreen />} />
+                <Route
+                  index
+                  path={ROUTES.HOME_ROUTER}
+                  element={<HomeScreen />}
+                />
                 <Route
                   path={ROUTES.CUSTOMER_LOGIN_ROUTER}
                   element={<LoginScreen />}
@@ -71,10 +75,9 @@ export default function App() {
                   path={ROUTES.CUSTOMER_CONTRACT_HISTORY}
                   element={<ListContracts />}
                 />
-                <Route path="/customer/password/reset" />
                 <Route
-                  path="/customer/forgotpassword"
-                  element={<ForgotPassword />}
+                  path={ROUTES.CUSTOMER_CONTRACT_REQUEST}
+                  element={<RequestContractScreen />}
                 />
               </Routes>
             </Content>
