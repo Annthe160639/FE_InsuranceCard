@@ -13,9 +13,8 @@ const config = {
 };
 
 const initialState = {
-  user: {
-    username: "user",
-  },
+  customer: {},
+  loading: false,
 };
 
 export const getUser = createAsyncThunk(
@@ -42,8 +41,7 @@ export const customerRegister = createAsyncThunk(
           { username, password, name, gmail, phone, address, ci },
           config
         )
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch();
       return { username, password, name, gmail, phone, address, ci };
     } catch (_error) {
@@ -61,8 +59,7 @@ export const customerResetPassword = createAsyncThunk(
           { username },
           config
         )
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch();
       return { username };
     } catch (_error) {
@@ -72,9 +69,9 @@ export const customerResetPassword = createAsyncThunk(
 );
 export const customerLogin = createAsyncThunk(
   "@Customer/Login",
-  ({ username, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
-      axios
+      return await axios
         .post(
           "http://localhost:8080/api/customer/login",
           {
@@ -88,9 +85,8 @@ export const customerLogin = createAsyncThunk(
           return res;
         })
         .catch((_err) => {
-          throw new Error(_err)
+          throw new Error(_err);
         });
-      return { username, password };
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }

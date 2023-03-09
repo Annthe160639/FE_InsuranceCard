@@ -15,12 +15,12 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [contractTypes, setContractTypes] = useState([]);
-  const [contractDetails, setContractDetails] = useState(null);
+  const [contractTypeDetails, setContractTypeDetails] = useState(null);
 
   const handleSelectedContract = useCallback(({ key }) => {
     dispatch(contractTypeDetailsById(key)).then(({ payload }) => {
       if (payload) {
-        setContractDetails(payload);
+        setContractTypeDetails(payload);
       }
     });
   }, []);
@@ -33,7 +33,6 @@ export default function HomeScreen() {
         label: contractType.name,
       }));
       setContractTypes(payload);
-      console.log(payload[0]);
       handleSelectedContract({ key: payload[0].key });
     });
   }, []);
@@ -69,7 +68,7 @@ export default function HomeScreen() {
             items={contractTypes}
           />
         </Sider>
-        {contractDetails && (
+        {contractTypeDetails && (
           <Content
             style={{
               padding: "0 24px",
@@ -82,7 +81,7 @@ export default function HomeScreen() {
               <Layout style={{ backgroundColor: colorBgContainer }}>
                 <Header style={{ backgroundColor: colorBgContainer, textAlign: "center", overflow: "hidden", overflowWrap: 'none' }}>
                   <h2>
-                    {contractDetails.name}
+                    {contractTypeDetails.name}
                   </h2>
                 </Header>
                 <Content
@@ -100,8 +99,8 @@ export default function HomeScreen() {
                       display: "flex",
                     }}
                   >
-                    <div>Phân khúc: {contractDetails.vehicleType}</div>
-                    <div>Giá bán: {contractDetails.price}</div>
+                    <div>Phân khúc: {contractTypeDetails.vehicleType}</div>
+                    <div>Giá bán: {contractTypeDetails.price}</div>
                   </Space>
                   <Space
                     direction="horizontal"
@@ -115,7 +114,9 @@ export default function HomeScreen() {
                     <Button
                       type="primary"
                       onClick={() => {
-                        navigate(`/customer/contract/request`)
+                        navigate(`/customer/contract/request`, {
+                          state: { contractTypeDetails },
+                        });
                       }}
                     >
                       Mua ngay

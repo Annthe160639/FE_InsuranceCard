@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { useCallback } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -25,6 +25,7 @@ export default function RequestContractScreen() {
   return (
     <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
       <Form
+        form={form}
         name="basic"
         labelCol={{
           span: 6,
@@ -37,7 +38,12 @@ export default function RequestContractScreen() {
           margin: "0 auto",
         }}
         initialValues={{
-          remember: true,
+          typeId: contractTypeDetails.id,
+          managerId: contractTypeDetails.managerId,
+          contractType: contractTypeDetails.name,
+          vehicleType: contractTypeDetails.vehicleType,
+          insuranceLevel: contractTypeDetails.insuranceLevel,
+          price: contractTypeDetails.price,
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}

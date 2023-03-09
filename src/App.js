@@ -5,51 +5,26 @@ import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword";
-
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import MainScreen from "./screens/MainScreen/MainScreen";
+import CreateContract from "./screens/Contract/CreateContract";
+import RequestCompensation from "./screens/Compensation/RequestCompensation";
+import ViewContract from "./screens/Contract/ViewContract";
+import ViewCompensation from "./screens/Compensation/ViewCompensation";
+import UpdateProfile from "./screens/Personal/UpdateProfile";
 import RequestContractScreen from "./screens/RequestContractScreen";
-import RequestCompensation from "./screens/RequestCompensation";
-import EditProfileScreen from "./screens/EditProfileScreen";
-import AddContractTypeScreen from "./screens/AddContractTypeScreen";
-import EditContractTypeScreen from "./screens/EditContractTypeScreen";
-import CheckCompensationScreen from "./screens/CheckCompensation";
+import Chat from "./screens/Personal/Chat";
+
 import { ROUTES } from "./constants/routerConst";
+
 import store from "./redux/store";
-import Headers from "./components/Header";
 
 import "./App.style.css";
-
-const { Header, Content, Footer } = Layout;
+import Headers from "./components/Header";
+import Sider from "antd/es/layout/Sider";
+import ListContracts from "./screens/Contract/ListContracts";
+const { Content, Footer } = Layout;
 
 export default function App() {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-
-  function getItem(key, label, icon, callbackFn) {
-    return {
-      key,
-      label,
-      icon,
-      onClick: callbackFn,
-    };
-  }
-
-  const items = [
-    getItem("home", <a href="/home">Home</a>, <DesktopOutlined />),
-    getItem("login", <a href="/customer/login">Login</a>, <DesktopOutlined />),
-    getItem("register", <a href="/customer/register">Register</a>, <UserAddOutlined />),
-    getItem("resetPassword", <a href="/customer/password/reset">Reset Password</a>, <UserAddOutlined />),
-    getItem("forgotpassword", <a href="/forgotpassword">Forgot password</a>, <UserAddOutlined />),
-    getItem("requestCompensation", <a href="/customer/compensation/request">Request Compensation</a>, <UserAddOutlined />),
-    getItem("editProfile", <a href="/customer/profile">Edit profile</a>, <UserAddOutlined />),
-    getItem("addContractType", <a href="/manager/contract/type/add">Add new contract type</a>, <UserAddOutlined />),
-    getItem("editContractType", <a href="/manager/contract/type/edit">Edit contract type</a>, <UserAddOutlined />),
-    getItem("editContractType", <a href="/staff/compensation/check">Check compensation</a>, <UserAddOutlined />),
-    getItem("/customer/forgotpassword", <a href="/customer/forgotpassword">Forget password</a>, <UserAddOutlined />),
-  ];
-
   return (
     <ReduxProvider store={store}>
       <Router>
@@ -92,6 +67,10 @@ export default function App() {
                   path={ROUTES.CUSTOMER_REGISTER_ROUTER}
                   element={<RegisterScreen />}
                 />
+                <Route
+                  path={ROUTES.CUSTOMER_CONTRACT_HISTORY}
+                  element={<ListContracts />}
+                />
                 <Route path="/customer/password/reset" />
                 <Route
                   path="/customer/forgotpassword"
@@ -99,14 +78,14 @@ export default function App() {
                 />
               </Routes>
             </Content>
-            <Footer
-              style={{
-                textAlign: "center",
-              }}
-            >
-              Insurance Card for Motorbikes
-            </Footer>
           </Layout>
+          <Footer
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Insurance Card for Motorbikes
+          </Footer>
         </Layout>
       </Router>
     </ReduxProvider>

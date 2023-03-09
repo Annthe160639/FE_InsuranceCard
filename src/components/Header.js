@@ -28,10 +28,10 @@ export default function Headers() {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Header>
+    <Header style={{ backgroundColor: colorBgContainer }}>
       <div className="logo" />
       <Menu
-        theme="dark"
+        theme="light"
         defaultSelectedKeys={["home"]}
         mode="horizontal"
         style={{ display: "block" }}
@@ -90,5 +90,4 @@ export default function Headers() {
       </Menu>
     </Header>
   );
-};
-
+}
