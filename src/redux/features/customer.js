@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import parseJwt from "../../utils/jwtToken";
 
 const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("jwtToken")
+      ? `Bearer ${localStorage.getItem("jwtToken")}`
+      : "",
   },
 };
 
@@ -77,11 +81,25 @@ export const customerLogin = createAsyncThunk(
           config
         )
         .then((res) => {
+          localStorage.setItem("jwtToken", res.token);
           return res;
         })
         .catch((_err) => {
           throw new Error(_err);
         });
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const getUserSession = createAsyncThunk(
+  "@Customer/GetUserSession",
+  (value, { rejectWithValue }) => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      console.log(parseJwt(jwtToken));
+      return parseJwt(jwtToken);
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
@@ -116,14 +134,8 @@ const { reducer, actions } = createSlice({
   initialState,
   name: "customer",
   reducers: {
-    getUserSession: (state, action) => {
-      try {
-        const customer =
-          state.customer ?? JSON.parse(localStorage.getItem("custoemr"));
-      } catch (_err) {}
-    },
     logout: (state, action) => {
-      localStorage.removeItem("customer");
+      localStorage.removeItem("jwtToken");
     },
   },
   extraReducers: {
@@ -132,9 +144,8 @@ const { reducer, actions } = createSlice({
     },
     [customerLogin.fulfilled]: (state, { payload: { data, _error } }) => {
       if (data && !_error) {
-        console.log(state);
-        localStorage.setItem("customer", JSON.stringify(data));
-        state.customer = data;
+        localStorage.setItem("jwtToken", data.token);
+        state.customer = parseJwt(data.token);
       }
       state.loading = false;
     },
@@ -143,6 +154,6 @@ const { reducer, actions } = createSlice({
     },
   },
 });
-export const { logout, getUserSession } = actions;
+export const { logout } = actions;
 
 export default reducer;

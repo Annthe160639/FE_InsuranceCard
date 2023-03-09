@@ -37,6 +37,10 @@ export default function HomeScreen() {
     });
   }, []);
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   useEffect(() => {
     handleGetContractType();
   }, []);
@@ -51,7 +55,7 @@ export default function HomeScreen() {
           padding: "24px 0",
         }}
       >
-        <Sider width={200}>
+        <Sider width={400}>
           <Menu
             mode="inline"
             defaultSelectedKeys={["1"]}
@@ -71,11 +75,12 @@ export default function HomeScreen() {
               minHeight: 280,
             }}
           >
-            <Layout style={{ height: "100%" }}>
-              <Sider style={{ height: "100%" }}></Sider>
-              <Layout>
-                <Header>
-                  <h2 style={{ textAlign: "center" }}>
+            <Layout
+              style={{ height: "100%", backgroundColor: colorBgContainer }}
+            >
+              <Layout style={{ backgroundColor: colorBgContainer }}>
+                <Header style={{ backgroundColor: colorBgContainer, textAlign: "center", overflow: "hidden", overflowWrap: 'none' }}>
+                  <h2>
                     {contractTypeDetails.name}
                   </h2>
                 </Header>
@@ -102,6 +107,7 @@ export default function HomeScreen() {
                     style={{
                       display: "flex",
                       justifyContent: "end",
+                      padding: 20,
                     }}
                   >
                     <Button type="default">Chi tiết</Button>

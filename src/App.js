@@ -1,12 +1,6 @@
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
-import { Button, Col, Image, Layout, Menu, Row, theme } from "antd";
-import { Provider as ReduxProvider, useSelector } from "react-redux";
-import {
-  DesktopOutlined,
-  HomeOutlined,
-  UserAddOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import { Provider as ReduxProvider } from "react-redux";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -41,28 +35,30 @@ export default function App() {
         >
           <Headers />
           <Layout className="site-layout">
-            <Sider style={{ margin: "16px 0" }}>
-              <Menu
-                mode="inline"
-                defaultSelectedKeys={["1"]}
-                defaultOpenKeys={["sub1"]}
-                style={{
-                  height: "100%",
-                  borderRight: 0,
-                }}
-              >
-                <Menu.Item key={"contract"}>
-                  <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
-                </Menu.Item>
-              </Menu>
-            </Sider>
+            {localStorage.getItem("jwtToken") && (
+              <Sider style={{ margin: "16px 0" }}>
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["sub1"]}
+                  style={{
+                    height: "100%",
+                    borderRight: 0,
+                  }}
+                >
+                  <Menu.Item key={"contract"}>
+                    <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
+                  </Menu.Item>
+                </Menu>
+              </Sider>
+            )}
             <Content
               style={{
                 margin: "0 16px",
               }}
             >
               <Routes>
-                <Route path={'/'} element={<HomeScreen />} />
+                <Route path={"/"} element={<HomeScreen />} />
                 <Route path={ROUTES.HOME_ROUTER} element={<HomeScreen />} />
                 <Route
                   path={ROUTES.CUSTOMER_LOGIN_ROUTER}

@@ -11,7 +11,7 @@ const LoginScreen = () => {
 
   const handleFormSubmit = useCallback(async ({ username, password }) => {
     await dispatch(customerLogin({ username, password })).then((res) => {
-      navigate(ROUTES.HOME_ROUTER)
+      window.location.href = ROUTES.HOME_ROUTER;
     });
   });
 

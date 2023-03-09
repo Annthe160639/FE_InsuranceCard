@@ -5,6 +5,9 @@ const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("jwtToken")
+      ? `Bearer ${localStorage.getItem("jwtToken")}`
+      : "",
   },
 };
 
@@ -18,7 +21,7 @@ export const contractTypeList = createAsyncThunk(
   async ({}, { rejectWithValue }) => {
     try {
       const res = await axios
-        .get("http://localhost:8080/api/contract/type/list", {}, config)
+        .get("http://localhost:8080/api/contract/type/list", config)
         .then((res) => {
           return res.data;
         })
@@ -37,7 +40,7 @@ export const contractTypeDetailsById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios
-        .get(`http://localhost:8080/api/contract/type/detail/${id}`, {}, config)
+        .get(`http://localhost:8080/api/contract/type/detail/${id}`, config)
         .then((res) => {
           return res.data;
         })
@@ -56,9 +59,8 @@ export const fetchAllContractHistory = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       return await axios
-        .get(`http://localhost:8080/api/customer/contract/history`, {}, config)
+        .get(`http://localhost:8080/api/customer/contract/history`, config)
         .then((res) => {
-          console.log(res.data)
           return res.data;
         })
         .catch(() => {});
@@ -73,9 +75,13 @@ export const requestNewContract = createAsyncThunk(
   async (value, { rejectWithValue }) => {
     try {
       return await axios
-        .get(`http://localhost:8080/customer/contract/request/${value.id}`, value, config)
+        .get(
+          `http://localhost:8080/customer/contract/request/${value.id}`,
+          value,
+          config
+        )
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           return res.data;
         })
         .catch(() => {});
@@ -84,8 +90,6 @@ export const requestNewContract = createAsyncThunk(
     }
   }
 );
-
-
 
 const { reducer } = createSlice({
   initialState,

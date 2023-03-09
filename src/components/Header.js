@@ -1,26 +1,25 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Menu, Layout, theme, Row, Col, Button, Image } from "antd";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routerConst";
 import { getUserSession, logout } from "../redux/features/customer";
 
 const { Header } = Layout;
 export default function Headers() {
   const dispatch = useDispatch();
-  const [customer, setCustomer] = useState({});
-
+  const naviagate = useNavigate();
+  const [customerInfo, setCustomerInfo] = useState({});
   const handleLogout = useCallback(() => {
     dispatch(logout());
   }, []);
 
   const handleGetCustomer = useCallback(async () => {
     try {
-      const sessionCustomer = JSON.parse(localStorage.getItem("customer"));
-      setCustomer(sessionCustomer);
+      setCustomerInfo((await dispatch(getUserSession())).payload)
     } catch {}
-  });
+  }, []);
 
   useEffect(() => {
     handleGetCustomer();
@@ -51,7 +50,7 @@ export default function Headers() {
               <Button
                 type="link"
                 icon={<HomeOutlined />}
-                href={ROUTES.HOME_ROUTER}
+                onClick={() => naviagate(ROUTES.HOME_ROUTER)}
               >
                 Trang chủ
               </Button>
@@ -69,14 +68,14 @@ export default function Headers() {
                 className="button-login"
                 icon={<UserOutlined />}
                 href={
-                  customer && customer.username
+                  customerInfo && customerInfo.username
                     ? ROUTES.HOME_ROUTER
                     : ROUTES.CUSTOMER_LOGIN_ROUTER
                 }
               >
-                {customer && customer.username ? (
+                {customerInfo && customerInfo.username ? (
                   <>
-                    {customer.username}
+                    {customerInfo.username}
                     <Button type="link" onClick={handleLogout}>
                       Log out
                     </Button>

@@ -17,10 +17,7 @@ export default function RequestContractScreen() {
   const handleSelectDuration = useCallback(
     (value) => {
       let splitSDate = startDate.split("-");
-      splitSDate[1] =
-        String(parseInt(splitSDate[1]) + parseInt(value)).length == 1
-          ? `0${parseInt(splitSDate[1]) + parseInt(value)}`
-          : parseInt(splitSDate[1]) + parseInt(value);
+      splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(value));
       form.setFieldValue("endDate", splitSDate.join("-"));
     },
     [startDate, JSON.stringify(form)]

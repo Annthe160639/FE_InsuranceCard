@@ -11,7 +11,7 @@ const onFinishFailed = (errorInfo) => {
 
 const RegisterScreen = () => {
   const dispatch = useDispatch();
-  const handleSubmite = useCallback(async (values) => {
+  const handleSubmit = useCallback(async (values) => {
     await dispatch(customerRegister(values));
   })
 
@@ -157,7 +157,7 @@ const RegisterScreen = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" onSubmit={handleSubmite}>
+          <Button type="primary" htmlType="submit" onSubmit={handleSubmit}>
             Submit
           </Button>
         </Form.Item>
