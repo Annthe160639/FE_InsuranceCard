@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import parseJwt from "../../utils/jwtToken";
 
 const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("jwtToken")
+      ? `Bearer ${localStorage.getItem("jwtToken")}`
+      : "",
   },
 };
 
@@ -80,6 +84,8 @@ export const customerLogin = createAsyncThunk(
           config
         )
         .then((res) => {
+          localStorage.setItem("jwtToken", res.token);
+          return res;
         })
         .catch((_err) => {
           throw new Error(_err)
@@ -91,19 +97,67 @@ export const customerLogin = createAsyncThunk(
   }
 );
 
-const { reducer } = createSlice({
+export const getUserSession = createAsyncThunk(
+  "@Customer/GetUserSession",
+  (value, { rejectWithValue }) => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      console.log(parseJwt(jwtToken));
+      return parseJwt(jwtToken);
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+// export const customerLogout = createAsyncThunk(
+//   "@Customer/Login",
+//   async ({ username, password }, { rejectWithValue }) => {
+//     try {
+//       return await axios
+//         .post(
+//           "http://localhost:8080/api/customer/login",
+//           {
+//             username,
+//             password,
+//           },
+//           config
+//         )
+//         .then((res) => {
+//           return res;
+//         })
+//         .catch((_err) => {
+//           throw new Error(_err);
+//         });
+//     } catch (_error) {
+//       return rejectWithValue("An error occurred while open local directory");
+//     }
+//   }
+// );
+const { reducer, actions } = createSlice({
   initialState,
   name: "customer",
   reducers: {
-    setUserLocale(state, action) {
-      const { locale } = action.payload;
-      localStorage.setItem("_locale", locale || "en_US");
-      Object.assign(state, action.payload);
+    logout: (state, action) => {
+      localStorage.removeItem("jwtToken");
     },
   },
   extraReducers: {
-    
+    [customerLogin.pending]: (state) => {
+      state.loading = true;
+    },
+    [customerLogin.fulfilled]: (state, { payload: { data, _error } }) => {
+      if (data && !_error) {
+        localStorage.setItem("jwtToken", data.token);
+        state.customer = parseJwt(data.token);
+      }
+      state.loading = false;
+    },
+    [customerLogin.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
+export const { logout } = actions;
 
 export default reducer;

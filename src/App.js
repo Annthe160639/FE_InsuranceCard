@@ -1,11 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import { Provider as ReduxProvider } from "react-redux";
-import { Button, Layout, Menu, theme } from "antd";
-import {
-  DesktopOutlined,
-  UserAddOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -63,39 +58,32 @@ export default function App() {
             minHeight: "100vh",
           }}
         >
-          <Header style={{backgroundColor: colorBgContainer}}>
-            <div className="logo" />
-            <Menu
-              theme="light"
-              defaultSelectedKeys={["home"]}
-              mode="horizontal"
-              style={{ display: "block", }}
-              className="menu-items"
-            >
-              <Menu.Item
-                className="menu-item-login"
-                style={{ float: "right" }}
-                disabled
-              >
-                <Button
-                  type="link"
-                  className="button-login"
-                  icon={<UserOutlined />}
-                  href={ROUTES.CUSTOMER_LOGIN_ROUTER}
-                >
-                  Đăng nhập
-                </Button>
-              </Menu.Item>
-            </Menu>
-          </Header>
+          <Headers />
           <Layout className="site-layout">
+            {localStorage.getItem("jwtToken") && (
+              <Sider style={{ margin: "16px 0" }}>
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["sub1"]}
+                  style={{
+                    height: "100%",
+                    borderRight: 0,
+                  }}
+                >
+                  <Menu.Item key={"contract"}>
+                    <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
+                  </Menu.Item>
+                </Menu>
+              </Sider>
+            )}
             <Content
               style={{
                 margin: "0 16px",
               }}
             >
               <Routes>
-                <Route path={ROUTES.HOME_ROUTER} element={<HomeScreen />} />
+                <Route index path={ROUTES.HOME_ROUTER} element={<HomeScreen />} />
                 <Route
                   path={ROUTES.CUSTOMER_LOGIN_ROUTER}
                   element={<LoginScreen />}

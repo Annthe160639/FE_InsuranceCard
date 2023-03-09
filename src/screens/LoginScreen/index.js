@@ -1,21 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Form, Button, Input, Row, Col } from "antd";
 import { customerLogin } from "../../redux/features/customer";
+import { ROUTES } from "../../constants/routerConst";
 
 const LoginScreen = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
 
-  const handleFormSubmit = ({ username, password }) => {
-    dispatch(customerLogin({ username, password })).then((res) => {
-      if (res) {
-        console.log(res);
-      }
+  const handleFormSubmit = useCallback(async ({ username, password }) => {
+    await dispatch(customerLogin({ username, password })).then((res) => {
+      window.location.href = ROUTES.HOME_ROUTER;
     });
-  };
+  });
 
   return (
     <Form

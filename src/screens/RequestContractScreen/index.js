@@ -1,5 +1,6 @@
-import { BgColorsOutlined } from "@ant-design/icons";
-import { AutoComplete, Button, Checkbox, Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row, Select } from "antd";
+import { useCallback } from "react";
+import { useLocation } from "react-router";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -7,8 +8,22 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 export default function RequestContractScreen() {
+  const location = useLocation();
+  const contractTypeDetails = location.state
+    ? location.state.contractTypeDetails
+    : {};
+  const [form] = Form.useForm();
+  const startDate = Form.useWatch("startDate", form);
+  const handleSelectDuration = useCallback(
+    (value) => {
+      let splitSDate = startDate.split("-");
+      splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(value));
+      form.setFieldValue("endDate", splitSDate.join("-"));
+    },
+    [startDate, JSON.stringify(form)]
+  );
   return (
-    <div style={{backgroundColor: "lightsteelblue", textAlign: "center"}}>
+    <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
       <Form
         name="basic"
         labelCol={{
@@ -19,7 +34,7 @@ export default function RequestContractScreen() {
         }}
         style={{
           maxWidth: 600,
-          margin: '0 auto'          
+          margin: "0 auto",
         }}
         initialValues={{
           remember: true,
@@ -36,11 +51,9 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Loại bảo hiểm"
           name="contractType"
-          
           rules={[
             {
               required: false,
-              
             },
           ]}
         >
@@ -49,11 +62,9 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Loại xe"
           name="vehicleType"
-          
           rules={[
             {
               required: false,
-              
             },
           ]}
         >
@@ -62,11 +73,9 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Giá"
           name="price"
-          
           rules={[
             {
               required: false,
-              
             },
           ]}
         >
@@ -75,11 +84,9 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Hạn mức bảo hiểm"
           name="insuranceLevel"
-          
           rules={[
             {
               required: false,
-              
             },
           ]}
         >
@@ -88,11 +95,10 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Biển kiểm soát"
           name="pattern"
-          
           rules={[
             {
               required: true,
-              message: "Hãy nhập số biển kiểm soát."
+              message: "Hãy nhập số biển kiểm soát.",
             },
           ]}
         >
@@ -101,59 +107,54 @@ export default function RequestContractScreen() {
         <Form.Item
           label="Ngày bắt đầu"
           name="startDate"
-          
           rules={[
             {
               required: true,
-              message: "Hãy chọn ngày bắt đầu."
+              message: "Hãy chọn ngày bắt đầu.",
             },
           ]}
         >
-          <Input type="date"/>
+          <Input type="date" />
         </Form.Item>
 
         <Form.Item
-            label="Thời hạn"
-            name="duration"
-            rules={[
+          label="Thời hạn"
+          name="duration"
+          rules={[
+            {
+              required: true,
+              message: "Hãy chọn thời hạn.",
+            },
+          ]}
+          style={{
+            textAlign: "left",
+          }}
+        >
+          <Select
+            defaultValue={"1 năm"}
+            style={{
+              textAlign: "left",
+              width: 120,
+            }}
+            onChange={handleSelectDuration}
+            options={[
               {
-                required: true,
-                message: "Hãy chọn thời hạn."
+                value: "1",
+                label: "1 năm",
+              },
+              {
+                value: "2",
+                label: "2 năm",
+              },
+              {
+                value: "3",
+                label: "3 năm",
               },
             ]}
-            style={{
-              textAlign: 'left',
-            }}
-        >
-            <Select
-        defaultValue={"1 năm"}
-        style={{
-          textAlign: 'left',
-          width: 120,
-        }}
-        options={[
-            {
-                value: '1',
-                label: '1 năm',
-              },
-              {
-                value: '2',
-                label: '2 năm',
-              },
-              {
-                value: '3',
-                label: '3 năm',
-              },
-        ]}
-      />
+          />
         </Form.Item>
-        <Form.Item
-          label="Ngày kết thúc"
-          name="endDate"
-          
-          
-        >
-          <Input type="date" readOnly/>
+        <Form.Item label="Ngày kết thúc" name="endDate">
+          <Input type="date" readOnly />
         </Form.Item>
         <Row>
           <Col offset={6} span={18}>
@@ -163,61 +164,54 @@ export default function RequestContractScreen() {
         <Form.Item
           label="CMTND/CCCD"
           name="ci"
-          
           rules={[
             {
               required: true,
-              message: "Hãy nhập số căn cước công dân."
+              message: "Hãy nhập số căn cước công dân.",
             },
           ]}
         >
           <Input />
-        </Form.Item> 
+        </Form.Item>
         <Form.Item
           label="Họ và Tên"
           name="name"
-          
           rules={[
             {
               required: true,
-              message: "Hãy nhập tên người mua."
+              message: "Hãy nhập tên người mua.",
             },
           ]}
         >
           <Input />
-        </Form.Item> 
+        </Form.Item>
         <Form.Item
           label="Địa chỉ"
           name="address"
-          
           rules={[
             {
               required: true,
-              message: "Hãy nhập địa chỉ."
+              message: "Hãy nhập địa chỉ.",
             },
           ]}
         >
           <Input />
-        </Form.Item> 
+        </Form.Item>
         <Form.Item
           label="Số điện thoại"
           name="phone"
-          
           rules={[
             {
               required: true,
-              message: "Hãy nhập số điện thoại."
+              message: "Hãy nhập số điện thoại.",
             },
           ]}
         >
           <Input />
-        </Form.Item> 
-        <Form.Item
-          label="Ghi chú"
-          name="name"
-        >
+        </Form.Item>
+        <Form.Item label="Ghi chú" name="name">
           <Input />
-        </Form.Item> 
+        </Form.Item>
         <Form.Item
           wrapperCol={{
             offset: 6,
@@ -228,7 +222,6 @@ export default function RequestContractScreen() {
             Gửi
           </Button>
         </Form.Item>
-        
       </Form>
     </div>
   );

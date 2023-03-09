@@ -5,6 +5,9 @@ const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("jwtToken")
+      ? `Bearer ${localStorage.getItem("jwtToken")}`
+      : "",
   },
 };
 
@@ -18,7 +21,7 @@ export const contractTypeList = createAsyncThunk(
   async ({}, { rejectWithValue }) => {
     try {
       const res = await axios
-        .get("http://localhost:8080/api/contract/type/list", {}, config)
+        .get("http://localhost:8080/api/contract/type/list", config)
         .then((res) => {
           return res.data;
         })
@@ -37,7 +40,7 @@ export const contractTypeDetailsById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios
-        .get(`http://localhost:8080/api/contract/type/detail/${id}`, {}, config)
+        .get(`http://localhost:8080/api/contract/type/detail/${id}`, config)
         .then((res) => {
           console.log(res)
           return res.data;
@@ -46,6 +49,43 @@ export const contractTypeDetailsById = createAsyncThunk(
           return res;
         });
       return res;
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const fetchAllContractHistory = createAsyncThunk(
+  "@Contract/History",
+  async (id, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/customer/contract/history`, config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const requestNewContract = createAsyncThunk(
+  "@Contract/Request",
+  async (value, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(
+          `http://localhost:8080/customer/contract/request/${value.id}`,
+          value,
+          config
+        )
+        .then((res) => {
+          console.log(res.data);
+          return res.data;
+        })
+        .catch(() => {});
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
