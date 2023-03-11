@@ -18,11 +18,44 @@ const data = [
   },
 ];
 
+const StatusChange = ({ rowKey, onClickApprove, onClickReject }) => {
+  const [buttonStatus, setButtonStatus] = useState(true);
+  const [status, setStatus] = useState(null);
+
+  const handleApprove = () => {
+    setButtonStatus(false);
+    setStatus("approved");
+    onClickApprove(rowKey);
+  };
+
+  const handleDeny = () => {
+    setButtonStatus(false);
+    setStatus("denied");
+    onClickReject(rowKey);
+  };
+
+  return (
+    <Space wrap>
+      {buttonStatus ? (
+        <>
+          <Button type="primary" onClick={handleApprove}>
+            Chấp Thuận
+          </Button>
+          <Button type="primary" danger onClick={handleDeny}>
+            Từ Chối
+          </Button>
+        </>
+      ) : (
+        <>
+          {status === "approved" && <Tag color="success">Đã duyệt</Tag>}
+          {status === "denied" && <Tag color="error">Từ chối</Tag>}
+        </>
+      )}
+    </Space>
+  );
+};
+
 const StaffContract = () => {
-  const [ status, setStatus ] = useState(false);
-  const changeStatus = () => {
-    setStatus(!status);
-  }
   return (
     <div>
       <Title className="title">Danh sách hợp đồng</Title>
@@ -44,15 +77,19 @@ const StaffContract = () => {
           key="username"
         ></Column>
         <Column
-          title="Actions"
-          key="action"
-          render={() => (
-            <Space wrap>
-              <Button type="primary" onClick={changeStatus} style={{backgroundColor: status ? "black": "white"}}>Chấp thuận</Button>
-              <Button type="primary" onClick={changeStatus} danger>
-                Từ chối
-              </Button>
-            </Space>
+          title="Trạng thái"
+          key="status"
+          render={(record) => (
+            <StatusChange
+              rowKey={record.key}
+              value={"Đang chờ duyệt"}
+              onClickApprove={(key) =>
+                console.log(`Approving row with key ${key}`)
+              }
+              onClickReject={(key) =>
+                console.log(`Rejecting row with key ${key}`)
+              }
+            />
           )}
         ></Column>
       </Table>
