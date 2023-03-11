@@ -1,19 +1,29 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { useCallback } from "react";
-import { useLocation } from "react-router-dom";
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routerConst";
+import { requestNewContract } from "../../redux/features/contract";
 export default function RequestContractScreen() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+
   const contractTypeDetails = location.state
     ? location.state.contractTypeDetails
     : {};
-  const [form] = Form.useForm();
+
+  if (!contractTypeDetails) {
+    navigate(ROUTES.HOME_ROUTER);
+  }
+
   const startDate = Form.useWatch("startDate", form);
+  const handleFormSubmit = useCallback(async (values) => {
+    delete values.duration;
+    const { payload } = await dispatch(requestNewContract(values));
+  }, []);
+
   const handleSelectDuration = useCallback(
     (value) => {
       let splitSDate = startDate.split("-");
@@ -38,15 +48,16 @@ export default function RequestContractScreen() {
           margin: "0 auto",
         }}
         initialValues={{
-          typeId: contractTypeDetails.id,
-          managerId: contractTypeDetails.managerId,
-          contractType: contractTypeDetails.name,
-          vehicleType: contractTypeDetails.vehicleType,
-          insuranceLevel: contractTypeDetails.insuranceLevel,
-          price: contractTypeDetails.price,
+          contractType: {
+            id: contractTypeDetails.id,
+            managerId: contractTypeDetails.managerId,
+            name: contractTypeDetails.name,
+            vehicleType: contractTypeDetails.vehicleType,
+            insuranceLevel: contractTypeDetails.insuranceLevel,
+            price: contractTypeDetails.price,
+          },
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={handleFormSubmit}
         autoComplete="off"
       >
         <Row>
@@ -54,9 +65,13 @@ export default function RequestContractScreen() {
             <h1>Thông tin bảo hiểm</h1>
           </Col>
         </Row>
+        <Form.Item name={["contractType", "id"]} hidden>
+          <Input />
+        </Form.Item>
+
         <Form.Item
           label="Loại bảo hiểm"
-          name="contractType"
+          name={["contractType", "name"]}
           rules={[
             {
               required: false,
@@ -67,7 +82,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Loại xe"
-          name="vehicleType"
+          name={["contractType", "vehicleType"]}
           rules={[
             {
               required: false,
@@ -78,7 +93,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Giá"
-          name="price"
+          name={["contractType", "price"]}
           rules={[
             {
               required: false,
@@ -89,7 +104,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Hạn mức bảo hiểm"
-          name="insuranceLevel"
+          name={["contractType", "insuranceLevel"]}
           rules={[
             {
               required: false,
@@ -169,7 +184,7 @@ export default function RequestContractScreen() {
         </Row>
         <Form.Item
           label="CMTND/CCCD"
-          name="ci"
+          name={["buyer", "ci"]}
           rules={[
             {
               required: true,
@@ -181,7 +196,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Họ và Tên"
-          name="name"
+          name={["buyer", "name"]}
           rules={[
             {
               required: true,
@@ -193,7 +208,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Địa chỉ"
-          name="address"
+          name={["buyer", "address"]}
           rules={[
             {
               required: true,
@@ -205,7 +220,7 @@ export default function RequestContractScreen() {
         </Form.Item>
         <Form.Item
           label="Số điện thoại"
-          name="phone"
+          name={["buyer", "phone"]}
           rules={[
             {
               required: true,
@@ -215,7 +230,7 @@ export default function RequestContractScreen() {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Ghi chú" name="name">
+        <Form.Item label="Ghi chú" name={["buyer", "note"]}>
           <Input />
         </Form.Item>
         <Form.Item

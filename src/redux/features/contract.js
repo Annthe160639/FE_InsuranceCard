@@ -42,7 +42,6 @@ export const contractTypeDetailsById = createAsyncThunk(
       const res = await axios
         .get(`http://localhost:8080/api/contract/type/detail/${id}`, config)
         .then((res) => {
-          console.log(res)
           return res.data;
         })
         .catch(() => {
@@ -73,16 +72,15 @@ export const fetchAllContractHistory = createAsyncThunk(
 
 export const requestNewContract = createAsyncThunk(
   "@Contract/Request",
-  async (value, { rejectWithValue }) => {
+  async (values, { rejectWithValue }) => {
     try {
       return await axios
-        .get(
-          `http://localhost:8080/customer/contract/request/${value.id}`,
-          value,
+        .post(
+          `http://localhost:8080/api/customer/contract/request/${values.contractType.id}`,
+          values,
           config
         )
         .then((res) => {
-          console.log(res.data);
           return res.data;
         })
         .catch(() => {});

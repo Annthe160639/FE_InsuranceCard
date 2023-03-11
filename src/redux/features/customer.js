@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
 import parseJwt from "../../utils/jwtToken";
 
@@ -67,6 +67,7 @@ export const customerResetPassword = createAsyncThunk(
     }
   }
 );
+
 export const customerLogin = createAsyncThunk(
   "@Customer/Login",
   async ({ username, password }, { rejectWithValue }) => {
@@ -80,16 +81,22 @@ export const customerLogin = createAsyncThunk(
           },
           config
         )
-        .then((res) => {
-          localStorage.setItem("jwtToken", res.token);
-          return res;
+        .then(({ data }) => {
+          return data;
         })
-        .catch((_err) => {
-          throw new Error(_err);
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue(_error);
     }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "@Customer/Logout",
+  async (value, { rejectWithValue }) => {
+    return null;
   }
 );
 
@@ -98,7 +105,9 @@ export const getUserSession = createAsyncThunk(
   (value, { rejectWithValue }) => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
-      console.log(parseJwt(jwtToken));
+      if (parseJwt(jwtToken).exp < Date.now() / 1000) {
+        localStorage.clear();
+      }
       return parseJwt(jwtToken);
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
@@ -133,27 +142,26 @@ export const getUserSession = createAsyncThunk(
 const { reducer, actions } = createSlice({
   initialState,
   name: "customer",
-  reducers: {
-    logout: (state, action) => {
-      localStorage.removeItem("jwtToken");
-    },
-  },
+  reducers: {},
   extraReducers: {
     [customerLogin.pending]: (state) => {
       state.loading = true;
     },
-    [customerLogin.fulfilled]: (state, { payload: { data, _error } }) => {
-      if (data && !_error) {
-        localStorage.setItem("jwtToken", data.token);
-        state.customer = parseJwt(data.token);
+    [customerLogin.fulfilled]: (state, { error, payload: { token } }) => {
+      if (token && !error) {
+        localStorage.setItem("jwtToken", token);
+        state.customer = parseJwt(token);
       }
       state.loading = false;
+    },
+    [logout.fulfilled]: (state, payload) => {
+      localStorage.removeItem("jwtToken");
+      state.customer = {};
     },
     [customerLogin.rejected]: (state) => {
       state.loading = false;
     },
   },
 });
-export const { logout } = actions;
 
 export default reducer;

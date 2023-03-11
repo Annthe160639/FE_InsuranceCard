@@ -1,32 +1,67 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Menu, Layout, theme, Row, Col, Button, Image } from "antd";
+import {
+  Menu,
+  Layout,
+  theme,
+  Row,
+  Col,
+  Button,
+  Image,
+  notification,
+} from "antd";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routerConst";
 import { getUserSession, logout } from "../redux/features/customer";
+import {
+  createNotification,
+  removeNotification,
+} from "../redux/features/notification";
+import { isFunction, last } from "lodash";
 
 const { Header } = Layout;
-export default function Headers() {
+export default function PageHeader() {
   const dispatch = useDispatch();
   const naviagate = useNavigate();
-  const [customerInfo, setCustomerInfo] = useState({});
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-  }, []);
+  const alerts = useSelector(({ notification: { alerts } }) => alerts);
+  const customer = useSelector(({ customer: { customer } }) => customer);
 
-  const handleGetCustomer = useCallback(async () => {
-    try {
-      setCustomerInfo((await dispatch(getUserSession())).payload)
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    handleGetCustomer();
-  }, []);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const handleLogout = useCallback(async () => {
+    await dispatch(logout());
+    await dispatch(
+      createNotification({
+        type: "success",
+        message: `Đăng xuất thành công`,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    const { type, message, description, onClose } = { ...last(alerts) };
+    if (type && message) {
+      dispatch(removeNotification());
+      isFunction(onClose) && onClose();
+
+      notification[type]({
+        message,
+        description,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(alerts)]);
+
+  useEffect(() => {
+    notification.config({
+      duration: 3,
+      maxCount: 3,
+    });
+  }, []);
+
   return (
     <Header style={{ backgroundColor: colorBgContainer }}>
       <div className="logo" />
@@ -63,27 +98,30 @@ export default function Headers() {
               style={{ padding: 0 }}
               disabled
             >
-              <Button
-                type="link"
-                className="button-login"
-                icon={<UserOutlined />}
-                href={
-                  customerInfo && customerInfo.username
+              <Link
+                to={
+                  customer && customer.username
                     ? ROUTES.HOME_ROUTER
                     : ROUTES.CUSTOMER_LOGIN_ROUTER
                 }
               >
-                {customerInfo && customerInfo.username ? (
-                  <>
-                    {customerInfo.username}
-                    <Button type="link" onClick={handleLogout}>
-                      Log out
-                    </Button>
-                  </>
-                ) : (
-                  "Đăng nhập"
-                )}
-              </Button>
+                <Button
+                  type="link"
+                  className="button-login"
+                  icon={<UserOutlined />}
+                >
+                  {customer && customer.username ? (
+                    <>
+                      {customer.username}
+                      <Button type="link" onClick={handleLogout}>
+                        Log out
+                      </Button>
+                    </>
+                  ) : (
+                    "Đăng nhập"
+                  )}
+                </Button>
+              </Link>
             </Menu.Item>
           </Col>
         </Row>

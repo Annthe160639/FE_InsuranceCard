@@ -148,7 +148,7 @@ export default function RegisterScreen () {
             },
           ]}
         >
-          <Input type="date" />
+          <Input />
         </Form.Item>
 
         <Form.Item
