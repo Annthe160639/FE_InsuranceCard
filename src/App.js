@@ -1,12 +1,9 @@
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
-import { Button, Col, Image, Layout, Menu, Row, theme } from "antd";
-import { Provider as ReduxProvider, useSelector } from "react-redux";
 import {
-  DesktopOutlined,
-  HomeOutlined,
-  UserAddOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { Provider as ReduxProvider } from "react-redux";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -34,10 +31,10 @@ import { ROUTES } from "./constants/routerConst";
 import store from "./redux/store";
 
 import "./App.style.css";
-import Headers from "./components/Header";
-import Sider from "antd/es/layout/Sider";
 import ListContracts from "./screens/Contract/ListContracts";
-const { Content, Footer } = Layout;
+import CommonLayout from "./components/CommonLayout";
+
+
 
 export default function App() {
   return (

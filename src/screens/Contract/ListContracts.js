@@ -9,46 +9,59 @@ const { Title } = Typography;
 const columns = [
   {
     title: "Biển số xe",
-    dataIndex: "carNumber",
-    key: "carNumber",
+    dataIndex: "pattern",
+    key: "pattern",
   },
   {
     title: "Hợp đồng",
-    dataIndex: "contract",
+    dataIndex: ["contractType", "name"],
     key: "contract",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "Thời gian hiệu lực",
-    dataIndex: "time",
-    key: "time",
+    dataIndex: "startDate",
+    key: "startDate",
+    render: (_, { startDate, endDate }) =>
+      `${
+        new Date(endDate).getFullYear() - new Date(startDate).getFullYear()
+      } Năm`,
   },
   {
     title: "Phí bảo hiểm",
-    dataIndex: "fee",
-    key: "fee",
+    dataIndex: ["contractType", "price"],
+    key: "price",
+    render: (_, { contractType: { price } }) => {
+      price = String(price);
+      const size = 3;
+      const length = price.length;
+      const chunks = Array(Math.ceil(length / size));
+      if (length) {
+        chunks[0] = price.slice(0, length % size || size);
+        for (let i = 1, index = chunks[0].length; index < length; i++) {
+          chunks[i] = price.slice(index, (index += size));
+        }
+      }
+      return chunks.join(".") + "VNĐ";
+    },
   },
   {
     title: "Trạng thái",
     dataIndex: "status",
     key: "status",
-    render: (_, { status }) => (
-      <>
-        {status.map((tag) => {
-          let color = tag.length > 5 ? "Đang xử lý" : "yellow";
-          if (tag === "Đã duyệt") {
-            color = "green";
-          } else if (tag === "Đang chờ xử lý") {
-            color = "yellow";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    render: (_, { status }) => {
+      let color = status === "Đang xử lý" ? "yellow" : "";
+      if (status === "Đã duyệt") {
+        color = "green";
+      } else if (status === "Đang chờ xử lý") {
+        color = "yellow";
+      }
+      return (
+        <Tag color={color} key={status}>
+          {status.toUpperCase()}
+        </Tag>
+      );
+    },
   },
 ];
 
@@ -64,14 +77,15 @@ const data = [
 
 export default function ListContracts() {
   const dispatch = useDispatch();
-  // const [data, setData] = useState([])
-  // const fetchContractHistory = useCallback(async () => {
-  //   setData(await dispatch(fetchAllContractHistory()));
-  // });
-
-  // useEffect(() => {
-  //   fetchContractHistory()
-  // }, [])
+  const [data, setData] = useState([]);
+  const fetchContractHistory = useCallback(async () => {
+    const { payload } = await dispatch(fetchAllContractHistory());
+    console.log(payload);
+    setData(payload);
+  });
+  useEffect(() => {
+    fetchContractHistory();
+  }, []);
   return (
     <div>
       <Title className="title">Danh sách hợp đồng</Title>

@@ -4,6 +4,7 @@ export const ROUTES = {
   CUSTOMER_REGISTER_ROUTER: "/customer/register",
   CUSTOMER_MAINSCREEN_ROUTER: "/customer/mainscreen",
   CUSTOMER_CONTRACT_HISTORY: "/customer/contract/history",
+  CUSTOMER_CONTRACT_REQUEST: "/customer/contract/request",
   CUSTOMER_RESET_PASSWORD_ROUTER: "/customer/password/reset",
   STAFF_MAINSCREEN_ROUTER: "/staff/staffscreen",
   STAFF_CONTRACT_ROUTER: "/staff/contract",
