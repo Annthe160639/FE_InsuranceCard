@@ -1,0 +1,12 @@
+.space-align {
+    margin: 30px 20px 4px;
+    padding: 4px;
+    align-items: center;
+    display: flex;
+  }
+  
+  .space-align .mock-block {
+    display: inline-block;
+    padding: 30px 30px 55px;
+    background: #FFCC66;
+  }

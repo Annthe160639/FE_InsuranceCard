@@ -1,10 +1,14 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import parseJwt from "../../utils/jwtToken";
 
 const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("jwtToken")
+      ? `Bearer ${localStorage.getItem("jwtToken")}`
+      : "",
   },
 };
 
@@ -63,6 +67,7 @@ export const customerResetPassword = createAsyncThunk(
     }
   }
 );
+
 export const customerLogin = createAsyncThunk(
   "@Customer/Login",
   async ({ username, password }, { rejectWithValue }) => {
@@ -76,12 +81,34 @@ export const customerLogin = createAsyncThunk(
           },
           config
         )
-        .then((res) => {
-          return res;
+        .then(({ data }) => {
+          return data;
         })
-        .catch((_err) => {
-          throw new Error(_err);
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
         });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "@Customer/Logout",
+  async (value, { rejectWithValue }) => {
+    return null;
+  }
+);
+
+export const getUserSession = createAsyncThunk(
+  "@Customer/GetUserSession",
+  (value, { rejectWithValue }) => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      if (parseJwt(jwtToken).exp < Date.now() / 1000) {
+        localStorage.clear();
+      }
+      return parseJwt(jwtToken);
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
@@ -115,34 +142,26 @@ export const customerLogin = createAsyncThunk(
 const { reducer, actions } = createSlice({
   initialState,
   name: "customer",
-  reducers: {
-    getUserSession: (state, action) => {
-      try {
-        const customer =
-          state.customer ?? JSON.parse(localStorage.getItem("custoemr"));
-      } catch (_err) {}
-    },
-    logout: (state, action) => {
-      localStorage.removeItem("customer");
-    },
-  },
+  reducers: {},
   extraReducers: {
     [customerLogin.pending]: (state) => {
       state.loading = true;
     },
-    [customerLogin.fulfilled]: (state, { payload: { data, _error } }) => {
-      if (data && !_error) {
-        console.log(state);
-        localStorage.setItem("customer", JSON.stringify(data));
-        state.customer = data;
+    [customerLogin.fulfilled]: (state, { error, payload: { token } }) => {
+      if (token && !error) {
+        localStorage.setItem("jwtToken", token);
+        state.customer = parseJwt(token);
       }
       state.loading = false;
+    },
+    [logout.fulfilled]: (state, payload) => {
+      localStorage.removeItem("jwtToken");
+      state.customer = {};
     },
     [customerLogin.rejected]: (state) => {
       state.loading = false;
     },
   },
 });
-export const { logout, getUserSession } = actions;
 
 export default reducer;

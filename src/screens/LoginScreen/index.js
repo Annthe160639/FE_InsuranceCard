@@ -4,15 +4,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Input, Row, Col } from "antd";
 import { customerLogin } from "../../redux/features/customer";
 import { ROUTES } from "../../constants/routerConst";
+import { createNotification } from "../../redux/features/notification";
 
 const LoginScreen = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleFormSubmit = useCallback(async ({ username, password }) => {
-    await dispatch(customerLogin({ username, password })).then((res) => {
-      navigate(ROUTES.HOME_ROUTER)
-    });
+    await dispatch(customerLogin({ username, password })).then(
+      async ({ payload, error }) => {
+        if (error) {
+          await dispatch(
+            createNotification({
+              type: "error",
+              message: payload.message,
+            })
+          );
+          return;
+        }
+        navigate(ROUTES.HOME_ROUTER);
+        await dispatch(
+          createNotification({
+            type: "success",
+            message: `Chào, ${username}`,
+          })
+        );
+      }
+    );
   });
 
   return (
