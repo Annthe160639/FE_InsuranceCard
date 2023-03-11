@@ -8,7 +8,7 @@ const MainScreen = () => {
   return (
     <div>
       <Banner />
-      <div className="space-align-block">
+      <div className="space-block">
         <Space wrap align="center" size={100}>
           <Button className="mock-block" type="default">
             <Link to="/customer/createcontract">Tạo hợp đồng</Link>
