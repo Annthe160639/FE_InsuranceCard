@@ -5,8 +5,8 @@ const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    Authorization: localStorage.getItem("jwtToken")
-      ? `Bearer ${localStorage.getItem("jwtToken")}`
+    Authorization: localStorage.getItem("userToken")
+      ? `Bearer ${localStorage.getItem("userToken")}`
       : "",
   },
 };
@@ -40,7 +40,7 @@ export const contractTypeDetailsById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios
-        .get(`http://localhost:8080/api/contract/type/detail/${id}`, config)
+        .get(`http://localhost:8080/api/contract/type/${id}`, config)
         .then((res) => {
           return res.data;
         })
@@ -49,7 +49,7 @@ export const contractTypeDetailsById = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("An error occurred while getting contract type details");
     }
   }
 );

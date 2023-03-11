@@ -6,8 +6,8 @@ const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    Authorization: localStorage.getItem("jwtToken")
-      ? `Bearer ${localStorage.getItem("jwtToken")}`
+    Authorization: localStorage.getItem("userToken")
+      ? `Bearer ${localStorage.getItem("userToken")}`
       : "",
   },
 };
@@ -104,11 +104,12 @@ export const getUserSession = createAsyncThunk(
   "@Customer/GetUserSession",
   (value, { rejectWithValue }) => {
     try {
-      const jwtToken = localStorage.getItem("jwtToken");
-      if (parseJwt(jwtToken).exp < Date.now() / 1000) {
+      const userToken = localStorage.getItem("userToken");
+      if (parseJwt(userToken).exp < Date.now() / 1000) {
         localStorage.clear();
+        return null;
       }
-      return parseJwt(jwtToken);
+      return parseJwt(userToken);
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
@@ -149,14 +150,17 @@ const { reducer, actions } = createSlice({
     },
     [customerLogin.fulfilled]: (state, { error, payload: { token } }) => {
       if (token && !error) {
-        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("userToken", token);
         state.customer = parseJwt(token);
       }
       state.loading = false;
     },
     [logout.fulfilled]: (state, payload) => {
-      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("userToken");
       state.customer = {};
+    },
+    [getUserSession.fulfilled]: (state, {payload}) => {
+      state.customer = payload;
     },
     [customerLogin.rejected]: (state) => {
       state.loading = false;

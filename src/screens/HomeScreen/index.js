@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Button, Layout, Menu, Space, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
@@ -9,7 +10,6 @@ import {
   contractTypeDetailsById,
   contractTypeList,
 } from "../../redux/features/contract";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
 
 export default function HomeScreen() {

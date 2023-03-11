@@ -2,21 +2,26 @@ import { Layout, Menu } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { isEmpty } from "lodash";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routerConst";
+import { getUserSession } from "../redux/features/customer";
 import PageHeader from "./Header";
 
 export default function CommonLayout() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const customer = useSelector(({ customer: { customer } }) => customer);
 
-  useEffect(() => {
-    if (!customer.username) {
-      navigate(ROUTES.HOME_ROUTER, { replace: true });
+  const handleGetUser = useCallback(async () => {
+    if (isEmpty(customer)) {
+      await dispatch(getUserSession());
     }
   }, [JSON.stringify(customer)]);
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <Layout
