@@ -2,9 +2,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Link
 } from "react-router-dom";
-import { Layout, Menu } from "antd";
 import { Provider as ReduxProvider } from "react-redux";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -35,9 +33,7 @@ import store from "./redux/store";
 import "./App.style.css";
 import ListContracts from "./screens/Contract/ListContracts";
 import CommonLayout from "./components/CommonLayout";
-import Headers from "./components/Header";
-import Sider from "antd/es/layout/Sider";
-const { Content, Footer } = Layout;
+
 
 
 export default function App() {

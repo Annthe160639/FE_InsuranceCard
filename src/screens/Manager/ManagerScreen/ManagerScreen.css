@@ -1,16 +1,12 @@
 .space-align-block {
+    margin: 30px 20px 4px;
     padding: 4px;
     align-items: center;
     display: flex;
-    justify-content: center;
   }
   
   .space-align-block .mock-block {
     display: inline-block;
-    width: auto;
-    padding: 30px 25px 55px;
-    background: #FFCC66;
-    box-shadow: 5px 5px 6px gray;
-    border-radius:20px; 
-    
+    padding: 30px 30px 55px;
+    background: hwb(145 71% 25%);
   }
