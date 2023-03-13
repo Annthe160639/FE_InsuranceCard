@@ -61,7 +61,7 @@ export const fetchAllContractHistory = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       return await axios
-        .get(`http://localhost:8080/api/customer/contract/history`, config)
+        .get(`http://localhost:8080/api/customer/contract`, config)
         .then((res) => {
           return res.data;
         })

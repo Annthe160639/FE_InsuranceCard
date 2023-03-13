@@ -76,7 +76,7 @@ export default function PageHeader() {
           <Col span={4}>
             <Menu.Item className="menu-logo" key={"logo"} disabled>
               <Link to={ROUTES.HOME_ROUTER}>
-                <Image width="60%" src="../logo.png" preview={false} />
+                <Image width="60%" src="/logo.png" preview={false} />
               </Link>
             </Menu.Item>
           </Col>
@@ -114,7 +114,7 @@ export default function PageHeader() {
                     <>
                       {customer.username}
                       <Button type="link" onClick={handleLogout}>
-                        Log out
+                        Đăng xuất
                       </Button>
                     </>
                   ) : (

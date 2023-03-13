@@ -35,6 +35,7 @@ export default function App() {
       <Router>
         <Routes>
           <Route path={"/"} element={<CommonLayout />}>
+            <Route path={"/"} element={<HomeScreen />} />
             <Route path={ROUTES.HOME_ROUTER} element={<HomeScreen />} />
             <Route
               path={ROUTES.CUSTOMER_LOGIN_ROUTER}

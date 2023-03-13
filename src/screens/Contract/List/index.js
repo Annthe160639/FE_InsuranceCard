@@ -79,7 +79,7 @@ export default function ListContracts() {
           if (status === "Đã duyệt") {
             color = "green";
           } else if (status === "Đang chờ xử lý") {
-            color = "yellow";
+            color = "orange";
           }
           return (
             <Tag color={color} key={status}>

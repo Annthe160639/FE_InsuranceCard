@@ -26,13 +26,13 @@ export default function CommonLayout() {
   return (
     <Layout
       style={{
-        minHeight: "100vh",
+        minHeight: "98vh",
       }}
     >
       <PageHeader />
       <Layout className="site-layout">
         {!isEmpty(customer) && (
-          <Sider style={{ margin: "16px 0" }}>
+          <Sider style={{ margin: "16px 0"   }}>
             <Menu
               mode="inline"
               defaultSelectedKeys={["1"]}
