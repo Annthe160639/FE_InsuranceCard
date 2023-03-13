@@ -28,6 +28,7 @@ import ListContracts from "./screens/Contract/List";
 import CommonLayout from "./components/CommonLayout";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import ViewContract from "./screens/Contract/Details";
+import ContractTypeDetails from "./screens/ContractTypeDetailsScreen";
 
 export default function App() {
   return (
@@ -129,6 +130,10 @@ export default function App() {
             <Route
               path="/customer/contract/request"
               element={<RequestContractScreen />}
+            />
+            <Route
+              path={ROUTES.CUSTOMER_CONTRACT_TYPE}
+              element={<ContractTypeDetails />}
             />
           </Route>
         </Routes>
