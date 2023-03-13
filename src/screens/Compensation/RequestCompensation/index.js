@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { customerLogin } from "../../redux/features/customer";
+import { customerLogin } from "../../../redux/features/customer";
 
 export default function RequestCpmpensation() {
   const navigate = useNavigate();

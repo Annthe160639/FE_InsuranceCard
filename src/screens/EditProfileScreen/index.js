@@ -1,14 +1,21 @@
-import { Button, Form, Input, Row } from "antd";
+import { Button, Form, Input, Space } from "antd";
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
 
 export default function EditProfileScreen() {
+  const customer = useSelector(({ customer: { customer } }) => customer);
+
+  const handleEditProfile = useCallback(async () => {
+
+  }, [customer])
+
   return (
-    <div 
-      
+    <div
       style={{
-        textAlign: "center"
+        textAlign: "center",
       }}
     >
-        <h1>THÔNG TIN CÁ NHÂN</h1>
+      <h1>THÔNG TIN CÁ NHÂN</h1>
       <Form
         name="basic"
         labelCol={{
@@ -19,21 +26,17 @@ export default function EditProfileScreen() {
         }}
         style={{
           maxWidth: 600,
-          margin: '0 auto'
+          margin: "0 auto",
         }}
         initialValues={{
-          remember: true,
+          name: customer.name,
+          phone: customer.phone,
+          gmail: customer.gmail,
+          address: customer.address,
+          ci: customer.ci,
         }}
         autoComplete="off"
       >
-        <Form.Item
-          label="Tên đăng nhập"
-          name="username"
-          
-        >
-          <Input readOnly />
-        </Form.Item>
-
         <Form.Item
           label="Tên"
           name="name"
@@ -94,32 +97,21 @@ export default function EditProfileScreen() {
         >
           <Input />
         </Form.Item>
-        <div 
-          
-        >
         <Form.Item
           wrapperCol={{
             offset: 8,
             span: 16,
           }}
         >
-
-          
-          <Button type="primary" htmlType="submit">
-            Lưu
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Thay đổi mật khẩu
+            </Button>
+            <Button type="primary" htmlType="submit">
+              Lưu
+            </Button>
+          </Space>
         </Form.Item>
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Thay đổi mật khẩu
-          </Button>
-        </Form.Item>
-        </div>
       </Form>
     </div>
   );

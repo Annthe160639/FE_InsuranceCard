@@ -101,7 +101,7 @@ export default function PageHeader() {
               <Link
                 to={
                   customer && customer.username
-                    ? ROUTES.HOME_ROUTER
+                    ? ROUTES.CUSTOMER_PROFILE_ROUTER
                     : ROUTES.CUSTOMER_LOGIN_ROUTER
                 }
               >
