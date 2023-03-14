@@ -26,13 +26,13 @@ export default function CommonLayout() {
   return (
     <Layout
       style={{
-        minHeight: "100vh",
+        minHeight: "98vh",
       }}
     >
       <PageHeader />
       <Layout className="site-layout">
         {!isEmpty(customer) && (
-          <Sider style={{ margin: "16px 0" }}>
+          <Sider style={{ margin: "16px 0"   }}>
             <Menu
               mode="inline"
               defaultSelectedKeys={["1"]}
@@ -44,6 +44,12 @@ export default function CommonLayout() {
             >
               <Menu.Item key={"contract"}>
                 <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
+              </Menu.Item>
+              <Menu.Item key={"staffscreen"}>
+                <Link to={ROUTES.STAFF_MAINSCREEN_ROUTER}>Quản lí</Link>
+              </Menu.Item>
+              <Menu.Item key={"managerscreen"}>
+                <Link to={ROUTES.MANAGER_SCREEN_ROUTER}>Nhân viên</Link>
               </Menu.Item>
             </Menu>
           </Sider>

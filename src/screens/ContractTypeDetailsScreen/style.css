@@ -1,0 +1,44 @@
+/* * {
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+} */
+.contract {
+  margin: 16px 16px 0 16px;
+}
+.contract col {
+  margin: 0 auto;
+}
+
+h1 {
+  color: #ee1c24;
+  font-size: x-large;
+}
+label {
+  font-weight: bolder;
+  color: black;
+  line-height: 1.2;
+}
+.content label {
+  color: #ee1c24;
+  padding: 10px 0;
+  font-size: 1.2rem;
+}
+.details {
+  font-size: large;
+  margin-bottom: 16px;
+}
+
+.tablean {
+  border-collapse: collapse;
+}
+/* Table.tablean > th, td
+{
+  border: 1px solid black;
+  padding: 10px;
+} */
+.contractName {
+    color: #ee1c24 !important;
+}
+.btnBuy {
+    background-color: #ee1c24 !important;
+}

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import { Button, Layout, Menu, Space, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
@@ -80,10 +80,15 @@ export default function HomeScreen() {
               style={{ height: "100%", backgroundColor: colorBgContainer }}
             >
               <Layout style={{ backgroundColor: colorBgContainer }}>
-                <Header style={{ backgroundColor: colorBgContainer, textAlign: "center", overflow: "hidden", overflowWrap: 'none' }}>
-                  <h2>
-                    {contractTypeDetails.name}
-                  </h2>
+                <Header
+                  style={{
+                    backgroundColor: colorBgContainer,
+                    textAlign: "center",
+                    overflow: "hidden",
+                    overflowWrap: "none",
+                  }}
+                >
+                  <h2>{contractTypeDetails.name}</h2>
                 </Header>
                 <Content
                   style={{
@@ -111,7 +116,18 @@ export default function HomeScreen() {
                       padding: 20,
                     }}
                   >
-                    <Button type="default">Chi tiết</Button>
+                    <Button
+                      type="default"
+                      onClick={() => {
+                        navigate(
+                          generatePath(ROUTES.CUSTOMER_CONTRACT_TYPE, {
+                            id: contractTypeDetails.id,
+                          })
+                        );
+                      }}
+                    >
+                      Chi tiết
+                    </Button>
                     <Button
                       type="primary"
                       onClick={() => {

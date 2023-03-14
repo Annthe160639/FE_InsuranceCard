@@ -49,7 +49,9 @@ export const contractTypeDetailsById = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while getting contract type details");
+      return rejectWithValue(
+        "An error occurred while getting contract type details"
+      );
     }
   }
 );
@@ -59,7 +61,23 @@ export const fetchAllContractHistory = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       return await axios
-        .get(`http://localhost:8080/api/customer/contract/history`, config)
+        .get(`http://localhost:8080/api/customer/contract`, config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const fetchOneContract = createAsyncThunk(
+  "@Contract/Details",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/customer/contract/${id}`, config)
         .then((res) => {
           return res.data;
         })
