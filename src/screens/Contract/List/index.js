@@ -12,7 +12,6 @@ export default function ListContracts() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [value, setValue] = useState("");
-
   const columns = useMemo(
     () => [
       {
@@ -34,7 +33,18 @@ export default function ListContracts() {
         title: "Hợp đồng",
         dataIndex: ["contractType", "name"],
         key: "contract",
-        render: (text, record) => <Link to={generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {id: record.id})}>{text}</Link>,
+        render: (text, record) => {
+          console.log(record.id);
+          return (
+            <Link
+              to={generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
+                id: record.id,
+              })}
+            >
+              {text}
+            </Link>
+          );
+        },
       },
       {
         title: "Ngày tạo",

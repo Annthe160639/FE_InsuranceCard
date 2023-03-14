@@ -12,16 +12,19 @@ import {
 import { Content } from "antd/es/layout/layout";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { fetchOneContract } from "../../../redux/features/contract";
 
 const { TabPane } = Tabs;
 
 const ViewContract = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const [contractDetails, setContractDetails] = useState({});
 
   const handleGetContractDetail = useCallback(async () => {
-    const { payload } = await dispatch(fetchOneContract({ id: 1 }));
+    const { payload } = await dispatch(fetchOneContract({ id }));
+    console.log(payload)
     setContractDetails(payload);
   }, []);
 
@@ -116,9 +119,7 @@ const ViewContract = () => {
             {new Intl.NumberFormat("de-DE", {
               style: "currency",
               currency: "VND",
-            }).format(
-              contractDetails.contractType?.insuranceLevel
-            )}
+            }).format(contractDetails.contractType?.insuranceLevel)}
           </Descriptions.Item>
           <Descriptions.Item label="Giá">
             {new Intl.NumberFormat("de-DE", {
