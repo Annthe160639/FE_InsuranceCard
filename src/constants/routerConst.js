@@ -14,8 +14,11 @@ export const ROUTES = {
   STAFF_COMPENSATION_ROUTER: "/staff/compensation",
   STAFF_CUSTOMER_ROUTER: "/staff/customer",
   MANAGER_SCREEN_ROUTER: "/manager",
+  MANAGER_LOGIN_ROUTER: "/manager/login",
   MANAGER_CONTRACT_ROUTER: "/manager/contract",
   MANAGER_COMPENSATION_ROUTER: "/manager/compensation",
-  MANAGER_CONTRACTYPE_ROUTER: "/manager/contractype",
+  MANAGER_CONTRACTYPE_ROUTER: "/manager/contract/type",
+  MANAGER_CONTRACTYPE_DETAILS_ROUTER: "/manager/contract/type/:id",
+  MANAGER_INSERT_CONTRACTYPE_ROUTER: "/manager/contract/type/add",
   MANAGER_ACCOUNT_ROUTER: "/manager/account",
 };

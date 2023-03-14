@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, } from "@reduxjs/toolkit";
 import dropRight from "lodash/dropRight";
 
 function getInitialState() {
@@ -10,6 +10,7 @@ function getInitialState() {
 export const createNotification = createAsyncThunk(
   "@Notification/CreateNotification",
   async ({ type, message, description, onClose }, { rejectWithValue }) => {
+    console.log(type, message)
     try {
       return { type, message, description, onClose };
     } catch (_error) {}

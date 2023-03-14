@@ -29,6 +29,9 @@ import CommonLayout from "./components/CommonLayout";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import ViewContract from "./screens/Contract/Details";
 import ContractTypeDetails from "./screens/ContractTypeDetailsScreen";
+import AddContractTypeScreen from "./screens/Manager/ContractTypeManagement/Add/AddContractTypeScreen";
+import ManagerLoginScreen from "./screens/Manager/Login";
+import ContractTypeDetailsScreen from "./screens/Manager/ContractTypeManagement/Details/ContractTypeDetailsScreen";
 
 export default function App() {
   return (
@@ -71,6 +74,10 @@ export default function App() {
               element={<StaffCustomer />}
             />
             <Route
+              path={ROUTES.MANAGER_LOGIN_ROUTER}
+              element={<ManagerLoginScreen />}
+            />
+            <Route
               path={ROUTES.MANAGER_ACCOUNT_ROUTER}
               element={<AccountManagement />}
             />
@@ -81,6 +88,14 @@ export default function App() {
             <Route
               path={ROUTES.MANAGER_CONTRACTYPE_ROUTER}
               element={<ContractTypeManagement />}
+            />
+            <Route
+              path={ROUTES.MANAGER_CONTRACTYPE_DETAILS_ROUTER}
+              element={<ContractTypeDetailsScreen />}
+            />
+            <Route
+              path={ROUTES.MANAGER_INSERT_CONTRACTYPE_ROUTER}
+              element={<AddContractTypeScreen />}
             />
             <Route
               path={ROUTES.MANAGER_CONTRACT_ROUTER}

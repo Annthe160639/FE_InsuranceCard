@@ -2,22 +2,22 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Input, Row, Col } from "antd";
-import { customerLogin } from "../../redux/features/customer";
-import { ROUTES } from "../../constants/routerConst";
-import { createNotification } from "../../redux/features/notification";
+import { managerLogin } from "../../../redux/features/manager";
+import { createNotification } from "../../../redux/features/notification";
+import { ROUTES } from "../../../constants/routerConst";
 
-const LoginScreen = () => {
+export default function ManagerLoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const handleFormSubmit = useCallback(async ({ username, password }) => {
-    console.log({ username, password });
-    await dispatch(customerLogin({ username, password })).then(
+    await dispatch(managerLogin({ username, password })).then(
       async ({ payload, error }) => {
         if (error) {
           await dispatch(
             createNotification({
               type: "error",
-              message: "Có lỗi xảy ra khi đăng nhập",
+              message: payload.message,
             })
           );
           return;
@@ -112,6 +112,4 @@ const LoginScreen = () => {
       </Row>
     </>
   );
-};
-
-export default LoginScreen;
+}

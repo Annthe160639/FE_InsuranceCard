@@ -1,4 +1,5 @@
 import { Button, Form, Input, Space } from "antd";
+import { map } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,12 +14,16 @@ export default function EditProfileScreen() {
   const [customerInfo, setCustomerIfo] = useState({});
 
   const handleEditProfile = useCallback(async (values) => {
-    const { error, payload } = await dispatch(updateUserProfile(values));
+    const { error, payload } = await dispatch(
+      updateUserProfile({ ...values, password: null })
+    );
 
     await dispatch(
       createNotification({
         type: error ? "error" : "success",
-        message: error ? `Có lỗi xảy ra khi cập nhật thông tin người dung` : "",
+        message: error
+          ? `Có lỗi xảy ra khi cập nhật thông tin người dung`
+          : "Cập nhật thông tin người dùng thành công",
       })
     );
 
@@ -30,14 +35,7 @@ export default function EditProfileScreen() {
   const handleFetchCustomer = useCallback(async () => {
     const { error, payload } = await dispatch(fetchCustomerInfor());
     if (payload) {
-      console.log(payload)
-      form.setFieldValue("id", payload.id);
-      form.setFieldValue("username", payload.username);
-      form.setFieldValue("name", payload.name);
-      form.setFieldValue("phone", payload.phone);
-      form.setFieldValue("phone", payload.phone);
-      form.setFieldValue("address", payload.address);
-      form.setFieldValue("ci", payload.ci);
+      setCustomerIfo(payload);
     } else if (error) {
       await dispatch(
         createNotification({
@@ -67,15 +65,10 @@ export default function EditProfileScreen() {
           maxWidth: 600,
           margin: "0 auto",
         }}
-        initialValues={{
-          id: customerInfo.id,
-          username: customerInfo.username,
-          name: customerInfo.name,
-          phone: customerInfo.phone,
-          gmail: customerInfo.gmail,
-          address: customerInfo.address,
-          ci: customerInfo.ci,
-        }}
+        fields={map(customerInfo, (v, k) => ({
+          name: k,
+          value: v,
+        }))}
         autoComplete="off"
         onFinish={handleEditProfile}
       >

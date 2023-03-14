@@ -7,21 +7,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routerConst";
 import { getUserSession } from "../redux/features/customer";
+import { getManagerUserSession } from "../redux/features/manager";
 import PageHeader from "./Header";
 
 export default function CommonLayout() {
   const dispatch = useDispatch();
+  const [currentUser, setCurrentUser] = useState({});
+
   const customer = useSelector(({ customer: { customer } }) => customer);
+  const manager = useSelector(({ manager: { manager } }) => manager);
 
   const handleGetUser = useCallback(async () => {
     if (isEmpty(customer)) {
       await dispatch(getUserSession());
+    } else if (isEmpty(manager)) {
+      await dispatch(getManagerUserSession());
     }
-  }, [JSON.stringify(customer)]);
+  }, [JSON.stringify(customer), JSON.stringify(manager)]);
 
   useEffect(() => {
     handleGetUser();
   }, []);
+
+  useEffect(() => {
+    if (customer) {
+      setCurrentUser(customer);
+    } else if (manager) {
+      setCurrentUser(manager);
+    }
+  }, [JSON.stringify(customer), JSON.stringify(manager)]);
 
   return (
     <Layout
@@ -31,8 +45,8 @@ export default function CommonLayout() {
     >
       <PageHeader />
       <Layout className="site-layout">
-        {!isEmpty(customer) && (
-          <Sider style={{ margin: "16px 0"   }}>
+        {!isEmpty(currentUser) && (
+          <Sider style={{ margin: "16px 0" }}>
             <Menu
               mode="inline"
               defaultSelectedKeys={["1"]}
@@ -44,6 +58,11 @@ export default function CommonLayout() {
             >
               <Menu.Item key={"contract"}>
                 <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
+              </Menu.Item>
+              <Menu.Item key={"contract-type"}>
+                <Link to={ROUTES.MANAGER_CONTRACTYPE_ROUTER}>
+                  Loại hợp đồng
+                </Link>
               </Menu.Item>
               <Menu.Item key={"staffscreen"}>
                 <Link to={ROUTES.STAFF_MAINSCREEN_ROUTER}>Quản lí</Link>

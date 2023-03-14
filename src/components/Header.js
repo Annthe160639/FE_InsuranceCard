@@ -26,7 +26,10 @@ export default function PageHeader() {
   const dispatch = useDispatch();
   const naviagate = useNavigate();
   const alerts = useSelector(({ notification: { alerts } }) => alerts);
+  const [currentUser, setCurrentUser] = useState({});
+
   const customer = useSelector(({ customer: { customer } }) => customer);
+  const manager = useSelector(({ manager: { manager } }) => manager);
 
   const {
     token: { colorBgContainer },
@@ -40,6 +43,7 @@ export default function PageHeader() {
         message: `Đăng xuất thành công`,
       })
     );
+    naviagate(ROUTES.HOME_ROUTER);
   }, []);
 
   useEffect(() => {
@@ -55,6 +59,14 @@ export default function PageHeader() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(alerts)]);
+
+  useEffect(() => {
+    if (customer) {
+      setCurrentUser(customer);
+    } else if (manager) {
+      setCurrentUser(manager);
+    }
+  }, [JSON.stringify(customer), JSON.stringify(manager)]);
 
   useEffect(() => {
     notification.config({
@@ -102,7 +114,7 @@ export default function PageHeader() {
               <Space>
                 <Link
                   to={
-                    customer && customer.username
+                    currentUser && currentUser.username
                       ? ROUTES.CUSTOMER_PROFILE_ROUTER
                       : ROUTES.CUSTOMER_LOGIN_ROUTER
                   }
@@ -112,14 +124,14 @@ export default function PageHeader() {
                     className="button-login"
                     icon={<UserOutlined />}
                   >
-                    {customer && customer.username ? (
-                      <>{customer.username}</>
+                    {currentUser && currentUser.username ? (
+                      <>{currentUser.username}</>
                     ) : (
                       "Đăng nhập"
                     )}
                   </Button>
                 </Link>
-                {customer && customer.username ? (
+                {currentUser && currentUser.username ? (
                   <Button type="link" onClick={handleLogout}>
                     Đăng xuất
                   </Button>

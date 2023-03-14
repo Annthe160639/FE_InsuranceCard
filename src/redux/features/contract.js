@@ -108,6 +108,22 @@ export const requestNewContract = createAsyncThunk(
   }
 );
 
+export const fetchAllContractType = createAsyncThunk(
+  "@Contract/History",
+  async (id, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/contract/type/list`, config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
 const { reducer } = createSlice({
   initialState,
   name: "contract",
