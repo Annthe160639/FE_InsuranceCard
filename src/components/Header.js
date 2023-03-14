@@ -8,6 +8,7 @@ import {
   Button,
   Image,
   notification,
+  Space,
 } from "antd";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -98,30 +99,34 @@ export default function PageHeader() {
               style={{ padding: 0 }}
               disabled
             >
-              <Link
-                to={
-                  customer && customer.username
-                    ? ROUTES.CUSTOMER_PROFILE_ROUTER
-                    : ROUTES.CUSTOMER_LOGIN_ROUTER
-                }
-              >
-                <Button
-                  type="link"
-                  className="button-login"
-                  icon={<UserOutlined />}
+              <Space>
+                <Link
+                  to={
+                    customer && customer.username
+                      ? ROUTES.CUSTOMER_PROFILE_ROUTER
+                      : ROUTES.CUSTOMER_LOGIN_ROUTER
+                  }
                 >
-                  {customer && customer.username ? (
-                    <>
-                      {customer.username}
-                      <Button type="link" onClick={handleLogout}>
-                        Đăng xuất
-                      </Button>
-                    </>
-                  ) : (
-                    "Đăng nhập"
-                  )}
-                </Button>
-              </Link>
+                  <Button
+                    type="link"
+                    className="button-login"
+                    icon={<UserOutlined />}
+                  >
+                    {customer && customer.username ? (
+                      <>{customer.username}</>
+                    ) : (
+                      "Đăng nhập"
+                    )}
+                  </Button>
+                </Link>
+                {customer && customer.username ? (
+                  <Button type="link" onClick={handleLogout}>
+                    Đăng xuất
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </Space>
             </Menu.Item>
           </Col>
         </Row>

@@ -19,7 +19,7 @@ export default function HomeScreen() {
   const [contractTypeDetails, setContractTypeDetails] = useState(null);
 
   const handleSelectedContract = useCallback(({ key }) => {
-    dispatch(contractTypeDetailsById(key)).then(({ payload }) => {
+    dispatch(contractTypeDetailsById({ id: key })).then(({ payload }) => {
       if (payload) {
         setContractTypeDetails(payload);
       }

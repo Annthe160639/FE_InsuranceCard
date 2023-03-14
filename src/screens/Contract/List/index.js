@@ -11,7 +11,8 @@ const { Title } = Typography;
 export default function ListContracts() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [value, setValue] = useState("");
+
+  console.log(data);
   const columns = useMemo(
     () => [
       {

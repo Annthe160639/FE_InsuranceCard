@@ -37,7 +37,7 @@ export const contractTypeList = createAsyncThunk(
 
 export const contractTypeDetailsById = createAsyncThunk(
   "@Contract/Details",
-  async (id, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
       const res = await axios
         .get(`http://localhost:8080/api/contract/type/${id}`, config)

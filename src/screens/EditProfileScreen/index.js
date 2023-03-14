@@ -1,20 +1,59 @@
 import { Button, Form, Input, Space } from "antd";
-import { useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCustomerInfor,
+  updateUserProfile,
+} from "../../redux/features/customer";
+import { createNotification } from "../../redux/features/notification";
 
 export default function EditProfileScreen() {
-  const customer = useSelector(({ customer: { customer } }) => customer);
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const [customerInfo, setCustomerIfo] = useState({});
 
-  const handleEditProfile = useCallback(async () => {
+  const handleEditProfile = useCallback(async (values) => {
+    const { error, payload } = await dispatch(updateUserProfile(values));
 
-  }, [customer])
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error ? `Có lỗi xảy ra khi cập nhật thông tin người dung` : "",
+      })
+    );
+
+    if (!error) {
+      handleFetchCustomer();
+    }
+  }, []);
+
+  const handleFetchCustomer = useCallback(async () => {
+    const { error, payload } = await dispatch(fetchCustomerInfor());
+    if (payload) {
+      console.log(payload)
+      form.setFieldValue("id", payload.id);
+      form.setFieldValue("username", payload.username);
+      form.setFieldValue("name", payload.name);
+      form.setFieldValue("phone", payload.phone);
+      form.setFieldValue("phone", payload.phone);
+      form.setFieldValue("address", payload.address);
+      form.setFieldValue("ci", payload.ci);
+    } else if (error) {
+      await dispatch(
+        createNotification({
+          type: error ? "error" : "success",
+          message: error ? `Có lỗi xảy ra khi lấy thông tin người dung` : "",
+        })
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    handleFetchCustomer();
+  }, []);
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-      }}
-    >
+    <>
       <h1>THÔNG TIN CÁ NHÂN</h1>
       <Form
         name="basic"
@@ -29,14 +68,19 @@ export default function EditProfileScreen() {
           margin: "0 auto",
         }}
         initialValues={{
-          name: customer.name,
-          phone: customer.phone,
-          gmail: customer.gmail,
-          address: customer.address,
-          ci: customer.ci,
+          id: customerInfo.id,
+          username: customerInfo.username,
+          name: customerInfo.name,
+          phone: customerInfo.phone,
+          gmail: customerInfo.gmail,
+          address: customerInfo.address,
+          ci: customerInfo.ci,
         }}
         autoComplete="off"
+        onFinish={handleEditProfile}
       >
+        <Form.Item name="id" hidden></Form.Item>
+        <Form.Item name="username" hidden></Form.Item>
         <Form.Item
           label="Tên"
           name="name"
@@ -113,6 +157,6 @@ export default function EditProfileScreen() {
           </Space>
         </Form.Item>
       </Form>
-    </div>
+    </>
   );
 }

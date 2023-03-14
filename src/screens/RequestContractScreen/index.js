@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
 import { requestNewContract } from "../../redux/features/contract";
+import { createNotification } from "../../redux/features/notification";
 export default function RequestContractScreen() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,7 +22,18 @@ export default function RequestContractScreen() {
   const startDate = Form.useWatch("startDate", form);
   const handleFormSubmit = useCallback(async (values) => {
     delete values.duration;
-    const { payload } = await dispatch(requestNewContract(values));
+    const {  error } = await dispatch(requestNewContract(values));
+
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error ? "Có lỗi xảy ra trong quá trình mua" : "Mua thành công",
+      })
+    );
+
+    if (!error) {
+      navigate(ROUTES.HOME_ROUTER)
+    }
   }, []);
 
   const handleSelectDuration = useCallback(
@@ -32,6 +44,7 @@ export default function RequestContractScreen() {
     },
     [startDate, JSON.stringify(form)]
   );
+  
   return (
     <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
       <Form

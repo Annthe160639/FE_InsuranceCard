@@ -1,11 +1,14 @@
 import { Button, Col, Image, Layout, Menu, Row, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import { ROUTES } from "../../constants/routerConst";
 import Title from "antd/es/typography/Title";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { contractTypeDetailsById } from "../../redux/features/contract";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 const menuContent = {
   1: (
@@ -47,17 +50,31 @@ const menuContent = {
           </li>
         </ul>
 
-        <table className="tablean" >
+        <table className="tablean">
           <tbody>
-            <tr style={{border:"1px solid black", padding: "10px"}}>
-              <td style={{ textAlign: "center", width: "19%", border:"1px solid black", padding: "10px" }}>
+            <tr style={{ border: "1px solid black", padding: "10px" }}>
+              <td
+                style={{
+                  textAlign: "center",
+                  width: "19%",
+                  border: "1px solid black",
+                  padding: "10px",
+                }}
+              >
                 <span style={{ fontSize: "16px" }}>
                   <span>
                     <strong>Quyền lợi bảo hiểm</strong>
                   </span>
                 </span>
               </td>
-              <td style={{ textAlign: "center", width: "81%", border:"1px solid black", padding: "10px"}}>
+              <td
+                style={{
+                  textAlign: "center",
+                  width: "81%",
+                  border: "1px solid black",
+                  padding: "10px",
+                }}
+              >
                 <span style={{ fontSize: "16px" }}>
                   <span>
                     <strong>Mức bồi thường tối đa</strong>
@@ -65,25 +82,25 @@ const menuContent = {
                 </span>
               </td>
             </tr>
-            <tr style={{border:"1px solid black", padding: "10px"}}>
-              <td style={{border:"1px solid black", padding: "10px"}} >
+            <tr style={{ border: "1px solid black", padding: "10px" }}>
+              <td style={{ border: "1px solid black", padding: "10px" }}>
                 <span style={{ fontSize: "16px" }}>
                   <span>Chết do tai nạn</span>
                 </span>
               </td>
-              <td style={{border:"1px solid black", padding: "10px"}}>
+              <td style={{ border: "1px solid black", padding: "10px" }}>
                 <span style={{ fontSize: "16px" }}>
                   <span>Trả đủ 150.000.000đ / 1 người / 1 vụ</span>
                 </span>
               </td>
             </tr>
-            <tr style={{border:"1px solid black", padding: "10px"}}>
-              <td style={{border:"1px solid black", padding: "10px"}}>
+            <tr style={{ border: "1px solid black", padding: "10px" }}>
+              <td style={{ border: "1px solid black", padding: "10px" }}>
                 <span style={{ fontSize: "16px" }}>
                   <span>Thương tật do tai nạn</span>
                 </span>
               </td>
-              <td style={{border:"1px solid black", padding: "10px"}}>
+              <td style={{ border: "1px solid black", padding: "10px" }}>
                 <span style={{ fontSize: "16px" }}>
                   <span>
                     Trả theo{" "}
@@ -133,7 +150,7 @@ const menuContent = {
   ),
   5: (
     <>
-      <p style={{fontWeight: "bold"}}>
+      <p style={{ fontWeight: "bold" }}>
         Quý khách có thể download tất cả các tài liệu liên quan đến sản phẩm bảo
         hiểm trách nhiệm dân sự chủ xe máy tại đây.
       </p>
@@ -151,8 +168,8 @@ const menuContent = {
           </a>
         </span>
       </span>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <span>
         <span>
           &nbsp;
@@ -173,16 +190,31 @@ const menuContent = {
 };
 export default function ContractTypeDetails() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const [content, setContent] = useState(menuContent[1]);
+  const [contractTypeDetails, setContractTypeDetails] = useState({});
+
+  const fetchContractTypeDetails = useCallback(async () => {
+    const { payload: contractTypeDetails } = await dispatch(
+      contractTypeDetailsById({ id })
+    );
+    console.log(contractTypeDetails);
+    setContractTypeDetails(contractTypeDetails);
+  }, [id]);
+
+  useEffect(() => {
+    fetchContractTypeDetails();
+  }, [id]);
+
   return (
     <Row className="contract">
-      <Col
-        span={24}
-        
-      >
-        <Layout style={{
-          backgroundColor: "white",
-        }}>
+      <Col span={24}>
+        <Layout
+          style={{
+            backgroundColor: "white",
+          }}
+        >
           <Sider width={"25vw"}>
             <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
           </Sider>
@@ -193,7 +225,7 @@ export default function ContractTypeDetails() {
               </Title>
               <Space>
                 <label>Phân khúc: </label>
-                <span>Xe Mô tô 2 bánh dung tích trên 50cc</span>
+                <span>{contractTypeDetails.name}</span>
               </Space>
               <Space>
                 <label>Giá bán: </label>
@@ -201,7 +233,7 @@ export default function ContractTypeDetails() {
                   {new Intl.NumberFormat("de-DE", {
                     style: "currency",
                     currency: "VND",
-                  }).format(60000)}
+                  }).format(contractTypeDetails.price)}
                 </span>
               </Space>
               <Space>
@@ -210,17 +242,25 @@ export default function ContractTypeDetails() {
                   {new Intl.NumberFormat("de-DE", {
                     style: "currency",
                     currency: "VND",
-                  }).format(10000000)}
+                  }).format(contractTypeDetails.insuranceLevel)}
                 </span>
               </Space>
               <Space>
                 <label>Mô tả: </label>
-                <span>
-                  Bảo hiểm dành cho xe mô tô 2 bánh dung tích trên 50cc
-                </span>
+                <span>{contractTypeDetails.description}</span>
               </Space>
               <Space>
-                <Button type="primary" danger size="large" className="btnBuy">
+                <Button
+                  type="primary"
+                  danger
+                  size="large"
+                  className="btnBuy"
+                  onClick={() => {
+                    navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
+                      state: { contractTypeDetails },
+                    });
+                  }}
+                >
                   Mua ngay
                 </Button>
               </Space>

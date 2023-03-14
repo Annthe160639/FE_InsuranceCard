@@ -24,8 +24,8 @@ const ViewContract = () => {
 
   const handleGetContractDetail = useCallback(async () => {
     const { payload } = await dispatch(fetchOneContract({ id }));
-    console.log(payload)
     setContractDetails(payload);
+
   }, []);
 
   useEffect(() => {

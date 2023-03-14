@@ -49,6 +49,7 @@ export const customerRegister = createAsyncThunk(
     }
   }
 );
+
 export const customerResetPassword = createAsyncThunk(
   "@Customer/Password",
   ({ username }, { rejectWithValue }) => {
@@ -81,6 +82,42 @@ export const customerLogin = createAsyncThunk(
           },
           config
         )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const fetchCustomerInfor = createAsyncThunk(
+  "@Customer/Infors",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get("http://localhost:8080/api/customer/profile", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  "@Customer/Update",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put("http://localhost:8080/api/customer/profile/edit", values, config)
         .then(({ data }) => {
           return data;
         })
@@ -159,7 +196,7 @@ const { reducer, actions } = createSlice({
       localStorage.removeItem("userToken");
       state.customer = {};
     },
-    [getUserSession.fulfilled]: (state, {payload}) => {
+    [getUserSession.fulfilled]: (state, { payload }) => {
       state.customer = payload;
     },
     [customerLogin.rejected]: (state) => {
