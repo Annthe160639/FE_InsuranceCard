@@ -3,6 +3,7 @@ import Banner from "../../components/Banner";
 import { Link } from "react-router-dom";
 import { Space, Button } from "antd";
 import "./MainScreen.css";
+import { ROUTES } from "../../constants/routerConst";
 
 const MainScreen = () => {
   return (
@@ -11,7 +12,7 @@ const MainScreen = () => {
       <div className="space-block">
         <Space wrap align="center" size={100}>
           <Button className="mock-block" type="default">
-            <Link to="/customer/createcontract">Tạo hợp đồng</Link>
+            <Link to={ROUTES.HOME_ROUTER}>Tạo hợp đồng</Link>
           </Button>
           <Button className="mock-block" type="default">
             <Link to="/customer/requestcompensation">Yêu cầu đền bù</Link>
