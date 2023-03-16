@@ -1,4 +1,4 @@
-import { Button, Space, Table } from "antd";
+import { Button, Popconfirm, Space, Table } from "antd";
 import { SearchOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -70,10 +70,31 @@ export default function ListEmployees() {
           return (
             <Space>
               <>{role == "staff" ? "Nhân viên" : "Quản lý"}</>
-              <Button
-                icon={<UserSwitchOutlined />}
-                onClick={() => handleChangeRole({ role, id })}
-              ></Button>
+              <Popconfirm
+                title="Cập nhật chức vị"
+                description={
+                  <>
+                    Bạn có muốn{" "}
+                    {role == "staff" ? (
+                      <>
+                        cập nhật chức chức vị <strong>Quản lý</strong>
+                      </>
+                    ) : (
+                      <>
+                        giáng chức chức vị xuống <strong>Nhân viên</strong>
+                      </>
+                    )}{" "}
+                    của nhân viên này không?
+                  </>
+                }
+                onConfirm={() => {
+                  handleChangeRole({ role, id });
+                }}
+                okText="Đồng ý"
+                cancelText="Từ chối"
+              >
+                <Button icon={<UserSwitchOutlined />}></Button>
+              </Popconfirm>
             </Space>
           );
         },

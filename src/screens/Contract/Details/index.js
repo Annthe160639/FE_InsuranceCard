@@ -14,6 +14,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneContract } from "../../../redux/features/contract";
+import {
+  managerContractApprove,
+  managerContractReject,
+} from "../../../redux/features/manager";
+import { createNotification } from "../../../redux/features/notification";
+import {
+  staffContractApprove,
+  staffContractReject,
+} from "../../../redux/features/staff";
 
 const { TabPane } = Tabs;
 
@@ -29,6 +38,48 @@ export default function ViewContract() {
     );
     setContractDetails(payload);
   }, [JSON.stringify(user), id]);
+
+  const handleApproveContract = useCallback(async () => {
+    let res = { error: {}, payload: {} };
+    if (user.role == "staff") {
+      res = await dispatch(staffContractApprove({ id }));
+    } else if (user.role == "manager") {
+      res = await dispatch(managerContractApprove({ id }));
+    }
+
+    await dispatch(
+      createNotification({
+        type: res.error ? "error" : "success",
+        message: res.error ? res.payload : "Duyệt đơn thành công",
+      })
+    );
+
+    if (!res.error) {
+      handleGetContractDetail();
+    }
+  }, [JSON.stringify(user)]);
+
+  const handleRejectContract = useCallback(async () => {
+    let res = { error: {}, payload: {} };
+    if (user.role == "staff") {
+      res = await dispatch(staffContractReject({ id }));
+    } else if (user.role == "manager") {
+      res = await dispatch(managerContractReject({ id }));
+    }
+
+    await dispatch(
+      createNotification({
+        type: res.error ? "error" : "success",
+        message: res.error
+          ? "Huỷ hợp đồng không thành công"
+          : "Huỷ đơn thành công",
+      })
+    );
+
+    if (!res.error) {
+      handleGetContractDetail();
+    }
+  }, [JSON.stringify(user)]);
 
   useEffect(() => {
     handleGetContractDetail();
@@ -48,18 +99,32 @@ export default function ViewContract() {
             gap: "20px",
           }}
         >
-          <Space>
-            <Button danger>Từ chối</Button>
-            <Button type="primary">
-              {user.role === "staff" &&
-              contractDetails?.status == "Đang chờ xử lý"
-                ? "Duyệt"
-                : user.role === "staff" &&
-                  contractDetails?.status == "Đang xử lý"
-                ? "Đã duyệt"
-                : "Duyệt"}
-            </Button>
-          </Space>
+          {(user.role == "staff" || user.role == "manager") && (
+            <Space>
+              {(contractDetails?.status == "Đang chờ xử lý" ||
+                contractDetails?.status == "Đang xử lý") && (
+                <Button danger onClick={handleRejectContract}>
+                  Từ chối
+                </Button>
+              )}
+              {(contractDetails?.status == "Đang chờ xử lý" ||
+                contractDetails?.status == "Đang xử lý") && (
+                <Button type="primary" onClick={handleApproveContract}>
+                  {user.role === "staff" &&
+                  contractDetails?.status == "Đang chờ xử lý"
+                    ? "Duyệt"
+                    : ""}
+                  {!(
+                    user.role === "manager" &&
+                    (contractDetails?.status == "Đang chờ xử lý" ||
+                      contractDetails?.status == "Đang xử lý")
+                  )
+                    ? "Duyệt"
+                    : ""}
+                </Button>
+              )}
+            </Space>
+          )}
           <Statistic
             title="Trạng thái"
             value={contractDetails?.status?.toUpperCase()}
@@ -85,8 +150,12 @@ export default function ViewContract() {
               currency: "VND",
             }).format(
               (new Date(contractDetails?.endDate).getFullYear() -
-                new Date(contractDetails?.startDate).getFullYear()) *
-                contractDetails?.contractType?.price
+                new Date(contractDetails?.startDate).getFullYear() ==
+                0
+                ? 1
+                : (new Date(contractDetails?.endDate).getFullYear() -
+                    new Date(contractDetails?.startDate).getFullYear())) *
+                    contractDetails?.contractType?.price
             )}
           />
         </div>,
@@ -154,7 +223,8 @@ export default function ViewContract() {
             {contractDetails?.startDate}
           </Descriptions.Item>
           <Descriptions.Item label="Thời gian hiệu lực">
-            {new Date(contractDetails?.endDate).getFullYear() -
+            {(new Date(contractDetails?.endDate).getFullYear() -
+              new Date(contractDetails?.startDate).getFullYear()) == 0 ? 1 : new Date(contractDetails?.endDate).getFullYear() -
               new Date(contractDetails?.startDate).getFullYear()}{" "}
             năm
           </Descriptions.Item>

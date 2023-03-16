@@ -7,6 +7,7 @@ import { ROUTES } from "../../constants/routerConst";
 import { createNotification } from "../../redux/features/notification";
 import { managerLogin } from "../../redux/features/manager";
 import { setUser } from "../../redux/features/user";
+import { staffLogin } from "../../redux/features/staff";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const LoginScreen = () => {
         res = await dispatch(customerLogin({ username, password }));
         break;
       case "staff":
-        res = await dispatch(customerLogin({ username, password }));
+        res = await dispatch(staffLogin({ username, password }));
         break;
       case "manager":
         res = await dispatch(managerLogin({ username, password }));
@@ -47,7 +48,7 @@ const LoginScreen = () => {
       )
 
       setTimeout(()=> {
-        window.location.href = ROUTES.HOME_ROUTER
+        window.location.href = ROUTES.HOME
       }, 300)
     }
   });
@@ -141,7 +142,7 @@ const LoginScreen = () => {
                 >
                   <span>
                     Chưa có tài khoản?{" "}
-                    <Link to={ROUTES.CUSTOMER_REGISTER_ROUTER}>Đăng ký</Link>
+                    <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
                   </span>
                 </Form.Item>
                 <Form.Item wrapperCol={16} style={{ textAlign: "center" }}>

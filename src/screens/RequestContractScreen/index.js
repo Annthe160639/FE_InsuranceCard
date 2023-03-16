@@ -16,7 +16,7 @@ export default function RequestContractScreen() {
     : {};
 
   if (!contractTypeDetails) {
-    navigate(ROUTES.HOME_ROUTER);
+    navigate(ROUTES.HOME);
   }
 
   const startDate = Form.useWatch("startDate", form);
@@ -32,7 +32,7 @@ export default function RequestContractScreen() {
     );
 
     if (!error) {
-      navigate(ROUTES.HOME_ROUTER)
+      navigate(ROUTES.HOME)
     }
   }, []);
 

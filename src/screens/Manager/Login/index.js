@@ -22,7 +22,7 @@ export default function ManagerLoginScreen() {
           );
           return;
         }
-        navigate(ROUTES.HOME_ROUTER);
+        navigate(ROUTES.HOME);
         await dispatch(
           createNotification({
             type: "success",
@@ -93,7 +93,7 @@ export default function ManagerLoginScreen() {
                 >
                   <span>
                     Chưa có tài khoản?{" "}
-                    <Link to={ROUTES.CUSTOMER_REGISTER_ROUTER}>Đăng ký</Link>
+                    <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
                   </span>
                 </Form.Item>
                 <Form.Item wrapperCol={16} style={{ textAlign: "center" }}>

@@ -1,0 +1,40 @@
+.profile .ant-row {
+  max-width: 900px;
+  justify-content: space-between;
+  margin: 10px auto;
+}
+
+.profile .left,
+.profile .right {
+  background-color: lightblue;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 30px;
+  text-align: center;
+}
+.profile img {
+  min-width: 150px;
+  max-width: none;
+  height: 200px;
+  margin: 0 -100%;
+}
+.profile .avatar {
+  margin: 0 auto 20px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile button {
+  width: 200px;
+  margin: 20px auto;
+}
+.profile h1 {
+  margin-top: 0px;
+  font-size: x-large;
+}
+.profile .logout {
+  background-color: grey;
+}

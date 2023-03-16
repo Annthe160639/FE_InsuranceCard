@@ -2,13 +2,11 @@ import { Layout, Menu } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { isEmpty } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { ROUTES } from "../constants/routerConst";
-import { getUserSession } from "../redux/features/customer";
-import { getManagerUserSession } from "../redux/features/manager";
-import { getUser, setUser } from "../redux/features/user";
+import { getUser } from "../redux/features/user";
 import PageHeader from "./Header";
 
 export default function CommonLayout() {
@@ -38,40 +36,47 @@ export default function CommonLayout() {
                 borderRight: 0,
               }}
             >
-              {user.role == "customer" && (
-                <Menu.Item key={"contract"}>
+              <Menu.Item key={"contract"}>
+                {user.role == "customer" && (
                   <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
-                </Menu.Item>
-              )}
+                )}
+                {user.role == "staff" && (
+                  <Link to={ROUTES.STAFF_CONTRACT}>Hợp đồng</Link>
+                )}
+                {user.role == "manager" && (
+                  <Link to={ROUTES.MANAGER_CONTRACT}>Hợp đồng</Link>
+                )}
+              </Menu.Item>
+              <Menu.Item key={"compensation"}>
+                {user.role == "customer" && (
+                  <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>Hợp đồng đền bù</Link>
+                )}
+                {user.role == "staff" && (
+                  <Link to={ROUTES.STAFF_COMPENSATION}>Hợp đồng đền bù</Link>
+                )}
+                {user.role == "manager" && (
+                  <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>
+                )}
+              </Menu.Item>
               {user.role == "manager" && (
                 <>
-                  <Menu.Item key={"contract"}>
-                    <Link to={ROUTES.MANAGER_CONTRACT_ROUTER}>Hợp đồng</Link>
-                  </Menu.Item>
                   <Menu.Item key={"contract-type"}>
-                    <Link to={ROUTES.MANAGER_CONTRACTYPE_ROUTER}>
+                    <Link to={ROUTES.MANAGER_CONTRACTYPE}>
                       Loại hợp đồng
                     </Link>
                   </Menu.Item>
                   <Menu.Item key={"employee-manager"}>
-                    <Link to={ROUTES.MANAGER_EMPLOYEE_ROUTER}>
+                    <Link to={ROUTES.MANAGER_EMPLOYEE}>
                       Quản lý nhân viên
                     </Link>
                   </Menu.Item>
                   <Menu.Item key={"customer-manager"}>
-                    <Link to={ROUTES.MANAGER_CUSTOMER_ROUTER}>
+                    <Link to={ROUTES.MANAGER_CUSTOMER}>
                       Quản lý khách hàng
                     </Link>
                   </Menu.Item>
                 </>
               )}
-
-              <Menu.Item key={"staffscreen"}>
-                <Link to={ROUTES.STAFF_MAINSCREEN_ROUTER}>Quản lí</Link>
-              </Menu.Item>
-              <Menu.Item key={"managerscreen"}>
-                <Link to={ROUTES.MANAGER_SCREEN_ROUTER}>Nhân viên</Link>
-              </Menu.Item>
             </Menu>
           </Sider>
         )}

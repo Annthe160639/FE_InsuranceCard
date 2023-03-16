@@ -6,6 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { generatePath, Link } from "react-router-dom";
 import { ROUTES } from "../../../constants/routerConst";
 import { fetchAllManagerContract } from "../../../redux/features/manager";
+import { fetchAllStaffContract } from "../../../redux/features/staff";
 
 const { Title } = Typography;
 
@@ -39,11 +40,19 @@ export default function ListContracts() {
           console.log(record.id);
           return (
             <Link
-              to={user.role == 'customer' ? generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
-                id: record.id,
-              }) : generatePath(ROUTES.MANAGER_CONTRACT_DETAILS_ROUTER, {
-                id: record.id,
-              })}
+              to={
+                user.role == "customer"
+                  ? generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
+                      id: record.id,
+                    })
+                  : user.role == "staff"
+                  ? generatePath(ROUTES.STAFF_CONTRACT_DETAILS, {
+                      id: record.id,
+                    })
+                  : generatePath(ROUTES.MANAGER_CONTRACT_DETAILS, {
+                      id: record.id,
+                    })
+              }
             >
               {text}
             </Link>
@@ -124,6 +133,9 @@ export default function ListContracts() {
   const fetchContractHistory = useCallback(async () => {
     if (user.role === "customer") {
       const { payload } = await dispatch(fetchAllContractHistory());
+      setData(payload);
+    } else if (user.role === "staff") {
+      const { payload } = await dispatch(fetchAllStaffContract());
       setData(payload);
     } else if (user.role === "manager") {
       const { payload } = await dispatch(fetchAllManagerContract());

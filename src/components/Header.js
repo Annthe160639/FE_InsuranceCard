@@ -43,7 +43,8 @@ export default function PageHeader() {
           message: `Đăng xuất thành công`,
         })
       );
-      naviagate(ROUTES.HOME_ROUTER);
+      naviagate(ROUTES.HOME);
+      window.location.reload(false);
     }
   }, []);
 
@@ -81,7 +82,7 @@ export default function PageHeader() {
         <Row>
           <Col span={4}>
             <Menu.Item className="menu-logo" key={"logo"} disabled>
-              <Link to={ROUTES.HOME_ROUTER}>
+              <Link to={ROUTES.HOME}>
                 <Image width="60%" src="/logo.png" preview={false} />
               </Link>
             </Menu.Item>
@@ -91,7 +92,7 @@ export default function PageHeader() {
               <Button
                 type="link"
                 icon={<HomeOutlined />}
-                onClick={() => naviagate(ROUTES.HOME_ROUTER)}
+                onClick={() => naviagate(ROUTES.HOME)}
               >
                 Trang chủ
               </Button>
@@ -108,8 +109,8 @@ export default function PageHeader() {
                 <Link
                   to={
                     user && user.username
-                      ? ROUTES.CUSTOMER_PROFILE_ROUTER
-                      : ROUTES.CUSTOMER_LOGIN_ROUTER
+                      ? ROUTES.CUSTOMER_PROFILE
+                      : ROUTES.CUSTOMER_LOGIN
                   }
                 >
                   <Button

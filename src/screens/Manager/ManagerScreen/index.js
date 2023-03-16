@@ -15,13 +15,13 @@ const ManagerScreen = () => {
             
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.MANAGER_CONTRACTYPE_ROUTER}>Các loại hợp đồng</Link>
+            <Link to={ROUTES.MANAGER_CONTRACTYPE}>Các loại hợp đồng</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.MANAGER_COMPENSATION_ROUTER}>Quản lý đền bù</Link>
+            <Link to={ROUTES.MANAGER_COMPENSATION}>Quản lý đền bù</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.MANAGER_ACCOUNT_ROUTER}>Quản lý tài khoản</Link>
+            <Link to={ROUTES.MANAGER_ACCOUNT}>Quản lý tài khoản</Link>
           </Button>
         </Space>
       </div>

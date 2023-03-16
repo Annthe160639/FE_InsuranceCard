@@ -25,7 +25,7 @@ export default function AddContractTypeScreen() {
     );
 
     if (!error) {
-      navigate(ROUTES.MANAGER_CONTRACTYPE_ROUTER);
+      navigate(ROUTES.MANAGER_CONTRACTYPE);
     }
   }, []);
   return (

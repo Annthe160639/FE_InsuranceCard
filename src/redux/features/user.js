@@ -63,7 +63,7 @@ const { reducer, actions } = createSlice({
       }
     },
     [deleteUser.fulfilled]: (state, payload) => {
-      state.user = {};
+      state = initialState;
     },
   },
 });

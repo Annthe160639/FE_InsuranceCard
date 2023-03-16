@@ -12,13 +12,13 @@ const StaffScreen = () => {
       <div className="space-align">
         <Space wrap align="center" size={300}>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.STAFF_CONTRACT_ROUTER}>Quản lý hợp đồng</Link>
+            <Link to={ROUTES.STAFF_CONTRACT}>Quản lý hợp đồng</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.STAFF_COMPENSATION_ROUTER}>Quản lý đền bù</Link>
+            <Link to={ROUTES.STAFF_COMPENSATION}>Quản lý đền bù</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.STAFF_CONTRACT_ROUTER}>Quản lý khách hàng</Link>
+            <Link to={ROUTES.STAFF_CONTRACT}>Quản lý khách hàng</Link>
           </Button>
         </Space>
       </div>

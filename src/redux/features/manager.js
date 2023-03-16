@@ -279,12 +279,9 @@ export const fetchAllManagerContract = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       return await axios
-        .get(
-          `http://localhost:8080/api/manager/contract`,
-          config
-        )
+        .get(`http://localhost:8080/api/manager/contract`, config)
         .then(({ data }) => {
-          console.log(data)
+          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
@@ -297,14 +294,121 @@ export const fetchAllManagerContract = createAsyncThunk(
     }
   }
 );
+
+export const managerContractApprove = createAsyncThunk(
+  "@Manager/managerContractApprove",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put(
+          `http://localhost:8080/api/manager/contract/approve/${id}`,
+          {},
+          config
+        )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue("Duyệt đơn không thành công");
+    }
+  }
+);
+
+export const managerContractReject = createAsyncThunk(
+  "@Manager/managerContractReject",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put(
+          `http://localhost:8080/api/manager/contract/reject/${id}`,
+          {},
+          config
+        )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue("Huỷ đơn không thành công");
+    }
+  }
+);
+
+export const fetchAllManagerCompensation = createAsyncThunk(
+  "@Staff/fetchAllManagerCompensation",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/manager/compensation`, config)
+        .then(({ data }) => {
+          console.log(data);
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+
+export const managerCompensationApprove = createAsyncThunk(
+  "@manager/managerCompensationApprove",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put(
+          `http://localhost:8080/api/manager/compensation/accept/${id}`,
+          {},
+          config
+        )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue("Duyệt đơn không thành công");
+    }
+  }
+);
+
+export const managerCompensationReject = createAsyncThunk(
+  "@manager/managerCompensationReject",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put(
+          `http://localhost:8080/api/manager/compensation/reject/${id}`,
+          {},
+          config
+        )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue("Huỷ hợp đồng đền bù không thành công");
+    }
+  }
+);
+
 const { reducer, actions } = createSlice({
   initialState,
   name: "manager",
   reducers: {},
   extraReducers: {
-    [managerLogin.pending]: (state) => {
-      state.loading = true;
-    },
     [managerLogin.fulfilled]: (state, { error, payload: { token } }) => {
       if (token && !error) {
         localStorage.setItem("userToken", token);
@@ -318,9 +422,6 @@ const { reducer, actions } = createSlice({
     },
     [getManagerUserSession.fulfilled]: (state, { payload }) => {
       state.manager = payload;
-    },
-    [managerLogin.rejected]: (state) => {
-      state.loading = false;
     },
   },
 });

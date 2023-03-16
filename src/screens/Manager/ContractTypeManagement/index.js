@@ -71,7 +71,7 @@ export default function ContractTypeManagement() {
             icon={<FormOutlined />}
             onClick={() =>
               navigate(
-                generatePath(ROUTES.MANAGER_CONTRACTYPE_DETAILS_ROUTER, {
+                generatePath(ROUTES.MANAGER_CONTRACTYPE_DETAILS, {
                   id,
                 })
               )
@@ -97,7 +97,7 @@ export default function ContractTypeManagement() {
       <Title level={3}>Danh sách hợp đồng</Title>
       <Descriptions
         extra={
-          <Link to={ROUTES.MANAGER_INSERT_CONTRACTYPE_ROUTER}>
+          <Link to={ROUTES.MANAGER_INSERT_CONTRACTYPE}>
             <Button type="primary" icon={<PlusOutlined />}>
               Thêm
             </Button>

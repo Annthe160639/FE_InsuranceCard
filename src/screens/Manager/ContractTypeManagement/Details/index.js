@@ -41,7 +41,7 @@ export default function ContractTypeDetailsScreen() {
     );
 
     if (!error) {
-      navigate(ROUTES.MANAGER_CONTRACTYPE_ROUTER);
+      navigate(ROUTES.MANAGER_CONTRACTYPE);
     }
   }, []);
 
@@ -60,7 +60,7 @@ export default function ContractTypeDetailsScreen() {
     );
 
     if (!error) {
-      navigate(ROUTES.MANAGER_CONTRACTYPE_ROUTER);
+      navigate(ROUTES.MANAGER_CONTRACTYPE);
     }
   });
 
