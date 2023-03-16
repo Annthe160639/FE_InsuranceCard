@@ -17,17 +17,6 @@ const initialState = {
   loading: false,
 };
 
-export const getUser = createAsyncThunk(
-  "@user/getUser",
-  (values, { rejectWithValue }) => {
-    try {
-      return values;
-    } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
-    }
-  }
-);
-
 export const managerRegister = createAsyncThunk(
   "@Manager/Register",
   (
@@ -158,7 +147,11 @@ export const insertContractType = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       return await axios
-        .post("http://localhost:8080/api/manager/contract/type/add", values, config)
+        .post(
+          "http://localhost:8080/api/manager/contract/type/add",
+          values,
+          config
+        )
         .then(({ data }) => {
           return data;
         })
@@ -166,7 +159,9 @@ export const insertContractType = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue("An error occurred while insert new contract type");
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
     }
   }
 );
@@ -176,7 +171,11 @@ export const updateContractType = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       return await axios
-        .post("http://localhost:8080/api/manager/contract/type/edit", values, config)
+        .post(
+          "http://localhost:8080/api/manager/contract/type/edit",
+          values,
+          config
+        )
         .then(({ data }) => {
           return data;
         })
@@ -184,36 +183,120 @@ export const updateContractType = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue("An error occurred while insert new contract type");
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+export const fetchAllCustomers = createAsyncThunk(
+  "@Manager/fetchAllCustomers",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get("http://localhost:8080/api/manager/customer/list", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
     }
   }
 );
 
-// export const managerLogout = createAsyncThunk(
-//   "@Manager/Login",
-//   async ({ username, password }, { rejectWithValue }) => {
-//     try {
-//       return await axios
-//         .post(
-//           "http://localhost:8080/api/manager/login",
-//           {
-//             username,
-//             password,
-//           },
-//           config
-//         )
-//         .then((res) => {
-//           return res;
-//         })
-//         .catch((_err) => {
-//           throw new Error(_err);
-//         });
-//     } catch (_error) {
-//       return rejectWithValue("An error occurred while open local directory");
-//     }
-//   }
-// );
+export const fetchAllStaff = createAsyncThunk(
+  "@Manager/fetchAllEmployees",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get("http://localhost:8080/api/manager/staff/list", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+export const fetchAllManager = createAsyncThunk(
+  "@Manager/fetchAllManager",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get("http://localhost:8080/api/manager/list", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
 
+export const changeRoleEmployee = createAsyncThunk(
+  "@Manager/changeRoleEmployee",
+  async ({ role, id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .put(
+          `http://localhost:8080/api/manager${
+            role == "staff" ? "/staff" : ""
+          }/edit/${id}`,
+          {},
+          config
+        )
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+
+export const fetchAllManagerContract = createAsyncThunk(
+  "@Manager/fetchAllManagerContract",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(
+          `http://localhost:8080/api/manager/contract`,
+          config
+        )
+        .then(({ data }) => {
+          console.log(data)
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
 const { reducer, actions } = createSlice({
   initialState,
   name: "manager",

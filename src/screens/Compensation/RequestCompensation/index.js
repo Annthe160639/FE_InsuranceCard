@@ -3,6 +3,7 @@ import { Form, Button, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { customerLogin } from "../../../redux/features/customer";
+import { setUser } from "../../../redux/features/user";
 
 export default function RequestCpmpensation() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function RequestCpmpensation() {
   const handleFormSubmit = ({ username, password }) => {
     dispatch(customerLogin({ username, password })).then((res) => {
       if (res) {
-        console.log(res);
+        dispatch(setUser({ token: res }));
       }
     });
   };

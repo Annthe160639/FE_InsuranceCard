@@ -8,36 +8,31 @@ import { fetchAllContractType } from "../../../redux/features/contract";
 import Title from "antd/es/typography/Title";
 import { ROUTES } from "../../../constants/routerConst";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 export default function ContractTypeManagement() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
-  console.log(data);
   const columns = useMemo(
     () => [
       {
         title: "Loại hợp đồng",
         dataIndex: "name",
         key: "name",
+        width: "20%",
       },
 
       {
         title: "Loại xe",
         dataIndex: "vehicleType",
         key: "vehicleType",
+        width: "20%",
       },
       {
         title: "Phí bảo hiểm",
         dataIndex: "price",
         key: "price",
-        width: "9%",
+        width: "10%",
         render: (_, { price }) =>
           `${new Intl.NumberFormat("de-DE", {
             style: "currency",
@@ -60,10 +55,14 @@ export default function ContractTypeManagement() {
         dataIndex: "description",
         key: "description",
         render: (_, { description }) => (
-          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
+          <Paragraph
+            style={{ margin: "auto" }}
+            ellipsis={{ rows: 2, expandable: true, symbol: "more" }}
+          >
             {description}
           </Paragraph>
         ),
+        width: "29%",
       },
       {
         title: "",
@@ -77,9 +76,9 @@ export default function ContractTypeManagement() {
                 })
               )
             }
-          >
-          </Button>
+          ></Button>
         ),
+        width: "10%",
       },
     ],
     []
@@ -97,7 +96,6 @@ export default function ContractTypeManagement() {
     <>
       <Title level={3}>Danh sách hợp đồng</Title>
       <Descriptions
-        column={1}
         extra={
           <Link to={ROUTES.MANAGER_INSERT_CONTRACTYPE_ROUTER}>
             <Button type="primary" icon={<PlusOutlined />}>
@@ -106,8 +104,12 @@ export default function ContractTypeManagement() {
           </Link>
         }
       >
-        <Descriptions.Item>
-          <Table columns={columns} dataSource={data} />
+        <Descriptions.Item span={1}>
+          <Table
+            columns={columns}
+            dataSource={data}
+            style={{ width: "100%" }}
+          />
         </Descriptions.Item>
       </Descriptions>
     </>

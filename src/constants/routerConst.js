@@ -1,5 +1,6 @@
 export const ROUTES = {
   HOME_ROUTER: "/home",
+  CONTRACT_TYPE: "/contract/type/:id",
   CUSTOMER_LOGIN_ROUTER: "/customer/login",
   CUSTOMER_REGISTER_ROUTER: "/customer/register",
   CUSTOMER_PROFILE_ROUTER: "/customer/profile",
@@ -7,7 +8,6 @@ export const ROUTES = {
   CUSTOMER_CONTRACT_HISTORY: "/customer/contract",
   CUSTOMER_CONTRACT_DETAILS: "/customer/contract/:id",
   CUSTOMER_CONTRACT_REQUEST: "/customer/contract/request",
-  CUSTOMER_CONTRACT_TYPE: "/customer/contract/type/:id",
   CUSTOMER_RESET_PASSWORD_ROUTER: "/customer/password/reset",
   STAFF_MAINSCREEN_ROUTER: "/staff/staffscreen",
   STAFF_CONTRACT_ROUTER: "/staff/contract",
@@ -16,9 +16,12 @@ export const ROUTES = {
   MANAGER_SCREEN_ROUTER: "/manager",
   MANAGER_LOGIN_ROUTER: "/manager/login",
   MANAGER_CONTRACT_ROUTER: "/manager/contract",
+  MANAGER_CONTRACT_DETAILS_ROUTER: "/manager/contract/details/:id",
   MANAGER_COMPENSATION_ROUTER: "/manager/compensation",
   MANAGER_CONTRACTYPE_ROUTER: "/manager/contract/type",
   MANAGER_CONTRACTYPE_DETAILS_ROUTER: "/manager/contract/type/:id",
   MANAGER_INSERT_CONTRACTYPE_ROUTER: "/manager/contract/type/add",
-  MANAGER_ACCOUNT_ROUTER: "/manager/account",
+  MANAGER_CUSTOMER_ROUTER: "/manager/customer",
+  MANAGER_EMPLOYEE_ROUTER: "/manager/employee",
+  MANAGER_EMPLOYEE_DETAILS_ROUTER: "/manager/employee/:id",
 };

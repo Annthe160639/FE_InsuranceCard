@@ -10,11 +10,11 @@ import { ROUTES } from "../../../../constants/routerConst";
 export default function AddContractTypeScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const manager = useSelector(({ manager: { manager } }) => manager);
+  const user = useSelector(({ user: { user } }) => user);
 
   const handleSubmitForm = useCallback(async (values) => {
     const { error } = await dispatch(
-      insertContractType({ ...values, managerId: manager.id })
+      insertContractType({ ...values, managerId: user.id })
     );
 
     await dispatch(

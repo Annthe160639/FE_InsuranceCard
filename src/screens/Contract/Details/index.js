@@ -1,36 +1,38 @@
 import { PageHeader } from "@ant-design/pro-components";
 import {
   Tabs,
-  Button,
   Statistic,
   Descriptions,
   Image,
   Row,
   Col,
-  Tag,
+  Button,
+  Space,
 } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneContract } from "../../../redux/features/contract";
 
 const { TabPane } = Tabs;
 
-const ViewContract = () => {
+export default function ViewContract() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const user = useSelector(({ user: { user } }) => user);
   const [contractDetails, setContractDetails] = useState({});
 
   const handleGetContractDetail = useCallback(async () => {
-    const { payload } = await dispatch(fetchOneContract({ id }));
+    const { payload } = await dispatch(
+      fetchOneContract({ role: user.role, id })
+    );
     setContractDetails(payload);
-
-  }, []);
+  }, [JSON.stringify(user), id]);
 
   useEffect(() => {
     handleGetContractDetail();
-  }, []);
+  }, [JSON.stringify(user), id]);
   return (
     <PageHeader
       className="site-page-header-responsive"
@@ -43,20 +45,35 @@ const ViewContract = () => {
             width: "max-content",
             justifyContent: "flex-end",
             marginRight: "10vw",
+            gap: "20px",
           }}
         >
+          <Space>
+            <Button danger>Từ chối</Button>
+            <Button type="primary">
+              {user.role === "staff" &&
+              contractDetails?.status == "Đang chờ xử lý"
+                ? "Duyệt"
+                : user.role === "staff" &&
+                  contractDetails?.status == "Đang xử lý"
+                ? "Đã duyệt"
+                : "Duyệt"}
+            </Button>
+          </Space>
           <Statistic
             title="Trạng thái"
-            value={contractDetails.status?.toUpperCase()}
+            value={contractDetails?.status?.toUpperCase()}
             style={{
               marginRight: 32,
             }}
             valueStyle={{
               color:
-                contractDetails.status == "Đang xử lý"
+                contractDetails?.status == "Đang xử lý"
                   ? "blue"
-                  : contractDetails.status == "Đã duyệt"
+                  : contractDetails?.status == "Ðã duyệt"
                   ? "green"
+                  : contractDetails?.status == "Đã từ chối"
+                  ? "red"
                   : "orange",
             }}
           />
@@ -67,9 +84,9 @@ const ViewContract = () => {
               style: "currency",
               currency: "VND",
             }).format(
-              (new Date(contractDetails.endDate).getFullYear() -
-                new Date(contractDetails.startDate).getFullYear()) *
-                contractDetails.contractType?.price
+              (new Date(contractDetails?.endDate).getFullYear() -
+                new Date(contractDetails?.startDate).getFullYear()) *
+                contractDetails?.contractType?.price
             )}
           />
         </div>,
@@ -84,19 +101,19 @@ const ViewContract = () => {
               <Col span={16} style={{ paddingLeft: 20 }}>
                 <Descriptions size="small" column={1}>
                   <Descriptions.Item label="Họ và tên">
-                    {contractDetails.buyer?.name}
+                    {contractDetails?.buyer?.name}
                   </Descriptions.Item>
                   <Descriptions.Item label="CMND/CCCD">
-                    {contractDetails.buyer?.ci}
+                    {contractDetails?.buyer?.ci}
                   </Descriptions.Item>
                   <Descriptions.Item label="Địa chỉ">
-                    {contractDetails.buyer?.address}
+                    {contractDetails?.buyer?.address}
                   </Descriptions.Item>
                   <Descriptions.Item label="Số điện thoại">
-                    {contractDetails.buyer?.phone}
+                    {contractDetails?.buyer?.phone}
                   </Descriptions.Item>
                   <Descriptions.Item label="Ghi chú">
-                    {contractDetails.buyer?.note}
+                    {contractDetails?.buyer?.note}
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
@@ -113,38 +130,36 @@ const ViewContract = () => {
       <Content>
         <Descriptions size="middle" column={2}>
           <Descriptions.Item span={2} label="Loại bảo hiểm">
-            {contractDetails.contractType?.name}
+            {contractDetails?.contractType?.name}
           </Descriptions.Item>
           <Descriptions.Item label="Hạn mức bảo hiểm">
             {new Intl.NumberFormat("de-DE", {
               style: "currency",
               currency: "VND",
-            }).format(contractDetails.contractType?.insuranceLevel)}
+            }).format(contractDetails?.contractType?.insuranceLevel)}
           </Descriptions.Item>
           <Descriptions.Item label="Giá">
             {new Intl.NumberFormat("de-DE", {
               style: "currency",
               currency: "VND",
-            }).format(contractDetails.contractType?.price)}
+            }).format(contractDetails?.contractType?.price)}
           </Descriptions.Item>
           <Descriptions.Item label="Biển kiểm soát">
-            {contractDetails.pattern}
+            {contractDetails?.pattern}
           </Descriptions.Item>
           <Descriptions.Item label="Loại xe">
-            {contractDetails.contractType?.vehicleType}
+            {contractDetails?.contractType?.vehicleType}
           </Descriptions.Item>
           <Descriptions.Item label="Ngày tạo">
-            {contractDetails.startDate}
+            {contractDetails?.startDate}
           </Descriptions.Item>
           <Descriptions.Item label="Thời gian hiệu lực">
-            {new Date(contractDetails.endDate).getFullYear() -
-              new Date(contractDetails.startDate).getFullYear()}{" "}
+            {new Date(contractDetails?.endDate).getFullYear() -
+              new Date(contractDetails?.startDate).getFullYear()}{" "}
             năm
           </Descriptions.Item>
         </Descriptions>
       </Content>
     </PageHeader>
   );
-};
-
-export default ViewContract;
+}

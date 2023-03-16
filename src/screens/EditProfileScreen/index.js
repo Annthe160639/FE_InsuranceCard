@@ -15,7 +15,7 @@ export default function EditProfileScreen() {
 
   const handleEditProfile = useCallback(async (values) => {
     const { error, payload } = await dispatch(
-      updateUserProfile({ ...values, password: null })
+      updateUserProfile({ ...values, password: null, managerId: null, isActive: true })
     );
 
     await dispatch(

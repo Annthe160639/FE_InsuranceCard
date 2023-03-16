@@ -120,7 +120,7 @@ export default function HomeScreen() {
                       type="default"
                       onClick={() => {
                         navigate(
-                          generatePath(ROUTES.CUSTOMER_CONTRACT_TYPE, {
+                          generatePath(ROUTES.CONTRACT_TYPE, {
                             id: contractTypeDetails.id,
                           })
                         );

@@ -1,36 +1,55 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Input, Row, Col } from "antd";
+import { Form, Button, Input, Row, Col, Select } from "antd";
 import { customerLogin } from "../../redux/features/customer";
 import { ROUTES } from "../../constants/routerConst";
 import { createNotification } from "../../redux/features/notification";
+import { managerLogin } from "../../redux/features/manager";
+import { setUser } from "../../redux/features/user";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleFormSubmit = useCallback(async ({ username, password }) => {
-    console.log({ username, password });
-    await dispatch(customerLogin({ username, password })).then(
-      async ({ payload, error }) => {
-        if (error) {
-          await dispatch(
-            createNotification({
-              type: "error",
-              message: "Có lỗi xảy ra khi đăng nhập",
-            })
-          );
-          return;
-        }
-        navigate(ROUTES.HOME_ROUTER);
-        await dispatch(
-          createNotification({
-            type: "success",
-            message: `Chào, ${username}`,
-          })
-        );
-      }
-    );
+  const handleFormSubmit = useCallback(async ({ username, password, role }) => {
+    let res = { payload: null, error: null };
+
+    switch (role) {
+      case "customer":
+        res = await dispatch(customerLogin({ username, password }));
+        break;
+      case "staff":
+        res = await dispatch(customerLogin({ username, password }));
+        break;
+      case "manager":
+        res = await dispatch(managerLogin({ username, password }));
+        break;
+      default:
+    }
+
+    if (res.error) {
+      await dispatch(
+        createNotification({
+          type: "error",
+          message: "Có lỗi xảy ra khi đăng nhập",
+        })
+      );
+      return;
+    }
+    if (res.payload) {
+      
+      await dispatch(setUser(res.payload));
+      await dispatch(
+        createNotification({
+          type: "success",
+          message: `Chào, ${username}`,
+        })
+      )
+
+      setTimeout(()=> {
+        window.location.href = ROUTES.HOME_ROUTER
+      }, 300)
+    }
   });
 
   return (
@@ -59,6 +78,12 @@ const LoginScreen = () => {
                 }}
                 autoComplete="off"
                 layout="vertical"
+                fields={[
+                  {
+                    name: "role",
+                    value: "customer",
+                  },
+                ]}
                 onFinish={handleFormSubmit}
               >
                 <Form.Item
@@ -71,7 +96,30 @@ const LoginScreen = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Tên người dùng" />
+                  <Input
+                    addonBefore={
+                      <Form.Item name="role" noStyle>
+                        <Select
+                          style={{ width: 120 }}
+                          options={[
+                            {
+                              value: "customer",
+                              label: "Người dùng",
+                            },
+                            {
+                              value: "staff",
+                              label: "Nhân viên",
+                            },
+                            {
+                              value: "manager",
+                              label: "Quản lý",
+                            },
+                          ]}
+                        />
+                      </Form.Item>
+                    }
+                    placeholder="Tên người dùng"
+                  />
                 </Form.Item>
 
                 <Form.Item

@@ -1,13 +1,15 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Popconfirm, Row, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { entries, map } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ROUTES } from "../../../../constants/routerConst";
-import { contractTypeDetailsById } from "../../../../redux/features/contract";
 import {
-  insertContractType,
+  contractTypeDetailsById,
+  deleteContractType,
+} from "../../../../redux/features/contract";
+import {
   updateContractType,
 } from "../../../../redux/features/manager";
 import { createNotification } from "../../../../redux/features/notification";
@@ -32,7 +34,9 @@ export default function ContractTypeDetailsScreen() {
     await dispatch(
       createNotification({
         type: error ? "error" : "success",
-        message: error ? `Có lỗi xảy ra khi cập nhật loại hợp đồng` : "Cập nhật thông tin loại hợp đồng thành công",
+        message: error
+          ? `Có lỗi xảy ra khi cập nhật loại hợp đồng`
+          : "Cập nhật thông tin loại hợp đồng thành công",
       })
     );
 
@@ -40,6 +44,25 @@ export default function ContractTypeDetailsScreen() {
       navigate(ROUTES.MANAGER_CONTRACTYPE_ROUTER);
     }
   }, []);
+
+  const handleDeleteContractType = useCallback(async () => {
+    const { error } = await dispatch(
+      deleteContractType({ id: contractTypeDetails.id })
+    );
+
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error
+          ? `Có lỗi xảy ra khi xoá loại hợp đồng`
+          : "Xoá loại hợp đồng thành công",
+      })
+    );
+
+    if (!error) {
+      navigate(ROUTES.MANAGER_CONTRACTYPE_ROUTER);
+    }
+  });
 
   useEffect(() => {
     handleGetContractType();
@@ -125,12 +148,24 @@ export default function ContractTypeDetailsScreen() {
 
       <Form.Item
         wrapperCol={{
-          span: 24,
+          offset: 15,
         }}
       >
-        <Button type="primary" htmlType="submit">
-          Lưu
-        </Button>
+        <Space>
+          <Popconfirm
+            title="Xoá loại hợp đồng"
+            description="Bạn có chắc muốn xoá loại hợp đồng này không?"
+            onConfirm={handleDeleteContractType}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+
+          <Button type="primary" htmlType="submit">
+            Lưu
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

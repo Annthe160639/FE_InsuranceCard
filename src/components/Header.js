@@ -20,30 +20,31 @@ import {
   removeNotification,
 } from "../redux/features/notification";
 import { isFunction, last } from "lodash";
+import { deleteUser } from "../redux/features/user";
 
 const { Header } = Layout;
 export default function PageHeader() {
   const dispatch = useDispatch();
   const naviagate = useNavigate();
   const alerts = useSelector(({ notification: { alerts } }) => alerts);
-  const [currentUser, setCurrentUser] = useState({});
 
-  const customer = useSelector(({ customer: { customer } }) => customer);
-  const manager = useSelector(({ manager: { manager } }) => manager);
+  const user = useSelector(({ user: { user } }) => user);
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const handleLogout = useCallback(async () => {
-    await dispatch(logout());
-    await dispatch(
-      createNotification({
-        type: "success",
-        message: `Đăng xuất thành công`,
-      })
-    );
-    naviagate(ROUTES.HOME_ROUTER);
+    const { error } = await dispatch(deleteUser());
+    if (!error) {
+      await dispatch(
+        createNotification({
+          type: "success",
+          message: `Đăng xuất thành công`,
+        })
+      );
+      naviagate(ROUTES.HOME_ROUTER);
+    }
   }, []);
 
   useEffect(() => {
@@ -59,14 +60,6 @@ export default function PageHeader() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(alerts)]);
-
-  useEffect(() => {
-    if (customer) {
-      setCurrentUser(customer);
-    } else if (manager) {
-      setCurrentUser(manager);
-    }
-  }, [JSON.stringify(customer), JSON.stringify(manager)]);
 
   useEffect(() => {
     notification.config({
@@ -114,7 +107,7 @@ export default function PageHeader() {
               <Space>
                 <Link
                   to={
-                    currentUser && currentUser.username
+                    user && user.username
                       ? ROUTES.CUSTOMER_PROFILE_ROUTER
                       : ROUTES.CUSTOMER_LOGIN_ROUTER
                   }
@@ -124,14 +117,14 @@ export default function PageHeader() {
                     className="button-login"
                     icon={<UserOutlined />}
                   >
-                    {currentUser && currentUser.username ? (
-                      <>{currentUser.username}</>
+                    {user && user.username ? (
+                      <>{user.username}</>
                     ) : (
                       "Đăng nhập"
                     )}
                   </Button>
                 </Link>
-                {currentUser && currentUser.username ? (
+                {user && user.username ? (
                   <Button type="link" onClick={handleLogout}>
                     Đăng xuất
                   </Button>

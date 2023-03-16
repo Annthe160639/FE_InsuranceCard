@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
 import parseJwt from "../../utils/jwtToken";
-
 const config = {
   headers: {
     "Access-Control-Allow-Origin": "*",
@@ -16,17 +15,6 @@ const initialState = {
   customer: {},
   loading: false,
 };
-
-export const getUser = createAsyncThunk(
-  "@user/getUser",
-  (values, { rejectWithValue }) => {
-    try {
-      return values;
-    } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
-    }
-  }
-);
 
 export const customerRegister = createAsyncThunk(
   "@Customer/Register",

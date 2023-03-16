@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Table, Tag, Input, Button, Space } from "antd";
 import { fetchAllContractHistory } from "../../../redux/features/contract";
 import { SearchOutlined } from "@ant-design/icons";
 import { generatePath, Link } from "react-router-dom";
 import { ROUTES } from "../../../constants/routerConst";
+import { fetchAllManagerContract } from "../../../redux/features/manager";
 
 const { Title } = Typography;
 
 export default function ListContracts() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const user = useSelector(({ user: { user } }) => user);
 
-  console.log(data);
   const columns = useMemo(
     () => [
       {
@@ -38,7 +39,9 @@ export default function ListContracts() {
           console.log(record.id);
           return (
             <Link
-              to={generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
+              to={user.role == 'customer' ? generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
+                id: record.id,
+              }) : generatePath(ROUTES.MANAGER_CONTRACT_DETAILS_ROUTER, {
                 id: record.id,
               })}
             >
@@ -115,21 +118,27 @@ export default function ListContracts() {
         onFilter: (value, record) => record.status.indexOf(value) === 0,
       },
     ],
-    []
+    [JSON.stringify(data), JSON.stringify(user)]
   );
 
   const fetchContractHistory = useCallback(async () => {
-    const { payload } = await dispatch(fetchAllContractHistory());
-    setData(payload);
-  });
+    if (user.role === "customer") {
+      const { payload } = await dispatch(fetchAllContractHistory());
+      setData(payload);
+    } else if (user.role === "manager") {
+      const { payload } = await dispatch(fetchAllManagerContract());
+      setData(payload);
+    }
+  }, [JSON.stringify(user)]);
 
   useEffect(() => {
     fetchContractHistory();
-  }, []);
+  }, [JSON.stringify(user)]);
+
   return (
-    <div>
+    <>
       <Title className="title">Danh sách hợp đồng</Title>
       <Table columns={columns} dataSource={data} />
-    </div>
+    </>
   );
 }

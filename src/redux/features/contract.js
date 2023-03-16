@@ -74,10 +74,10 @@ export const fetchAllContractHistory = createAsyncThunk(
 
 export const fetchOneContract = createAsyncThunk(
   "@Contract/Details",
-  async ({ id }, { rejectWithValue }) => {
+  async ({ id, role }, { rejectWithValue }) => {
     try {
       return await axios
-        .get(`http://localhost:8080/api/customer/contract/${id}`, config)
+        .get(`http://localhost:8080/api/${role}/contract/${id}`, config)
         .then((res) => {
           return res.data;
         })
@@ -109,7 +109,7 @@ export const requestNewContract = createAsyncThunk(
 );
 
 export const fetchAllContractType = createAsyncThunk(
-  "@Contract/History",
+  "@Contract/Type/History",
   async (id, { rejectWithValue }) => {
     try {
       return await axios
@@ -120,6 +120,27 @@ export const fetchAllContractType = createAsyncThunk(
         .catch(() => {});
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const deleteContractType = createAsyncThunk(
+  "@Contract/Type/Delete",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .delete(
+          `http://localhost:8080/api/manager/contract/type/delete/${id}`,
+          config
+        )
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    } catch (_error) {
+      return rejectWithValue("Có lỗi xảy ra trong quá trình xoá loại hợp đồng");
     }
   }
 );

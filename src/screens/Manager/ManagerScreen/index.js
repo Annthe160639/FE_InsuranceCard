@@ -12,7 +12,7 @@ const ManagerScreen = () => {
       <div className="space-align-block">
         <Space wrap align="center" size={150}>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.MANAGER_CONTRACT_ROUTER}>Quản lý hợp đồng</Link>
+            
           </Button>
           <Button className="mock-block" type="default">
             <Link to={ROUTES.MANAGER_CONTRACTYPE_ROUTER}>Các loại hợp đồng</Link>
