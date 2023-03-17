@@ -75,7 +75,7 @@ export const customerLogin = createAsyncThunk(
     try {
       return await axios
         .post(
-          "http://localhost:8080/api/customer/login",
+          "http://localhost:8080/api/staff/login",
           {
             username,
             password,
@@ -152,6 +152,25 @@ export const getUserSession = createAsyncThunk(
     }
   }
 );
+
+export const customerViewList = createAsyncThunk(
+  "@Customer/list",
+  async ({}, { rejectWithValue }) => {
+    try {
+      const res = await axios
+        .get("http://localhost:8080/api/staff/customer/list", config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {
+          return res;
+        });
+      return res;
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+)
 
 // export const customerLogout = createAsyncThunk(
 //   "@Customer/Login",
