@@ -141,7 +141,7 @@ export default function ListEmployees() {
 
   return (
     <>
-      <Title className="title">Danh sách khách hàng</Title>
+      <Title className="title">Danh sách nhân viên</Title>
       <Table columns={columns} dataSource={data} />
     </>
   );

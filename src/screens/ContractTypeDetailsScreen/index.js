@@ -199,7 +199,6 @@ export default function ContractTypeDetails() {
     const { payload: contractTypeDetails } = await dispatch(
       contractTypeDetailsById({ id })
     );
-    console.log(contractTypeDetails);
     setContractTypeDetails(contractTypeDetails);
   }, [id]);
 

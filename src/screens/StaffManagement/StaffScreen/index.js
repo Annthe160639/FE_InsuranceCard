@@ -18,7 +18,7 @@ const StaffScreen = () => {
             <Link to={ROUTES.STAFF_COMPENSATION}>Quản lý đền bù</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.STAFF_CONTRACT}>Quản lý khách hàng</Link>
+            <Link to={ROUTES.STAFF_CUSTOMER}>Quản lý khách hàng</Link>
           </Button>
         </Space>
       </div>

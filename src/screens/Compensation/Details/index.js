@@ -8,6 +8,7 @@ import {
   Col,
   Button,
   Space,
+  Spin,
 } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useCallback, useEffect, useState } from "react";
@@ -80,118 +81,126 @@ export default function ViewCompensation() {
     if (!res.error) {
       handleGetCompensationDetail();
     }
-  }, [JSON.stringify(user)]);
+  }, []);
 
   useEffect(() => {
     handleGetCompensationDetail();
-  }, [JSON.stringify(user), id]);
+  }, []);
 
   return (
-    <PageHeader
-      className="site-page-header-responsive"
-      onBack={() => window.history.back()}
-      title="Thông tin đền bù"
-      extra={[
-        <div
-          style={{
-            display: "flex",
-            width: "max-content",
-            justifyContent: "flex-end",
-            marginRight: "10vw",
-            gap: "20px",
-          }}
-        >
-          {(user.role == "staff" || user.role == "manager") && (
-            <Space>
-              {(compensationDetails?.status == "Đang chờ xử lý" ||
-                compensationDetails?.status == "Đang xử lý") && (
-                <Button danger onClick={handleRejectCompensation}>
-                  Từ chối
-                </Button>
-              )}
-              {(compensationDetails?.status == "Đang chờ xử lý" ||
-                compensationDetails?.status == "Đang xử lý") && (
-                <Button type="primary" onClick={handleApproveCompensation}>
-                  {user.role === "staff" &&
-                  compensationDetails?.status == "Đang chờ xử lý"
-                    ? "Duyệt"
-                    : ""}
-                  {!(
-                    user.role === "manager" &&
-                    (compensationDetails?.status == "Đang chờ xử lý" ||
-                      compensationDetails?.status == "Đang xử lý")
-                  )
-                    ? "Duyệt"
-                    : ""}
-                </Button>
-              )}
-            </Space>
-          )}
-          <Statistic
-            title="Trạng thái"
-            value={compensationDetails?.status?.toUpperCase()}
+    <Spin spinning={!compensationDetails}>
+      <PageHeader
+        className="site-page-header-responsive"
+        onBack={() => window.history.back()}
+        title="Thông tin đền bù"
+        extra={[
+          <div
             style={{
-              marginRight: 32,
+              display: "flex",
+              width: "max-content",
+              justifyContent: "flex-end",
+              marginRight: "10vw",
+              gap: "20px",
             }}
-            valueStyle={{
-              color:
-                compensationDetails?.status == "Đang xử lý"
-                  ? "blue"
-                  : compensationDetails?.status == "Ðã duyệt"
-                  ? "green"
-                  : compensationDetails?.status == "Đã từ chối"
-                  ? "red"
-                  : "orange",
-            }}
-          />
-          <Statistic
-            title="Price"
-            style={{ fontWeight: 700 }}
-            value={new Intl.NumberFormat("de-DE", {
-              style: "currency",
-              currency: "VND",
-            }).format(compensationDetails?.payment)}
-          />
-        </div>,
-      ]}
-      footer={
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Hình ảnh tai nạn" key="1">
-            <Row>
-              <Col span={8}>
-                <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
-              </Col>
-            </Row>
-          </TabPane>
-        </Tabs>
-      }
-      style={{
-        backgroundColor: "white",
-        margin: "16px 0",
-        height: "100%",
-      }}
-    >
-      <Content>
-        <Descriptions size="middle" column={2}>
-          <Descriptions.Item span={2} label="Hợp đồng">
-            {compensationDetails?.contractId && (
-              <Link
-                to={generatePath(ROUTES.CUSTOMER_CONTRACT_DETAILS, {
-                  id: compensationDetails?.contractId,
-                })}
-              >
-                {compensationDetails?.contract?.name}
-              </Link>
+          >
+            {(user.role == "staff" || user.role == "manager") && (
+              <Space>
+                {(compensationDetails?.status == "Đang chờ xử lý" ||
+                  compensationDetails?.status == "Đang xử lý") && (
+                  <Button danger onClick={handleRejectCompensation}>
+                    Từ chối
+                  </Button>
+                )}
+                {(compensationDetails?.status === "Đang chờ xử lý" ||
+                  (compensationDetails?.status === "Đang xử lý" &&
+                    user.role == "manager")) && (
+                  <Button type="primary" onClick={handleApproveCompensation}>
+                    {user.role === "staff" &&
+                    compensationDetails?.status === "Đang chờ xử lý"
+                      ? "Duyệt"
+                      : ""}
+                    {user.role === "manager" &&
+                    (compensationDetails?.status === "Đang chờ xử lý" ||
+                      compensationDetails?.status === "Đang xử lý")
+                      ? "Duyệt"
+                      : ""}
+                  </Button>
+                )}
+              </Space>
             )}
-          </Descriptions.Item>
-          <Descriptions.Item span={2} label="Địa điểm tai nạn">
-            {compensationDetails?.accidentAddress}
-          </Descriptions.Item>
-          <Descriptions.Item span={2} label="Thời điểm xảy ra">
-            {compensationDetails?.accidentTime}
-          </Descriptions.Item>
-        </Descriptions>
-      </Content>
-    </PageHeader>
+            <Statistic
+              title="Trạng thái"
+              value={compensationDetails?.status?.toUpperCase()}
+              style={{
+                marginRight: 32,
+              }}
+              valueStyle={{
+                color:
+                  compensationDetails?.status == "Đang xử lý"
+                    ? "blue"
+                    : compensationDetails?.status == "Ðã duyệt"
+                    ? "green"
+                    : compensationDetails?.status == "Đã từ chối"
+                    ? "red"
+                    : "orange",
+              }}
+            />
+            <Statistic
+              title="Price"
+              style={{ fontWeight: 700 }}
+              value={new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "VND",
+              }).format(compensationDetails?.payment)}
+            />
+          </div>,
+        ]}
+        footer={
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Hình ảnh tai nạn" key="1">
+              <Row>
+                <Col span={8}>
+                  <Image src={compensationDetails?.images} />
+                </Col>
+              </Row>
+            </TabPane>
+          </Tabs>
+        }
+        style={{
+          backgroundColor: "white",
+          margin: "16px 0",
+          height: "100%",
+        }}
+      >
+        <Content>
+          <Descriptions size="middle" column={2}>
+            <Descriptions.Item span={2} label="Hợp đồng">
+              {compensationDetails?.contractId && (
+                <Link
+                  to={generatePath(
+                    user.role === "customer"
+                      ? ROUTES.CUSTOMER_CONTRACT_DETAILS
+                      : user.role === "staff"
+                      ? ROUTES.STAFF_CONTRACT_DETAILS
+                      : ROUTES.MANAGER_CONTRACT_DETAILS,
+                    {
+                      id: compensationDetails?.contractId,
+                    }
+                  )}
+                >
+                  {compensationDetails?.contract?.contractType?.name}
+                </Link>
+              )}
+            </Descriptions.Item>
+            <Descriptions.Item span={2} label="Địa điểm tai nạn">
+              {compensationDetails?.accidentAddress}
+            </Descriptions.Item>
+            <Descriptions.Item span={2} label="Thời điểm xảy ra">
+              {compensationDetails?.accidentTime}
+            </Descriptions.Item>
+          </Descriptions>
+        </Content>
+      </PageHeader>
+    </Spin>
   );
 }

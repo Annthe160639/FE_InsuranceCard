@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Divider, Table } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Title from "antd/es/skeleton/Title";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import {
   fetchAllStaffCompensation,
   fetchAllStaffCompensationList,
 } from "../../redux/features/staff";
-import { fetchAllManagerCompensation } from "../../redux/features/manager";
+import { fetchAllManagerCompensation, fetchAllManagerCompensationList } from "../../redux/features/manager";
 import { concat } from "lodash";
 
 export default function ListCompensions() {
@@ -32,7 +32,12 @@ export default function ListCompensions() {
 
       res.payload = concat(list1, list2);
     } else if (user.role === "manager") {
-      res = await dispatch(fetchAllManagerCompensation());
+      const { payload: list1 } = await dispatch(fetchAllManagerCompensation());
+      const { payload: list2 } = await dispatch(
+        fetchAllManagerCompensationList()
+      );
+
+      res.payload = concat(list1, list2);
     }
 
     await dispatch(
@@ -41,11 +46,10 @@ export default function ListCompensions() {
         message: res.error ? "Có lỗi xảy ra khi lấy các hợp đồng đền bù" : "",
       })
     );
-    console.log(res.payload);
     if (res.payload) {
       setCompansations(res.payload);
     }
-  }, [JSON.stringify(user)]);
+  }, []);
 
   useEffect(() => {
     handleFetchAllCompensation();
@@ -122,9 +126,24 @@ export default function ListCompensions() {
   );
 
   return (
-    <>
-      <Title className="title">Danh sách hợp đồng</Title>
+    <div style={{ margin: "16px 0" }}>
+      {user.role == "customer" && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: 10,
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={() => navigate(ROUTES.CUSTOMER_COMPENSATION_REQUEST)}
+          >
+            Gửi yêu cầu đền bù
+          </Button>
+        </div>
+      )}
       <Table columns={columns} dataSource={compensations} />
-    </>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Input, Row, Col, Select } from "antd";
+import { Form, Button, Input, Row, Col, Select, Space } from "antd";
 import { customerLogin } from "../../redux/features/customer";
 import { ROUTES } from "../../constants/routerConst";
 import { createNotification } from "../../redux/features/notification";
@@ -27,29 +27,37 @@ const LoginScreen = () => {
         break;
       default:
     }
-
     if (res.error) {
       await dispatch(
         createNotification({
           type: "error",
-          message: "Có lỗi xảy ra khi đăng nhập",
+          message: res.payload,
         })
       );
       return;
     }
-    if (res.payload) {
-      
+
+    if (!res.error && res.payload) {
       await dispatch(setUser(res.payload));
       await dispatch(
         createNotification({
           type: "success",
           message: `Chào, ${username}`,
         })
-      )
-
-      setTimeout(()=> {
-        window.location.href = ROUTES.HOME
-      }, 300)
+      );
+      if (role == "staff") {
+        setTimeout(() => {
+          window.location.href = ROUTES.STAFF_MAINSCREEN;
+        }, 300);
+      } else if (role == "customer") {
+        setTimeout(() => {
+          window.location.href = ROUTES.CUSTOMER_MAINSCREEN;
+        }, 300);
+      } else if (role == "manager") {
+        setTimeout(() => {
+          window.location.href = ROUTES.MANAGER_SCREEN;
+        }, 300);
+      }
     }
   });
 
@@ -140,10 +148,20 @@ const LoginScreen = () => {
                   wrapperCol={16}
                   style={{ marginBottom: 0, textAlign: "right" }}
                 >
-                  <span>
-                    Chưa có tài khoản?{" "}
-                    <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
-                  </span>
+                  <Space
+                    type="flex"
+                    style={{ justifyContent: "space-between", width: "100%" }}
+                  >
+                    <span>
+                      <Link to={ROUTES.CUSTOMER_FORGET_PASSWORD}>
+                        Quên mật khẩu
+                      </Link>
+                    </span>
+                    <span>
+                      Chưa có tài khoản?{" "}
+                      <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
+                    </span>
+                  </Space>
                 </Form.Item>
                 <Form.Item wrapperCol={16} style={{ textAlign: "center" }}>
                   <Button

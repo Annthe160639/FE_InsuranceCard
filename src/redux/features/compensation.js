@@ -68,6 +68,25 @@ export const fetchOneCompensation = createAsyncThunk(
     }
   }
 );
+export const customerCompensationRequest = createAsyncThunk(
+  "@Compensation/Request",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .post(
+          `http://localhost:8080/api/customer/compensation/request`,
+          values,
+          config
+        )
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {});
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
 
 const { reducer, actions } = createSlice({
   name: "compensation",

@@ -8,8 +8,10 @@ import {
   Col,
   Button,
   Space,
+  Spin,
 } from "antd";
 import { Content } from "antd/es/layout/layout";
+import { isEmpty } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -83,7 +85,7 @@ export default function ViewContract() {
 
   useEffect(() => {
     handleGetContractDetail();
-  }, [JSON.stringify(user), id]);
+  }, []);
   return (
     <PageHeader
       className="site-page-header-responsive"
@@ -151,11 +153,11 @@ export default function ViewContract() {
             }).format(
               (new Date(contractDetails?.endDate).getFullYear() -
                 new Date(contractDetails?.startDate).getFullYear() ==
-                0
+              0
                 ? 1
-                : (new Date(contractDetails?.endDate).getFullYear() -
-                    new Date(contractDetails?.startDate).getFullYear())) *
-                    contractDetails?.contractType?.price
+                : new Date(contractDetails?.endDate).getFullYear() -
+                  new Date(contractDetails?.startDate).getFullYear()) *
+                contractDetails?.contractType?.price
             )}
           />
         </div>,
@@ -223,9 +225,12 @@ export default function ViewContract() {
             {contractDetails?.startDate}
           </Descriptions.Item>
           <Descriptions.Item label="Thời gian hiệu lực">
-            {(new Date(contractDetails?.endDate).getFullYear() -
-              new Date(contractDetails?.startDate).getFullYear()) == 0 ? 1 : new Date(contractDetails?.endDate).getFullYear() -
-              new Date(contractDetails?.startDate).getFullYear()}{" "}
+            {new Date(contractDetails?.endDate).getFullYear() -
+              new Date(contractDetails?.startDate).getFullYear() ==
+            0
+              ? 1
+              : new Date(contractDetails?.endDate).getFullYear() -
+                new Date(contractDetails?.startDate).getFullYear()}{" "}
             năm
           </Descriptions.Item>
         </Descriptions>
