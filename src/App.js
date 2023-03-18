@@ -1,13 +1,11 @@
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import MainScreen from "./screens/MainScreen";
 import RequestContractScreen from "./screens/RequestContractScreen";
 import StaffScreen from "./screens/StaffManagement/StaffScreen";
 import ContractTypeManagement from "./screens/Manager/ContractTypeManagement";
-import ManagerScreen from "./screens/Manager/ManagerScreen";
 import { ROUTES } from "./constants/routerConst";
 
 import store from "./redux/store";
@@ -30,6 +28,7 @@ import CustomerRoute from "./routes/CustomerRoute";
 import StaffRoute from "./routes/StaffRoute";
 import ManagerRoute from "./routes/ManagerRoute";
 import ForgotPassword from "./screens/ForgotPassword";
+import StaffCustomer from "./screens/StaffManagement/Customer";
 
 export default function App() {
   return (
@@ -98,6 +97,7 @@ export default function App() {
                 element={<ViewCompensation />}
               />
             </Route>
+            <Route path={ROUTES.STAFF_CUSTOMER} element={<StaffCustomer />} />
             {/* Manager */}
             <Route element={<ManagerRoute />}>
               <Route
