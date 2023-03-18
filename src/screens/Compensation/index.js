@@ -66,18 +66,20 @@ export default function ListCompensions() {
         key: "contract",
         render: (_, { contract, contractId }) => {
           return (
-            <Link
-              to={generatePath(
-                user.role === "customer"
-                  ? ROUTES.CUSTOMER_CONTRACT_DETAILS
-                  : user.role === "staff"
-                  ? ROUTES.STAFF_CONTRACT_DETAILS
-                  : ROUTES.MANAGER_CONTRACT_DETAILS,
-                { id: contractId }
-              )}
-            >
-              {contract?.contractType?.name}
-            </Link>
+            contractId && (
+              <Link
+                to={generatePath(
+                  user.role === "customer"
+                    ? ROUTES.CUSTOMER_CONTRACT_DETAILS
+                    : user.role === "staff"
+                    ? ROUTES.STAFF_CONTRACT_DETAILS
+                    : ROUTES.MANAGER_CONTRACT_DETAILS,
+                  { id: contractId }
+                )}
+              >
+                {contract?.contractType?.name}
+              </Link>
+            )
           );
         },
       },
@@ -107,6 +109,7 @@ export default function ListCompensions() {
           <Button
             icon={<EyeOutlined />}
             onClick={() =>
+              id &&
               navigate(
                 generatePath(
                   user.role == "customer"

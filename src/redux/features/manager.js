@@ -307,7 +307,7 @@ export const managerContractApprove = createAsyncThunk(
           return data;
         })
         .catch(({ response: { data } }) => {
-          console.log(data.message)
+          console.log(data.message);
           throw data;
         });
     } catch (_error) {
@@ -423,11 +423,49 @@ export const managerCompensationReject = createAsyncThunk(
 );
 
 export const customerViewListManager = createAsyncThunk(
-  "@Customer/list",
+  "@Manager/list",
   async ({}, { rejectWithValue }) => {
     try {
       const res = await axios
         .get("http://localhost:8080/api/manager/customer/list", config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {
+          return res;
+        });
+      return res;
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const deleteManager = createAsyncThunk(
+  "@Manager/Delete",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const res = await axios
+        .put(`http://localhost:8080/api/manager/delete/${id}`, {}, config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {
+          return res;
+        });
+      return res;
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+
+export const deleteStaff = createAsyncThunk(
+  "@Manager/Staff/Delete",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const res = await axios
+        .put(`http://localhost:8080/api/manager/staff/delete/${id}`, {}, config)
         .then((res) => {
           return res.data;
         })

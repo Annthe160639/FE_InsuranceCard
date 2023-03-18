@@ -1,10 +1,16 @@
 import { Button, Popconfirm, Space, Table } from "antd";
-import { PlusOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  UserSwitchOutlined,
+} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   changeRoleEmployee,
+  deleteManager,
+  deleteStaff,
   fetchAllManager,
   fetchAllStaff,
 } from "../../../redux/features/manager";
@@ -36,6 +42,28 @@ export default function ListEmployees() {
     }
   }, []);
 
+  const handleDeleteEmployee = useCallback(async ({ role, id }) => {
+    let res = { error: null, payload: null };
+    if (role == "staff") {
+      res = await dispatch(deleteStaff({ id }));
+    } else {
+      res = await dispatch(deleteManager({ id }));
+    }
+
+    await dispatch(
+      createNotification({
+        type: res.error ? "error" : "success",
+        message: res.error
+          ? "Có lỗi xảy ra trong khi xoá nhân viên!"
+          : "Xoá thành công",
+      })
+    );
+
+    if (!res.error) {
+      handleFetchAllEmployy();
+    }
+  }, []);
+
   const columns = useMemo(
     () => [
       {
@@ -49,13 +77,13 @@ export default function ListEmployees() {
         title: "Tên người dùng",
         dataIndex: "username",
         key: "username",
-        width: "20%",
+        width: "57%",
       },
       {
         title: "Chức vị",
         dataIndex: "role",
         key: "role",
-        width: "10%",
+        width: "30%",
         filters: [
           {
             text: "Nhân viên",
@@ -72,34 +100,47 @@ export default function ListEmployees() {
         onFilter: (value, record) => record.role.indexOf(value) === 0,
       },
       {
-        width: "10%",
+        width: 40,
         render: (_, { role, id }) => {
           return (
-            <Popconfirm
-              title="Cập nhật chức vị"
-              description={
-                <>
-                  Bạn có muốn{" "}
-                  {role == "staff" ? (
-                    <>
-                      cập nhật chức chức vị <strong>Quản lý</strong>
-                    </>
-                  ) : (
-                    <>
-                      giáng chức chức vị xuống <strong>Nhân viên</strong>
-                    </>
-                  )}{" "}
-                  của nhân viên này không?
-                </>
-              }
-              onConfirm={() => {
-                handleChangeRole({ role, id });
-              }}
-              okText="Đồng ý"
-              cancelText="Từ chối"
-            >
-              <Button icon={<UserSwitchOutlined />}></Button>
-            </Popconfirm>
+            <Space>
+              <Popconfirm
+                title="Cập nhật chức vị"
+                description={
+                  <>
+                    Bạn có muốn{" "}
+                    {role == "staff" ? (
+                      <>
+                        cập nhật chức chức vị <strong>Quản lý</strong>
+                      </>
+                    ) : (
+                      <>
+                        giáng chức chức vị xuống <strong>Nhân viên</strong>
+                      </>
+                    )}{" "}
+                    của nhân viên này không?
+                  </>
+                }
+                onConfirm={() => {
+                  handleChangeRole({ role, id });
+                }}
+                okText="Đồng ý"
+                cancelText="Từ chối"
+              >
+                <Button icon={<UserSwitchOutlined />}></Button>
+              </Popconfirm>
+              <Popconfirm
+                title="Cập nhật chức vị"
+                description={"Bạn có muốn xoá nhân viên này không?"}
+                onConfirm={() => {
+                  handleDeleteEmployee({ role, id });
+                }}
+                okText="Đồng ý"
+                cancelText="Từ chối"
+              >
+                <Button icon={<DeleteOutlined />} danger></Button>
+              </Popconfirm>
+            </Space>
           );
         },
       },
