@@ -12,7 +12,7 @@ const ManagerScreen = () => {
       <div className="space-align-block">
         <Space wrap align="center" size={150}>
           <Button className="mock-block" type="default">
-            
+            <Link to={ROUTES.MANAGER_CONTRACT}>Quản lý hợp đồng</Link>
           </Button>
           <Button className="mock-block" type="default">
             <Link to={ROUTES.MANAGER_CONTRACTYPE}>Các loại hợp đồng</Link>
@@ -21,7 +21,10 @@ const ManagerScreen = () => {
             <Link to={ROUTES.MANAGER_COMPENSATION}>Quản lý đền bù</Link>
           </Button>
           <Button className="mock-block" type="default">
-            <Link to={ROUTES.MANAGER_ACCOUNT}>Quản lý tài khoản</Link>
+            <Link to={ROUTES.MANAGER_EMPLOYEE}>Quản lý nhân viên</Link>
+          </Button>
+          <Button className="mock-block" type="default">
+            <Link to={ROUTES.MANAGER_CUSTOMER}>Quản lý khách hàng</Link>
           </Button>
         </Space>
       </div>

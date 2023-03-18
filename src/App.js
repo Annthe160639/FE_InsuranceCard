@@ -19,7 +19,7 @@ import ContractTypeDetails from "./screens/ContractTypeDetailsScreen";
 import AddContractTypeScreen from "./screens/Manager/ContractTypeManagement/Add";
 import ManagerLoginScreen from "./screens/Manager/Login";
 import ContractTypeDetailsScreen from "./screens/Manager/ContractTypeManagement/Details";
-import ListCustomers from "./screens/StaffManagement/Customer";
+import ListCustomers from "./screens/Manager/Customer";
 import ListEmployees from "./screens/Manager/Employee";
 import ListCompensions from "./screens/Compensation";
 import ViewCompensation from "./screens/Compensation/Details";

@@ -5,7 +5,7 @@ import { ROUTES } from "../constants/routerConst";
 export default function StaffRoute() {
   const user = useSelector(({ user: { user } }) => user);
   if (user.role != "staff") {
-    return <Navigate to={ROUTES.HOME} replace />;
+    return <Navigate to={ROUTES.STAFF_MAINSCREEN} replace />;
   }
 
   return <Outlet />;

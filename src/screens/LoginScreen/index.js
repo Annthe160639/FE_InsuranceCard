@@ -46,10 +46,19 @@ const LoginScreen = () => {
           message: `Chào, ${username}`,
         })
       );
-
-      setTimeout(() => {
-        window.location.href = ROUTES.HOME;
-      }, 300);
+      if (role == "staff") {
+        setTimeout(() => {
+          window.location.href = ROUTES.STAFF_MAINSCREEN;
+        }, 300);
+      } else if (role == "customer") {
+        setTimeout(() => {
+          window.location.href = ROUTES.CUSTOMER_MAINSCREEN;
+        }, 300);
+      } else if (role == "manager") {
+        setTimeout(() => {
+          window.location.href = ROUTES.MANAGER_SCREEN;
+        }, 300);
+      }
     }
   });
 
@@ -140,7 +149,10 @@ const LoginScreen = () => {
                   wrapperCol={16}
                   style={{ marginBottom: 0, textAlign: "right" }}
                 >
-                  <Space type="flex" style={{justifyContent: 'space-between', width: '100%'}}>
+                  <Space
+                    type="flex"
+                    style={{ justifyContent: "space-between", width: "100%" }}
+                  >
                     <span>
                       <Link to={ROUTES.CUSTOMER_FORGET_PASSWORD}>
                         Quên mật khẩu

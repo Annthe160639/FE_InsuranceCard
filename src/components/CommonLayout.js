@@ -38,7 +38,7 @@ export default function CommonLayout() {
             >
               <Menu.Item key={"contract"}>
                 {user.role == "customer" && (
-                  <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
+                  <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Danh sách hợp đồng</Link>
                 )}
                 {user.role == "staff" && (
                   <Link to={ROUTES.STAFF_CONTRACT}>Hợp đồng</Link>
@@ -53,6 +53,14 @@ export default function CommonLayout() {
                 )}
                 {user.role == "staff" && (
                   <Link to={ROUTES.STAFF_COMPENSATION}>Hợp đồng đền bù</Link>
+                )}
+                {user.role == "manager" && (
+                  <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>
+                )}
+              </Menu.Item>
+              <Menu.Item key={"customer"}>
+                {user.role == "staff" && (
+                  <Link to={ROUTES.STAFF_CUSTOMER}>Khách hàng</Link>
                 )}
                 {user.role == "manager" && (
                   <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>

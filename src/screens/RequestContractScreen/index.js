@@ -52,7 +52,7 @@ export default function RequestContractScreen() {
     handleSelectDuration(startDate);
   }, [startDate, JSON.stringify(form)]);
   return (
-    <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
+    <div style={{ backgroundColor: "", textAlign: "center" }}>
       <Form
         form={form}
         name="basic"
