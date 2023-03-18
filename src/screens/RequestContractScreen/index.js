@@ -46,7 +46,9 @@ export default function RequestContractScreen() {
     (value) => {
       if (duration && startDate) {
         let splitSDate = startDate.split("-");
-        splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(duration));
+        splitSDate[0] = String(
+          parseInt(splitSDate[0]) + parseInt(duration) + 1
+        );
         form.setFieldValue("endDate", splitSDate.join("-"));
       }
     },
@@ -206,13 +208,17 @@ export default function RequestContractScreen() {
           }}
         >
           <Select
-            defaultValue={"1 năm"}
+            defaultValue={"0"}
             style={{
               textAlign: "left",
               width: 120,
             }}
             onChange={handleSelectDuration}
             options={[
+              {
+                value: "",
+                label: "",
+              },
               {
                 value: "1",
                 label: "1 năm",

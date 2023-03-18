@@ -90,6 +90,7 @@ export default function ViewContract() {
   useEffect(() => {
     handleGetContractDetail();
   }, []);
+
   return (
     <PageHeader
       className="site-page-header-responsive"
@@ -135,7 +136,7 @@ export default function ViewContract() {
                   contractDetails?.status == "Đang chờ xử lý"
                     ? "Duyệt"
                     : ""}
-                  {!(
+                  {(
                     user.role === "manager" &&
                     (contractDetails?.status == "Đang chờ xử lý" ||
                       contractDetails?.status == "Đang xử lý")
