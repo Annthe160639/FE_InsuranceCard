@@ -1,6 +1,5 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import Axios from "axios";
-import { Image } from "cloudinary-react";
 import { map } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
