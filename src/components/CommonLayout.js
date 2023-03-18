@@ -15,7 +15,7 @@ export default function CommonLayout() {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [JSON.stringify(user)]);
+  }, []);
 
   return (
     <Layout

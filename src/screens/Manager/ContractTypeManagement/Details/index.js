@@ -24,7 +24,6 @@ export default function ContractTypeDetailsScreen() {
     const { payload: contractTypeDetails } = await dispatch(
       contractTypeDetailsById({ id })
     );
-    console.log(contractTypeDetails);
     setContractTypeDetails(contractTypeDetails);
   }, []);
 

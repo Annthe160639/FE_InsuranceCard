@@ -72,11 +72,10 @@ export const managerLogin = createAsyncThunk(
           config
         )
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
-          throw new Error(data);
+          throw data;
         });
     } catch (_error) {
       return rejectWithValue(_error);
@@ -281,7 +280,6 @@ export const fetchAllManagerContract = createAsyncThunk(
       return await axios
         .get(`http://localhost:8080/api/manager/contract`, config)
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
@@ -346,7 +344,26 @@ export const fetchAllManagerCompensation = createAsyncThunk(
       return await axios
         .get(`http://localhost:8080/api/manager/compensation`, config)
         .then(({ data }) => {
-          console.log(data);
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+
+export const fetchAllManagerCompensationList = createAsyncThunk(
+  "@Staff/fetchAllManagerCompensationList",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/manager/compensation/list`, config)
+        .then(({ data }) => {
           return data;
         })
         .catch(({ response: { data } }) => {
@@ -366,7 +383,7 @@ export const managerCompensationApprove = createAsyncThunk(
     try {
       return await axios
         .put(
-          `http://localhost:8080/api/manager/compensation/accept/${id}`,
+          `http://localhost:8080/api/manager/compensation/approve/${id}`,
           {},
           config
         )

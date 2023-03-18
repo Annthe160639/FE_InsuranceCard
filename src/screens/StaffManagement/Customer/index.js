@@ -59,7 +59,6 @@ export default function ListCustomers() {
 
   const handleFetchAllCustomer = useCallback(async () => {
     const { payload } = await dispatch(fetchAllCustomers());
-    console.log(payload);
   }, []);
 
   useEffect(() => {

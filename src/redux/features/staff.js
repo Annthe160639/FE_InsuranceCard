@@ -31,11 +31,10 @@ export const staffLogin = createAsyncThunk(
           config
         )
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
-          throw new Error(data);
+          throw data;
         });
     } catch (_error) {
       return rejectWithValue(_error);
@@ -145,7 +144,6 @@ export const fetchAllStaffContract = createAsyncThunk(
       return await axios
         .get(`http://localhost:8080/api/staff/contract`, config)
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
@@ -166,7 +164,6 @@ export const fetchAllStaffCompensation = createAsyncThunk(
       return await axios
         .get(`http://localhost:8080/api/staff/compensation`, config)
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {
@@ -187,7 +184,6 @@ export const fetchAllStaffCompensationList = createAsyncThunk(
       return await axios
         .get(`http://localhost:8080/api/staff/compensation/list`, config)
         .then(({ data }) => {
-          console.log(data);
           return data;
         })
         .catch(({ response: { data } }) => {

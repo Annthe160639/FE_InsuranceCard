@@ -49,10 +49,12 @@ export const customerResetPassword = createAsyncThunk(
           config
         )
         .then((res) => {})
-        .catch();
+        .catch(({ response: { data } }) => {
+          throw data;
+        });
       return { username };
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue(_error);
     }
   }
 );
@@ -74,7 +76,7 @@ export const customerLogin = createAsyncThunk(
           return data;
         })
         .catch(({ response: { data } }) => {
-          throw new Error(data);
+          throw data;
         });
     } catch (_error) {
       return rejectWithValue(_error);
@@ -88,6 +90,24 @@ export const fetchCustomerInfor = createAsyncThunk(
     try {
       return await axios
         .get("http://localhost:8080/api/customer/profile", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const fetchAllCustomerApproveContract = createAsyncThunk(
+  "@Customer/ApproveContract",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get("http://localhost:8080/api/customer/approve/contract", config)
         .then(({ data }) => {
           return data;
         })
