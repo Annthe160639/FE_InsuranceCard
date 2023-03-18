@@ -70,6 +70,10 @@ export default function EditProfileScreen() {
     }
   }, []);
 
+  const handleChangePassword = useCallback(async () => {
+    navigate(ROUTES.CUSTOMER_CHANGE_PASSWORD)
+  }, []);
+
   useEffect(() => {
     handleFetchCustomer();
   }, []);
@@ -85,7 +89,7 @@ export default function EditProfileScreen() {
             Thay đổi ảnh
           </Button>
 
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleChangePassword}>
             Đổi mật khẩu
           </Button>
 

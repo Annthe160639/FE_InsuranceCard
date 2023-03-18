@@ -50,14 +50,14 @@ export default function CommonLayout() {
               <Menu.Item key={"compensation"}>
                 {user.role == "customer" && (
                   <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>
-                    Hợp đồng đền bù
+                    Đền bù
                   </Link>
                 )}
                 {user.role == "staff" && (
-                  <Link to={ROUTES.STAFF_COMPENSATION}>Hợp đồng đền bù</Link>
+                  <Link to={ROUTES.STAFF_COMPENSATION}>Đền bù</Link>
                 )}
                 {user.role == "manager" && (
-                  <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>
+                  <Link to={ROUTES.MANAGER_COMPENSATION}>Đền bù</Link>
                 )}
               </Menu.Item>
               {user.role == "staff" && (

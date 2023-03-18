@@ -115,7 +115,7 @@ export default function ViewContract() {
                   onConfirm={handleRejectContract}
                   okText="Huỷ"
                   cancelText="Không"
-                  style={{width: 50}}
+                  style={{ width: 50 }}
                 >
                   <Button danger>Huỷ</Button>
                 </Popconfirm>
@@ -129,22 +129,19 @@ export default function ViewContract() {
                   Từ chối
                 </Button>
               )}
-              {(contractDetails?.status == "Đang chờ xử lý" ||
-                contractDetails?.status == "Đang xử lý") && (
-                <Button type="primary" onClick={handleApproveContract}>
-                  {user.role === "staff" &&
-                  contractDetails?.status == "Đang chờ xử lý"
-                    ? "Duyệt"
-                    : ""}
-                  {(
-                    user.role === "manager" &&
-                    (contractDetails?.status == "Đang chờ xử lý" ||
-                      contractDetails?.status == "Đang xử lý")
-                  )
-                    ? "Duyệt"
-                    : ""}
-                </Button>
-              )}
+              {user.role === "staff" &&
+                contractDetails?.status == "Đang chờ xử lý" && (
+                  <Button type="primary" onClick={handleApproveContract}>
+                    "Duyệt"
+                  </Button>
+                )}
+
+              {user.role === "manager" &&
+                contractDetails?.status == "Đang xử lý" && (
+                  <Button type="primary" onClick={handleApproveContract}>
+                    "Duyệt"
+                  </Button>
+                )}
             </Space>
           )}
           <Statistic

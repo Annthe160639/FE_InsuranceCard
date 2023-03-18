@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Table, Tag, Input, Button, Space, Spin } from "antd";
 import { fetchAllContractHistory } from "../../../redux/features/contract";
-import { SearchOutlined } from "@ant-design/icons";
 import { generatePath, Link } from "react-router-dom";
 import { ROUTES } from "../../../constants/routerConst";
 import { fetchAllManagerContract } from "../../../redux/features/manager";
-import { fetchAllStaffContract } from "../../../redux/features/staff";
-import { isEmpty } from "lodash";
+import {
+  fetchAllStaffContract,
+  fetchAllStaffContractList,
+} from "../../../redux/features/staff";
+import { concat, isEmpty, set } from "lodash";
 
 const { Title } = Typography;
 
@@ -19,17 +21,7 @@ export default function ListContracts() {
   const columns = useMemo(
     () => [
       {
-        title: () => (
-          <Space
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-            }}
-          >
-            <span>Biển số xe</span>
-            <SearchOutlined />
-          </Space>
-        ),
+        title: "Biển số xe",
         dataIndex: "pattern",
         key: "pattern",
       },
@@ -135,8 +127,9 @@ export default function ListContracts() {
       const { payload } = await dispatch(fetchAllContractHistory());
       setData(payload);
     } else if (user.role === "staff") {
-      const { payload } = await dispatch(fetchAllStaffContract());
-      setData(payload);
+      const { payload: list1 } = await dispatch(fetchAllStaffContract());
+      const { payload: list2 } = await dispatch(fetchAllStaffContractList());
+      setData(concat(list1, list2));
     } else if (user.role === "manager") {
       const { payload } = await dispatch(fetchAllManagerContract());
       setData(payload);
@@ -148,5 +141,5 @@ export default function ListContracts() {
   }, []);
   return (
     <Table style={{ margin: "16px 0" }} columns={columns} dataSource={data} />
-    );
+  );
 }

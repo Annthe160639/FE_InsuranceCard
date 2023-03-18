@@ -55,7 +55,7 @@ export const staffContractApprove = createAsyncThunk(
     try {
       return await axios
         .put(
-          `http://localhost:8080/api/staff/contract/approve/${id}`,
+          `http://localhost:8080/api/staff/contract/accept/${id}`,
           {},
           config
         )
@@ -143,6 +143,26 @@ export const fetchAllStaffContract = createAsyncThunk(
     try {
       return await axios
         .get(`http://localhost:8080/api/staff/contract`, config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(
+        "An error occurred while insert new contract type"
+      );
+    }
+  }
+);
+
+export const fetchAllStaffContractList = createAsyncThunk(
+  "@Staff/fetchAllStaffContractList",
+  async (values, { rejectWithValue }) => {
+    try {
+      return await axios
+        .get(`http://localhost:8080/api/staff/contract/list`, config)
         .then(({ data }) => {
           return data;
         })

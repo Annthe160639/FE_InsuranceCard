@@ -307,7 +307,8 @@ export const managerContractApprove = createAsyncThunk(
           return data;
         })
         .catch(({ response: { data } }) => {
-          throw new Error(data);
+          console.log(data.message)
+          throw data;
         });
     } catch (_error) {
       return rejectWithValue("Duyệt đơn không thành công");
@@ -438,7 +439,7 @@ export const customerViewListManager = createAsyncThunk(
       return rejectWithValue("An error occurred while open local directory");
     }
   }
-)
+);
 
 const { reducer, actions } = createSlice({
   initialState,

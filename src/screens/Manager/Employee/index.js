@@ -1,5 +1,5 @@
 import { Button, Popconfirm, Space, Table } from "antd";
-import { SearchOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import { PlusOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -46,17 +46,7 @@ export default function ListEmployees() {
         render: (_, record, index) => index + 1,
       },
       {
-        title: () => (
-          <Space
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-            }}
-          >
-            <span>Tên người dùng</span>
-            <SearchOutlined />
-          </Space>
-        ),
+        title: "Tên người dùng",
         dataIndex: "username",
         key: "username",
         width: "20%",
@@ -66,38 +56,6 @@ export default function ListEmployees() {
         dataIndex: "role",
         key: "role",
         width: "10%",
-        render: (_, { role, id }) => {
-          return (
-            <Space>
-              <>{role == "staff" ? "Nhân viên" : "Quản lý"}</>
-              <Popconfirm
-                title="Cập nhật chức vị"
-                description={
-                  <>
-                    Bạn có muốn{" "}
-                    {role == "staff" ? (
-                      <>
-                        cập nhật chức chức vị <strong>Quản lý</strong>
-                      </>
-                    ) : (
-                      <>
-                        giáng chức chức vị xuống <strong>Nhân viên</strong>
-                      </>
-                    )}{" "}
-                    của nhân viên này không?
-                  </>
-                }
-                onConfirm={() => {
-                  handleChangeRole({ role, id });
-                }}
-                okText="Đồng ý"
-                cancelText="Từ chối"
-              >
-                <Button icon={<UserSwitchOutlined />}></Button>
-              </Popconfirm>
-            </Space>
-          );
-        },
         filters: [
           {
             text: "Nhân viên",
@@ -108,7 +66,42 @@ export default function ListEmployees() {
             value: "manager",
           },
         ],
+        render: (_, { role, id }) => {
+          return <>{role == "staff" ? "Nhân viên" : "Quản lý"}</>;
+        },
         onFilter: (value, record) => record.role.indexOf(value) === 0,
+      },
+      {
+        width: "10%",
+        render: (_, { role, id }) => {
+          return (
+            <Popconfirm
+              title="Cập nhật chức vị"
+              description={
+                <>
+                  Bạn có muốn{" "}
+                  {role == "staff" ? (
+                    <>
+                      cập nhật chức chức vị <strong>Quản lý</strong>
+                    </>
+                  ) : (
+                    <>
+                      giáng chức chức vị xuống <strong>Nhân viên</strong>
+                    </>
+                  )}{" "}
+                  của nhân viên này không?
+                </>
+              }
+              onConfirm={() => {
+                handleChangeRole({ role, id });
+              }}
+              okText="Đồng ý"
+              cancelText="Từ chối"
+            >
+              <Button icon={<UserSwitchOutlined />}></Button>
+            </Popconfirm>
+          );
+        },
       },
     ],
     []
@@ -140,9 +133,23 @@ export default function ListEmployees() {
   }, []);
 
   return (
-    <>
-      <Title className="title">Danh sách nhân viên</Title>
+    <div style={{ margin: "16px 0" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: 10,
+        }}
+      >
+        <Button
+          icon={<PlusOutlined />}
+          type="primary"
+          onClick={() => navigate(ROUTES.CUSTOMER_COMPENSATION_REQUEST)}
+        >
+          Thêm nhân viên mới
+        </Button>
+      </div>
       <Table columns={columns} dataSource={data} />
-    </>
+    </div>
   );
 }

@@ -11,6 +11,7 @@ export const ROUTES = {
   CUSTOMER_COMPENSATION_LIST: "/customer/compensation",
   CUSTOMER_COMPENSATION_DETAILS: "/customer/compensation/:id",
   CUSTOMER_COMPENSATION_REQUEST: "/customer/compensation/request",
+  CUSTOMER_CHANGE_PASSWORD: "/customer/password/change",
   CUSTOMER_RESET_PASSWORD: "/customer/password/reset",
   CUSTOMER_FORGET_PASSWORD: "/customer/password/forget",
   STAFF_CONTRACT: "/staff/contract",

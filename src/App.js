@@ -32,6 +32,7 @@ import CustomerPrivateRoute from "./routes/CustomerPrivateRoute";
 import CustomerVerify from "./screens/CustomerVerify";
 import GuestRoute from "./routes/GuestRoute";
 import Screen404 from "./screens/ErrorScreen/Screen404";
+import ChangePassword from "./screens/ChangePassword";
 
 export default function App() {
   return (
@@ -100,6 +101,10 @@ export default function App() {
               <Route
                 path={ROUTES.CUSTOMER_COMPENSATION_REQUEST}
                 element={<RequestCompensation />}
+              />
+              <Route
+                path={ROUTES.CUSTOMER_CHANGE_PASSWORD}
+                element={<ChangePassword />}
               />
             </Route>
             {/* Staff */}

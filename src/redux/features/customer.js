@@ -94,6 +94,29 @@ export const customerResetPassword = createAsyncThunk(
   }
 );
 
+export const customerChangePassword = createAsyncThunk(
+  "@Customer/Change/Password",
+  async ({ oldPassword, password, password2 }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .postForm(
+          "http://localhost:8080/api/customer/password/change",
+          { oldPassword, password, password2 },
+          config
+        )
+        .then((res) => {})
+        .catch(({ response: { data } }) => {
+          if (data.message) {
+            throw data.message;
+          }
+          throw data;
+        });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
 export const customerResetNewPassword = createAsyncThunk(
   "@Customer/Reset/Password",
   async ({ password, password2, key }, { rejectWithValue }) => {
@@ -154,8 +177,8 @@ export const fetchCustomerInfor = createAsyncThunk(
           return data;
         })
         .catch(({ response: { data } }) => {
-          if (data.message){
-            throw data.message
+          if (data.message) {
+            throw data.message;
           }
           throw data;
         });
@@ -188,7 +211,10 @@ export const customerContractReject = createAsyncThunk(
   async ({ id }, { rejectWithValue }) => {
     try {
       return await axios
-        .delete(`http://localhost:8080/api/customer/contract/cancel/${id}`, config)
+        .delete(
+          `http://localhost:8080/api/customer/contract/cancel/${id}`,
+          config
+        )
         .then(({ data }) => {
           return data;
         })

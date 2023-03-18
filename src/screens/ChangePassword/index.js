@@ -1,30 +1,30 @@
-import { Button, Form, Input, Layout } from "antd";
-import { Content } from "antd/es/layout/layout";
-import Title from "antd/es/typography/Title";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { createNotification } from "../../redux/features/notification";
+import { Button, Form, Input, Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
+import Title from "antd/es/typography/Title";
+import { customerChangePassword } from "../../redux/features/customer";
 import { ROUTES } from "../../constants/routerConst";
-import { customerResetNewPassword } from "../../redux/features/customer";
-export default function ResetPassword() {
+import { PageHeader } from "@ant-design/pro-components";
+import { createNotification } from "../../redux/features/notification";
+
+export default function ChangePassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const key = searchParams.get("key");
   const [form] = Form.useForm();
 
   const handleSubmitResetPassword = useCallback(async (values) => {
-    values.key = key;
-    const { error } = await dispatch(customerResetNewPassword(values));
+    const { error, payload } = await dispatch(customerChangePassword(values));
+    console.log(payload);
     await dispatch(
       createNotification({
         type: error ? "error" : "success",
-        message: error ? error : "Cập nhật mật khẩu mới thành công",
+        message: error ? payload : "Cập nhật mật khẩu mới thành công",
       })
     );
     if (!error) {
-      navigate(ROUTES.CUSTOMER_LOGIN);
+      navigate(ROUTES.HOME);
     }
   }, []);
 
@@ -38,28 +38,25 @@ export default function ResetPassword() {
         alignItems: "center",
       }}
     >
-      <Layout
+      <PageHeader
+        className="site-page-header-responsive"
+        onBack={() => window.history.back()}
+        title="Thông tin cá nhân"
         style={{
-          backgroundColor: "white",
           maxWidth: 600,
-          height: 300,
-          display: "flex",
-          alignItems: "center",
-          justifyItems: "center",
-          boxShadow: "0px 0px 30px -20px #666",
+          background: "white",
         }}
       >
         <Content
           style={{
             backgroundColor: "white",
             width: 500,
-            maxHeight: 200,
             padding: "10px 20px",
             textAlign: "center",
           }}
         >
           <Title level={4} style={{ fontWeight: 700 }}>
-            Khôi phục mật khẩu mới?
+            Thay đổi mật khẩu mới
           </Title>
 
           <Form
@@ -67,6 +64,23 @@ export default function ResetPassword() {
             onFinish={handleSubmitResetPassword}
             form={form}
           >
+            <Form.Item
+              name="oldPassword"
+              label="Mật khẩu cũ"
+              rules={[
+                {
+                  validator: (_, value) => {
+                    if (value) {
+                      return Promise.resolve();
+                    } else {
+                      return Promise.reject("Hãy điền mật khẩu cũ!");
+                    }
+                  },
+                },
+              ]}
+            >
+              <Input.Password placeholder="Mật khẩu mới" />
+            </Form.Item>
             <Form.Item
               name="password"
               label="Mật khẩu mới"
@@ -76,7 +90,7 @@ export default function ResetPassword() {
                     if (value) {
                       return Promise.resolve();
                     } else {
-                      return Promise.reject("Hãy điền mật khẩu mới");
+                      return Promise.reject("Hãy điền mật khẩu mới!");
                     }
                   },
                 },
@@ -112,7 +126,7 @@ export default function ResetPassword() {
             </Form.Item>
           </Form>
         </Content>
-      </Layout>
+      </PageHeader>
     </div>
   );
 }
