@@ -19,7 +19,7 @@ import ContractTypeDetails from "./screens/ContractTypeDetailsScreen";
 import AddContractTypeScreen from "./screens/Manager/ContractTypeManagement/Add";
 import ManagerLoginScreen from "./screens/Manager/Login";
 import ContractTypeDetailsScreen from "./screens/Manager/ContractTypeManagement/Details";
-import ListCustomers from "./screens/StaffManagement/Customer";
+import ListCustomers from "./screens/Manager/Customer";
 import ListEmployees from "./screens/Manager/Employee";
 import ListCompensions from "./screens/Compensation";
 import ViewCompensation from "./screens/Compensation/Details";
@@ -29,6 +29,8 @@ import StaffRoute from "./routes/StaffRoute";
 import ManagerRoute from "./routes/ManagerRoute";
 import ForgotPassword from "./screens/ForgotPassword";
 import StaffCustomer from "./screens/StaffManagement/Customer";
+import ManagerScreen from "./screens/Manager/ManagerScreen";
+import MainScreen from "./screens/MainScreen";  
 
 export default function App() {
   return (
@@ -54,6 +56,10 @@ export default function App() {
               <Route
                 path={ROUTES.CUSTOMER_PROFILE}
                 element={<EditProfileScreen />}
+              />
+              <Route
+                path={ROUTES.CUSTOMER_MAINSCREEN}
+                element={<MainScreen />}
               />
               <Route
                 path={ROUTES.CUSTOMER_CONTRACT_HISTORY}
@@ -103,6 +109,10 @@ export default function App() {
               <Route
                 path={ROUTES.MANAGER_LOGIN}
                 element={<ManagerLoginScreen />}
+              />
+              <Route
+                path={ROUTES.MANAGER_SCREEN}
+                element={<ManagerScreen />}
               />
               <Route
                 path={ROUTES.MANAGER_CONTRACTYPE}

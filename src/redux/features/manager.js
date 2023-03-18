@@ -421,6 +421,25 @@ export const managerCompensationReject = createAsyncThunk(
   }
 );
 
+export const customerViewListManager = createAsyncThunk(
+  "@Customer/list",
+  async ({}, { rejectWithValue }) => {
+    try {
+      const res = await axios
+        .get("http://localhost:8080/api/manager/customer/list", config)
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {
+          return res;
+        });
+      return res;
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+)
+
 const { reducer, actions } = createSlice({
   initialState,
   name: "manager",

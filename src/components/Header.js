@@ -92,7 +92,7 @@ export default function PageHeader() {
               <Button
                 type="link"
                 icon={<HomeOutlined />}
-                onClick={() => naviagate(ROUTES.HOME)}
+                onClick={() => naviagate(ROUTES.CUSTOMER_MAINSCREEN)}
               >
                 Trang chủ
               </Button>
