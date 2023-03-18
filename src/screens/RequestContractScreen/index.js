@@ -46,7 +46,7 @@ export default function RequestContractScreen() {
   );
   
   return (
-    <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
+    <div style={{ backgroundColor: "", textAlign: "center" }}>
       <Form
         form={form}
         name="basic"

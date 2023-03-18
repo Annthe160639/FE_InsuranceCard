@@ -86,9 +86,10 @@ export default function HomeScreen() {
                     textAlign: "center",
                     overflow: "hidden",
                     overflowWrap: "none",
+                    
                   }}
                 >
-                  <h2>{contractTypeDetails.name}</h2>
+                  <h2 style={{color: "red"}}>{contractTypeDetails.name}</h2>
                 </Header>
                 <Content
                   style={{
@@ -105,8 +106,10 @@ export default function HomeScreen() {
                       display: "flex",
                     }}
                   >
-                    <div>Phân khúc: {contractTypeDetails.vehicleType}</div>
-                    <div>Giá bán: {contractTypeDetails.price}</div>
+                    <div><label>Phân khúc: </label>{contractTypeDetails.vehicleType}</div>
+                    <div><label>Giá bán: </label>{contractTypeDetails.price}</div>
+                    <div><label>Hạn mức bảo hiểm: </label>{contractTypeDetails.insuranceLevel}</div>
+
                   </Space>
                   <Space
                     direction="horizontal"
