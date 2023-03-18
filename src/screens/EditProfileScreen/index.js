@@ -1,21 +1,40 @@
-import { Button, Col, Form, Input, Row, Space } from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
+import Axios from "axios";
+import { Image } from "cloudinary-react";
 import { map } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import s from "./style.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
 import {
   fetchCustomerInfor,
-  updateUserProfile,
+  updateUserProfile
 } from "../../redux/features/customer";
 import { createNotification } from "../../redux/features/notification";
 import { deleteUser } from "../../redux/features/user";
-import s from "./style.css";
+
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [image, setImage] = useState("http://res.cloudinary.com/dlgs1eqbv/image/upload/v1679151540/o4lqsxu0uvltftocxpz4.jpg")
   const [form] = Form.useForm();
   const [customerInfo, setCustomerIfo] = useState({});
+  const [imageSelected, setImageSelected] = useState("");
+
+  const uploadImage = () => {
+    const formData = new FormData();
+    formData.append("file", imageSelected);
+    formData.append("upload_preset", "zmtq5y1s");
+    Axios.post(
+      "https://api.cloudinary.com/v1_1/dlgs1eqbv/image/upload",
+      formData
+    ).then((response) => {
+      console.log('32',response.data.url);
+      setImage(response.data.url)
+    });
+    //return response.data.url;
+  };
 
   const handleFetchCustomer = useCallback(async () => {
     const { error, payload } = await dispatch(fetchCustomerInfor());
@@ -70,10 +89,6 @@ export default function EditProfileScreen() {
     }
   }, []);
 
-  const handleChangePassword = useCallback(async () => {
-    navigate(ROUTES.CUSTOMER_CHANGE_PASSWORD)
-  }, []);
-
   useEffect(() => {
     handleFetchCustomer();
   }, []);
@@ -83,13 +98,20 @@ export default function EditProfileScreen() {
       <Row span={15}>
         <Col span={8} className="left">
           <div className="avatar">
-            <img src="../../jisoo.png"></img>
+          <Image
+              style={{ width: 200 }}
+              cloudName="dlgs1eqbv"
+              publicId={image}
+            />
           </div>
+          <input
+            type="file"
+            onChange={(e) => {
+              setImageSelected(e.target.files[0]);
+            }}
+          />
+          <Button onClick={uploadImage}>Change Image</Button>
           <Button type="primary" htmlType="submit">
-            Thay đổi ảnh
-          </Button>
-
-          <Button type="primary" htmlType="submit" onClick={handleChangePassword}>
             Đổi mật khẩu
           </Button>
 
