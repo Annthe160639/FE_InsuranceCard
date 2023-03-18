@@ -2,9 +2,25 @@ import { Button, Form, Input, Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Paragraph from "antd/es/typography/Paragraph";
 import Title from "antd/es/typography/Title";
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { customerResetPassword } from "../../redux/features/customer";
+import { createNotification } from "../../redux/features/notification";
 
 export default function ForgotPassword() {
+  const dispatch = useDispatch();
+
+  const handleSubmitResetPassword = useCallback(async (values) => {
+    console.log(values);
+    const { error } = await dispatch(customerResetPassword(values));
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error ? error : "Gửi mail thành công! Vui lòng kiểm tra mail!",
+      })
+    );
+  }, []);
+
   return (
     <div
       style={{
@@ -41,7 +57,7 @@ export default function ForgotPassword() {
           <Paragraph>
             Đừng lo! Hãy điền tên đăng nhập bạn đã đăng kí để lấy lại mật khẩu
           </Paragraph>
-          <Form layout="vertical">
+          <Form layout="vertical" onFinish={handleSubmitResetPassword}>
             <Form.Item
               name="username"
               label="Tên đăng nhập"
@@ -53,7 +69,13 @@ export default function ForgotPassword() {
               ]}
             >
               <Input placeholder="Điền tên đăng nhập" />
-              <Button style={{ marginTop: 10, width: 70 }} type="primary">
+            </Form.Item>
+            <Form.Item>
+              <Button
+                style={{ marginTop: 10, width: 70 }}
+                type="primary"
+                htmlType="submit"
+              >
                 Gửi
               </Button>
             </Form.Item>

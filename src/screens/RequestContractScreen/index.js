@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
@@ -20,9 +20,10 @@ export default function RequestContractScreen() {
   }
 
   const startDate = Form.useWatch("startDate", form);
+  const duration = Form.useWatch("duration", form);
   const handleFormSubmit = useCallback(async (values) => {
     delete values.duration;
-    const {  error } = await dispatch(requestNewContract(values));
+    const { error } = await dispatch(requestNewContract(values));
 
     await dispatch(
       createNotification({
@@ -32,19 +33,24 @@ export default function RequestContractScreen() {
     );
 
     if (!error) {
-      navigate(ROUTES.HOME)
+      navigate(ROUTES.CUSTOMER_CONTRACT_HISTORY);
     }
   }, []);
 
   const handleSelectDuration = useCallback(
     (value) => {
-      let splitSDate = startDate.split("-");
-      splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(value));
-      form.setFieldValue("endDate", splitSDate.join("-"));
+      if (duration && startDate) {
+        let splitSDate = startDate.split("-");
+        splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(duration));
+        form.setFieldValue("endDate", splitSDate.join("-"));
+      }
     },
-    [startDate, JSON.stringify(form)]
+    [startDate, duration]
   );
-  
+
+  useEffect(() => {
+    handleSelectDuration(startDate);
+  }, [startDate, JSON.stringify(form)]);
   return (
     <div style={{ backgroundColor: "lightsteelblue", textAlign: "center" }}>
       <Form

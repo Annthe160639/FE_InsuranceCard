@@ -29,6 +29,9 @@ import StaffRoute from "./routes/StaffRoute";
 import ManagerRoute from "./routes/ManagerRoute";
 import ForgotPassword from "./screens/ForgotPassword";
 import StaffCustomer from "./screens/StaffManagement/Customer";
+import ResetPassword from "./screens/ResetPassword";
+import CustomerPrivateRoute from "./routes/CustomerPrivateRoute";
+import CustomerVerify from "./screens/CustomerVerify";
 
 export default function App() {
   return (
@@ -43,7 +46,16 @@ export default function App() {
               element={<ContractTypeDetails />}
             />
             <Route path={ROUTES.CUSTOMER_LOGIN} element={<LoginScreen />} />
-            <Route path={ROUTES.CUSTOMER_FORGET_PASSWORD} element={<ForgotPassword />} />
+            <Route element={<CustomerPrivateRoute />}>
+              <Route
+                path={ROUTES.CUSTOMER_RESET_PASSWORD}
+                element={<ResetPassword />}
+              />
+              <Route
+                path={ROUTES.CUSTOMER_VERIFY}
+                element={<CustomerVerify />}
+              />
+            </Route>
             <Route
               path={ROUTES.CUSTOMER_REGISTER}
               element={<RegisterScreen />}
@@ -54,6 +66,10 @@ export default function App() {
               <Route
                 path={ROUTES.CUSTOMER_PROFILE}
                 element={<EditProfileScreen />}
+              />
+              <Route
+                path={ROUTES.CUSTOMER_FORGET_PASSWORD}
+                element={<ForgotPassword />}
               />
               <Route
                 path={ROUTES.CUSTOMER_CONTRACT_HISTORY}

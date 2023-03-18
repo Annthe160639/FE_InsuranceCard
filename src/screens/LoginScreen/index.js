@@ -27,6 +27,7 @@ const LoginScreen = () => {
         break;
       default:
     }
+    console.log(!!res.error)
     if (res.error) {
       await dispatch(
         createNotification({

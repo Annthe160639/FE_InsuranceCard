@@ -2,18 +2,29 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Form, Input } from "antd";
 import { customerRegister } from "../../redux/features/customer";
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+import { createNotification } from "../../redux/features/notification";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routerConst";
 
-export default function RegisterScreen () {
+export default function RegisterScreen() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = useCallback(async (values) => {
-    await dispatch(customerRegister(values));
-  })
+    const { error, payload } = await dispatch(customerRegister(values));
+
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error
+          ? payload
+          : "Đăng kí thành công. Vui lòng kiểm tra mail để xác thực tài khoản",
+      })
+    );
+
+    if (!error) {
+      navigate(ROUTES.CUSTOMER_LOGIN);
+    }
+  });
 
   return (
     <>
@@ -33,8 +44,7 @@ export default function RegisterScreen () {
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={handleSubmit}
         autoComplete="off"
       >
         <Form.Item
@@ -46,7 +56,7 @@ export default function RegisterScreen () {
           <h1
             style={{
               fontSize: 24,
-              marginBottom: '0px'
+              marginBottom: "0px",
             }}
           >
             ĐĂNG KÝ
@@ -157,11 +167,11 @@ export default function RegisterScreen () {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" onSubmit={handleSubmit}>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
       </Form>
     </>
   );
-};
+}

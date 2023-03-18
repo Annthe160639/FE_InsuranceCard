@@ -9,6 +9,7 @@ import {
   Button,
   Space,
   Spin,
+  Popconfirm,
 } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { isEmpty } from "lodash";
@@ -16,6 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneContract } from "../../../redux/features/contract";
+import { customerContractReject } from "../../../redux/features/customer";
 import {
   managerContractApprove,
   managerContractReject,
@@ -63,7 +65,9 @@ export default function ViewContract() {
 
   const handleRejectContract = useCallback(async () => {
     let res = { error: {}, payload: {} };
-    if (user.role == "staff") {
+    if (user.role == "customer") {
+      res = await dispatch(customerContractReject({ id }));
+    } else if (user.role == "staff") {
       res = await dispatch(staffContractReject({ id }));
     } else if (user.role == "manager") {
       res = await dispatch(managerContractReject({ id }));
@@ -74,7 +78,7 @@ export default function ViewContract() {
         type: res.error ? "error" : "success",
         message: res.error
           ? "Huỷ hợp đồng không thành công"
-          : "Huỷ đơn thành công",
+          : "Huỷ hợp đồng thành công",
       })
     );
 
@@ -101,6 +105,21 @@ export default function ViewContract() {
             gap: "20px",
           }}
         >
+          {user.role === "customer" &&
+            (contractDetails?.status == "Đang chờ xử lý" ||
+              contractDetails?.status == "Đang xử lý") && (
+              <Space>
+                <Popconfirm
+                  title="Huỷ hợp đồng"
+                  onConfirm={handleRejectContract}
+                  okText="Huỷ"
+                  cancelText="Không"
+                  style={{width: 50}}
+                >
+                  <Button danger>Huỷ</Button>
+                </Popconfirm>
+              </Space>
+            )}
           {(user.role == "staff" || user.role == "manager") && (
             <Space>
               {(contractDetails?.status == "Đang chờ xử lý" ||

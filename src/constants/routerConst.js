@@ -3,6 +3,7 @@ export const ROUTES = {
   CONTRACT_TYPE: "/contract/type/:id",
   CUSTOMER_LOGIN: "/customer/login",
   CUSTOMER_REGISTER: "/customer/register",
+  CUSTOMER_VERIFY: "/customer/verify",
   CUSTOMER_PROFILE: "/customer/profile",
   CUSTOMER_MAINSCREEN: "/customer/mainscreen",
   CUSTOMER_CONTRACT_HISTORY: "/customer/contract",

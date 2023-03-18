@@ -11,6 +11,16 @@ const config = {
   },
 };
 
+const configForm = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "multipart/form-data",
+    Authorization: localStorage.getItem("userToken")
+      ? `Bearer ${localStorage.getItem("userToken")}`
+      : "",
+  },
+};
+
 const initialState = {
   customer: {},
   loading: false,
@@ -18,20 +28,43 @@ const initialState = {
 
 export const customerRegister = createAsyncThunk(
   "@Customer/Register",
-  (
+  async (
     { username, password, name, gmail, phone, address, ci },
     { rejectWithValue }
   ) => {
     try {
-      axios
+      return await axios
         .post(
           "http://localhost:8080/api/customer/register",
           { username, password, name, gmail, phone, address, ci },
           config
         )
         .then((res) => {})
-        .catch();
-      return { username, password, name, gmail, phone, address, ci };
+        .catch(({ response: { data } }) => {
+          if (data.message) {
+            throw data.message;
+          }
+          throw data;
+        });
+    } catch (_error) {
+      return rejectWithValue("An error occurred while open local directory");
+    }
+  }
+);
+export const customerVerify = createAsyncThunk(
+  "@Customer/Verify",
+  async ({ key }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .postForm("http://localhost:8080/api/customer/verify", { key }, config)
+        .then((res) => {})
+        .catch(({ response: { data } }) => {
+          console.log(data);
+          if (data.message) {
+            throw data.message;
+          }
+          throw data;
+        });
     } catch (_error) {
       return rejectWithValue("An error occurred while open local directory");
     }
@@ -40,19 +73,45 @@ export const customerRegister = createAsyncThunk(
 
 export const customerResetPassword = createAsyncThunk(
   "@Customer/Password",
-  ({ username }, { rejectWithValue }) => {
+  async ({ username }, { rejectWithValue }) => {
     try {
-      axios
-        .post(
+      return await axios
+        .postForm(
           "http://localhost:8080/api/customer/password/reset",
           { username },
           config
         )
         .then((res) => {})
         .catch(({ response: { data } }) => {
+          if (data.message) {
+            throw data.message;
+          }
           throw data;
         });
-      return { username };
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const customerResetNewPassword = createAsyncThunk(
+  "@Customer/Reset/Password",
+  async ({ password, password2, key }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .postForm(
+          `http://localhost:8080/api/customer/password/new`,
+          { password, password2, key },
+          config
+        )
+        .then((res) => {})
+        .catch(({ response: { data } }) => {
+          console.log(data);
+          if (data.message) {
+            throw data.message;
+          }
+          throw data;
+        });
     } catch (_error) {
       return rejectWithValue(_error);
     }
@@ -79,6 +138,7 @@ export const customerLogin = createAsyncThunk(
           throw data;
         });
     } catch (_error) {
+      console.log(_error);
       return rejectWithValue(_error);
     }
   }
@@ -108,6 +168,24 @@ export const fetchAllCustomerApproveContract = createAsyncThunk(
     try {
       return await axios
         .get("http://localhost:8080/api/customer/approve/contract", config)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch(({ response: { data } }) => {
+          throw new Error(data);
+        });
+    } catch (_error) {
+      return rejectWithValue(_error);
+    }
+  }
+);
+
+export const customerContractReject = createAsyncThunk(
+  "@Customer/Contract/Cancel",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return await axios
+        .delete(`http://localhost:8080/api/customer/contract/cancel/${id}`, config)
         .then(({ data }) => {
           return data;
         })
@@ -178,7 +256,7 @@ export const customerViewList = createAsyncThunk(
       return rejectWithValue("An error occurred while open local directory");
     }
   }
-)
+);
 
 // export const customerLogout = createAsyncThunk(
 //   "@Customer/Login",

@@ -3,7 +3,6 @@ import axios from "axios";
 
 function getInitialState() {
   return {
-    alerts: [],
   };
 }
 
