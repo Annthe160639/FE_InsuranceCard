@@ -25,6 +25,7 @@ import ListCustomers from "./screens/StaffManagement/Customer";
 import ListEmployees from "./screens/Manager/Employee";
 import ListCompensions from "./screens/Compensation";
 import ViewCompensation from "./screens/Compensation/Details";
+import StaffCustomer from "./screens/StaffManagement/Customer";
 
 export default function App() {
   return (
@@ -67,7 +68,8 @@ export default function App() {
             {/* Staff */}
             <Route path={ROUTES.STAFF_MAINSCREEN} element={<StaffScreen />} />
             <Route path={ROUTES.STAFF_CONTRACT} element={<ListContracts />} />
-            <Route path={ROUTES.STAFF_CONTRACT_DETAILS} element={<ViewContract />} />
+            <Route path={ROUTES.STAFF_CONTRACT_DETAILS} element={<ViewContract />} />\
+            <Route path={ROUTES.STAFF_CUSTOMER} element={<StaffCustomer />} />
             <Route
               path={ROUTES.STAFF_COMPENSATION}
               element={<ListCompensions />}
