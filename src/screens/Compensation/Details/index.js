@@ -86,7 +86,7 @@ export default function ViewCompensation() {
   useEffect(() => {
     handleGetCompensationDetail();
   }, []);
-
+  console.log(compensationDetails?.status, user.role);
   return (
     <Spin spinning={!compensationDetails}>
       <PageHeader
@@ -103,31 +103,29 @@ export default function ViewCompensation() {
               gap: "20px",
             }}
           >
-            {(user.role == "staff" || user.role == "manager") && (
-              <Space>
-                {(compensationDetails?.status == "Đang chờ xử lý" ||
-                  compensationDetails?.status == "Đang xử lý") && (
-                  <Button danger onClick={handleRejectCompensation}>
-                    Từ chối
-                  </Button>
-                )}
-                {(compensationDetails?.status === "Đang chờ xử lý" ||
-                  (compensationDetails?.status === "Đang xử lý" &&
-                    user.role == "manager")) && (
-                  <Button type="primary" onClick={handleApproveCompensation}>
-                    {user.role === "staff" &&
-                    compensationDetails?.status === "Đang chờ xử lý"
-                      ? "Duyệt"
-                      : ""}
-                    {user.role === "manager" &&
-                    (compensationDetails?.status === "Đang chờ xử lý" ||
-                      compensationDetails?.status === "Đang xử lý")
-                      ? "Duyệt"
-                      : ""}
-                  </Button>
-                )}
-              </Space>
-            )}
+            <Space>
+              {(compensationDetails.status === "Ðang chờ xử lý" ||
+                compensationDetails.status == "Đang xử lý") && (
+                <Button danger onClick={handleRejectCompensation}>
+                  Từ chối
+                </Button>
+              )}
+              {(compensationDetails.status === "Ðang chờ xử lý" ||
+                (compensationDetails.status === "Đang xử lý" &&
+                  user.role == "manager")) && (
+                <Button type="primary" onClick={handleApproveCompensation}>
+                  {user.role === "staff" &&
+                  compensationDetails.status === "Ðang chờ xử lý"
+                    ? "Duyệt"
+                    : ""}
+                  {user.role === "manager" &&
+                  (compensationDetails.status === "Ðang chờ xử lý" ||
+                    compensationDetails.status === "Đang xử lý")
+                    ? "Duyệt"
+                    : ""}
+                </Button>
+              )}
+            </Space>
             <Statistic
               title="Trạng thái"
               value={compensationDetails?.status?.toUpperCase()}

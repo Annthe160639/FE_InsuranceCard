@@ -50,8 +50,8 @@ const StaffCustomer = () => {
 
   const handleGetCustomerList = useCallback(() => {
     dispatch(customerViewList({})).then(({ payload }) => {
-      if (Array.isArray(payload.content)) {
-        payload = payload.content.map((customerView) => ({
+      if (Array.isArray(payload)) {
+        payload = payload.map((customerView) => ({
           key: customerView.id,
           name: customerView.name,
           gmail: customerView.gmail,

@@ -107,7 +107,7 @@ export default function ViewContract() {
           }}
         >
           {user.role === "customer" &&
-            (contractDetails?.status == "Đang chờ xử lý" ||
+            (contractDetails?.status == "Ðang chờ xử lý" ||
               contractDetails?.status == "Đang xử lý") && (
               <Space>
                 <Popconfirm
@@ -123,14 +123,14 @@ export default function ViewContract() {
             )}
           {(user.role == "staff" || user.role == "manager") && (
             <Space>
-              {(contractDetails?.status == "Đang chờ xử lý" ||
+              {(contractDetails?.status == "Ðang chờ xử lý" ||
                 contractDetails?.status == "Đang xử lý") && (
                 <Button danger onClick={handleRejectContract}>
                   Từ chối
                 </Button>
               )}
               {user.role === "staff" &&
-                contractDetails?.status == "Đang chờ xử lý" && (
+                contractDetails?.status == "Ðang chờ xử lý" && (
                   <Button type="primary" onClick={handleApproveContract}>
                     "Duyệt"
                   </Button>

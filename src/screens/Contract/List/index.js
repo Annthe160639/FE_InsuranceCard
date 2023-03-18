@@ -93,7 +93,7 @@ export default function ListContracts() {
           let color = status === "Ðang xử lý" ? "blue" : "";
           if (status === "Đã duyệt") {
             color = "green";
-          } else if (status === "Đang chờ xử lý") {
+          } else if (status === "Ðang chờ xử lý") {
             color = "orange";
           }
           return (
@@ -112,8 +112,8 @@ export default function ListContracts() {
             value: "Đã duyệt",
           },
           {
-            text: "Đang chờ xử lý",
-            value: "Đang chờ xử lý",
+            text: "Ðang chờ xử lý",
+            value: "Ðang chờ xử lý",
           },
         ],
         onFilter: (value, record) => record.status.indexOf(value) === 0,
