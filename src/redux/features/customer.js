@@ -154,7 +154,10 @@ export const fetchCustomerInfor = createAsyncThunk(
           return data;
         })
         .catch(({ response: { data } }) => {
-          throw new Error(data);
+          if (data.message){
+            throw data.message
+          }
+          throw data;
         });
     } catch (_error) {
       return rejectWithValue(_error);

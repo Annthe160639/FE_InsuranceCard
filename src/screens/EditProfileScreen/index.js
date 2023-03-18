@@ -17,6 +17,21 @@ export default function EditProfileScreen() {
   const [form] = Form.useForm();
   const [customerInfo, setCustomerIfo] = useState({});
 
+  const handleFetchCustomer = useCallback(async () => {
+    const { error, payload } = await dispatch(fetchCustomerInfor());
+    if (payload) {
+      console.log(payload);
+      setCustomerIfo(payload);
+    } else if (error) {
+      await dispatch(
+        createNotification({
+          type: error ? "error" : "success",
+          message: error ? `Có lỗi xảy ra khi lấy thông tin người dung` : "",
+        })
+      );
+    }
+  }, []);
+
   const handleEditProfile = useCallback(async (values) => {
     const { error, payload } = await dispatch(
       updateUserProfile({
@@ -38,20 +53,6 @@ export default function EditProfileScreen() {
 
     if (!error) {
       handleFetchCustomer();
-    }
-  }, []);
-
-  const handleFetchCustomer = useCallback(async () => {
-    const { error, payload } = await dispatch(fetchCustomerInfor());
-    if (payload) {
-      setCustomerIfo(payload);
-    } else if (error) {
-      await dispatch(
-        createNotification({
-          type: error ? "error" : "success",
-          message: error ? `Có lỗi xảy ra khi lấy thông tin người dung` : "",
-        })
-      );
     }
   }, []);
 

@@ -9,7 +9,7 @@ import { managerLogin } from "../../redux/features/manager";
 import { setUser } from "../../redux/features/user";
 import { staffLogin } from "../../redux/features/staff";
 
-const LoginScreen = () => {
+export default function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleFormSubmit = useCallback(async ({ username, password, role }) => {
@@ -27,7 +27,7 @@ const LoginScreen = () => {
         break;
       default:
     }
-    console.log(!!res.error)
+    console.log(!!res.error);
     if (res.error) {
       await dispatch(
         createNotification({
@@ -46,19 +46,9 @@ const LoginScreen = () => {
           message: `Chào, ${username}`,
         })
       );
-      if (role == "staff") {
-        setTimeout(() => {
-          window.location.href = ROUTES.STAFF_MAINSCREEN;
-        }, 300);
-      } else if (role == "customer") {
-        setTimeout(() => {
-          window.location.href = ROUTES.CUSTOMER_MAINSCREEN;
-        }, 300);
-      } else if (role == "manager") {
-        setTimeout(() => {
-          window.location.href = ROUTES.MANAGER_SCREEN;
-        }, 300);
-      }
+
+      navigate(ROUTES.HOME);
+      window.location.reload(false);
     }
   });
 
@@ -180,6 +170,4 @@ const LoginScreen = () => {
       </Row>
     </>
   );
-};
-
-export default LoginScreen;
+}

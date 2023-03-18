@@ -38,7 +38,7 @@ export default function CommonLayout() {
             >
               <Menu.Item key={"contract"}>
                 {user.role == "customer" && (
-                  <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Danh sách hợp đồng</Link>
+                  <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
                 )}
                 {user.role == "staff" && (
                   <Link to={ROUTES.STAFF_CONTRACT}>Hợp đồng</Link>
@@ -49,7 +49,9 @@ export default function CommonLayout() {
               </Menu.Item>
               <Menu.Item key={"compensation"}>
                 {user.role == "customer" && (
-                  <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>Hợp đồng đền bù</Link>
+                  <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>
+                    Hợp đồng đền bù
+                  </Link>
                 )}
                 {user.role == "staff" && (
                   <Link to={ROUTES.STAFF_COMPENSATION}>Hợp đồng đền bù</Link>
@@ -58,30 +60,21 @@ export default function CommonLayout() {
                   <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>
                 )}
               </Menu.Item>
-              <Menu.Item key={"customer"}>
-                {user.role == "staff" && (
+              {user.role == "staff" && (
+                <Menu.Item key={"customer"}>
                   <Link to={ROUTES.STAFF_CUSTOMER}>Khách hàng</Link>
-                )}
-                {user.role == "manager" && (
-                  <Link to={ROUTES.MANAGER_COMPENSATION}>Hợp đồng đền bù</Link>
-                )}
-              </Menu.Item>
+                </Menu.Item>
+              )}
               {user.role == "manager" && (
                 <>
                   <Menu.Item key={"contract-type"}>
-                    <Link to={ROUTES.MANAGER_CONTRACTYPE}>
-                      Loại hợp đồng
-                    </Link>
+                    <Link to={ROUTES.MANAGER_CONTRACTYPE}>Loại hợp đồng</Link>
                   </Menu.Item>
                   <Menu.Item key={"employee-manager"}>
-                    <Link to={ROUTES.MANAGER_EMPLOYEE}>
-                      Quản lý nhân viên
-                    </Link>
+                    <Link to={ROUTES.MANAGER_EMPLOYEE}>Quản lý nhân viên</Link>
                   </Menu.Item>
                   <Menu.Item key={"customer-manager"}>
-                    <Link to={ROUTES.MANAGER_CUSTOMER}>
-                      Quản lý khách hàng
-                    </Link>
+                    <Link to={ROUTES.MANAGER_CUSTOMER}>Quản lý khách hàng</Link>
                   </Menu.Item>
                 </>
               )}

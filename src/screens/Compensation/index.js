@@ -11,8 +11,11 @@ import {
   fetchAllStaffCompensation,
   fetchAllStaffCompensationList,
 } from "../../redux/features/staff";
-import { fetchAllManagerCompensation, fetchAllManagerCompensationList } from "../../redux/features/manager";
-import { concat } from "lodash";
+import {
+  fetchAllManagerCompensation,
+  fetchAllManagerCompensationList,
+} from "../../redux/features/manager";
+import { concat, isEmpty } from "lodash";
 
 export default function ListCompensions() {
   const dispatch = useDispatch();

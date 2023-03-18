@@ -1,15 +1,20 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { isEmpty, map } from "lodash";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
 import { requestNewContract } from "../../redux/features/contract";
+import { fetchCustomerInfor } from "../../redux/features/customer";
 import { createNotification } from "../../redux/features/notification";
 export default function RequestContractScreen() {
+  const user = useSelector(({ user: { user } }) => user);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  const [customerInfo, setCustomerInfo] = useState({});
 
   const contractTypeDetails = location.state
     ? location.state.contractTypeDetails
@@ -48,9 +53,32 @@ export default function RequestContractScreen() {
     [startDate, duration]
   );
 
+  const handleFetchCustomer = useCallback(async () => {
+    const { error, payload } = await dispatch(fetchCustomerInfor());
+    if (payload) {
+      console.log(payload);
+      setCustomerInfo(payload);
+    } else if (error) {
+      await dispatch(
+        createNotification({
+          type: error ? "error" : "success",
+          message: error ? `Có lỗi xảy ra khi lấy thông tin người dung` : "",
+        })
+      );
+    }
+  }, []);
+
   useEffect(() => {
     handleSelectDuration(startDate);
   }, [startDate, JSON.stringify(form)]);
+
+  useEffect(() => {
+    if (isEmpty(user)) {
+      navigate(ROUTES.CUSTOMER_LOGIN);
+    } else {
+      handleFetchCustomer();
+    }
+  }, [user]);
   return (
     <div style={{ backgroundColor: "", textAlign: "center" }}>
       <Form
@@ -75,7 +103,14 @@ export default function RequestContractScreen() {
             insuranceLevel: contractTypeDetails.insuranceLevel,
             price: contractTypeDetails.price,
           },
+          buyer: {
+            ci: customerInfo.ci,
+          },
         }}
+        fields={map(customerInfo, (v, k) => ({
+          name: ["buyer", k],
+          value: v,
+        }))}
         onFinish={handleFormSubmit}
         autoComplete="off"
       >

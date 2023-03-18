@@ -4,7 +4,6 @@ import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import RequestContractScreen from "./screens/RequestContractScreen";
-import StaffScreen from "./screens/StaffManagement/StaffScreen";
 import ContractTypeManagement from "./screens/Manager/ContractTypeManagement";
 import { ROUTES } from "./constants/routerConst";
 
@@ -17,7 +16,6 @@ import EditProfileScreen from "./screens/EditProfileScreen";
 import ViewContract from "./screens/Contract/Details";
 import ContractTypeDetails from "./screens/ContractTypeDetailsScreen";
 import AddContractTypeScreen from "./screens/Manager/ContractTypeManagement/Add";
-import ManagerLoginScreen from "./screens/Manager/Login";
 import ContractTypeDetailsScreen from "./screens/Manager/ContractTypeManagement/Details";
 import ListCustomers from "./screens/Manager/Customer";
 import ListEmployees from "./screens/Manager/Employee";
@@ -32,6 +30,8 @@ import StaffCustomer from "./screens/StaffManagement/Customer";
 import ResetPassword from "./screens/ResetPassword";
 import CustomerPrivateRoute from "./routes/CustomerPrivateRoute";
 import CustomerVerify from "./screens/CustomerVerify";
+import GuestRoute from "./routes/GuestRoute";
+import Screen404 from "./screens/ErrorScreen/Screen404";
 
 export default function App() {
   return (
@@ -45,7 +45,23 @@ export default function App() {
               path={ROUTES.CONTRACT_TYPE}
               element={<ContractTypeDetails />}
             />
-            <Route path={ROUTES.CUSTOMER_LOGIN} element={<LoginScreen />} />
+            <Route
+              path={ROUTES.CUSTOMER_CONTRACT_REQUEST}
+              element={<RequestContractScreen />}
+            />
+            {/* Guest Route */}
+            <Route element={<GuestRoute />}>
+              <Route path={ROUTES.CUSTOMER_LOGIN} element={<LoginScreen />} />
+              <Route
+                path={ROUTES.CUSTOMER_REGISTER}
+                element={<RegisterScreen />}
+              />
+              <Route
+                path={ROUTES.CUSTOMER_FORGET_PASSWORD}
+                element={<ForgotPassword />}
+              />
+            </Route>
+            {/* Private Customer Route */}
             <Route element={<CustomerPrivateRoute />}>
               <Route
                 path={ROUTES.CUSTOMER_RESET_PASSWORD}
@@ -56,21 +72,14 @@ export default function App() {
                 element={<CustomerVerify />}
               />
             </Route>
-            <Route
-              path={ROUTES.CUSTOMER_REGISTER}
-              element={<RegisterScreen />}
-            />
-            {/* Customer */}
 
+            {/* Customer */}
             <Route element={<CustomerRoute />}>
               <Route
                 path={ROUTES.CUSTOMER_PROFILE}
                 element={<EditProfileScreen />}
               />
-              <Route
-                path={ROUTES.CUSTOMER_FORGET_PASSWORD}
-                element={<ForgotPassword />}
-              />
+
               <Route
                 path={ROUTES.CUSTOMER_CONTRACT_HISTORY}
                 element={<ListContracts />}
@@ -79,10 +88,7 @@ export default function App() {
                 path={ROUTES.CUSTOMER_CONTRACT_DETAILS}
                 element={<ViewContract />}
               />
-              <Route
-                path={ROUTES.CUSTOMER_CONTRACT_REQUEST}
-                element={<RequestContractScreen />}
-              />
+
               <Route
                 path={ROUTES.CUSTOMER_COMPENSATION_LIST}
                 element={<ListCompensions />}
@@ -98,7 +104,6 @@ export default function App() {
             </Route>
             {/* Staff */}
             <Route element={<StaffRoute />}>
-              <Route path={ROUTES.STAFF_MAINSCREEN} element={<StaffScreen />} />
               <Route path={ROUTES.STAFF_CONTRACT} element={<ListContracts />} />
               <Route
                 path={ROUTES.STAFF_CONTRACT_DETAILS}
@@ -116,10 +121,6 @@ export default function App() {
             <Route path={ROUTES.STAFF_CUSTOMER} element={<StaffCustomer />} />
             {/* Manager */}
             <Route element={<ManagerRoute />}>
-              <Route
-                path={ROUTES.MANAGER_LOGIN}
-                element={<ManagerLoginScreen />}
-              />
               <Route
                 path={ROUTES.MANAGER_CONTRACTYPE}
                 element={<ContractTypeManagement />}
@@ -157,6 +158,7 @@ export default function App() {
                 element={<ViewCompensation />}
               />
             </Route>
+            <Route path="*" element={<Screen404 />} />
           </Route>
         </Routes>
       </Router>

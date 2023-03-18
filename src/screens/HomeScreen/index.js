@@ -11,6 +11,7 @@ import {
   contractTypeList,
 } from "../../redux/features/contract";
 import { ROUTES } from "../../constants/routerConst";
+import { map } from "lodash";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function HomeScreen() {
 
   const handleGetContractType = useCallback(() => {
     dispatch(contractTypeList({})).then(({ payload }) => {
-      payload = payload.map((contractType) => ({
+      payload = map(payload, (contractType) => ({
         key: contractType.id,
         icon: React.createElement(IdcardOutlined),
         label: contractType.name,
@@ -86,10 +87,9 @@ export default function HomeScreen() {
                     textAlign: "center",
                     overflow: "hidden",
                     overflowWrap: "none",
-                    
                   }}
                 >
-                  <h2 style={{color: "red"}}>{contractTypeDetails.name}</h2>
+                  <h2 style={{ color: "red" }}>{contractTypeDetails.name}</h2>
                 </Header>
                 <Content
                   style={{
@@ -106,10 +106,18 @@ export default function HomeScreen() {
                       display: "flex",
                     }}
                   >
-                    <div><label>Phân khúc: </label>{contractTypeDetails.vehicleType}</div>
-                    <div><label>Giá bán: </label>{contractTypeDetails.price}</div>
-                    <div><label>Hạn mức bảo hiểm: </label>{contractTypeDetails.insuranceLevel}</div>
-
+                    <div>
+                      <label>Phân khúc: </label>
+                      {contractTypeDetails.vehicleType}
+                    </div>
+                    <div>
+                      <label>Giá bán: </label>
+                      {contractTypeDetails.price}
+                    </div>
+                    <div>
+                      <label>Hạn mức bảo hiểm: </label>
+                      {contractTypeDetails.insuranceLevel}
+                    </div>
                   </Space>
                   <Space
                     direction="horizontal"

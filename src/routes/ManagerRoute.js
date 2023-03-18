@@ -5,7 +5,7 @@ import { ROUTES } from "../constants/routerConst";
 export default function ManagerRoute() {
   const user = useSelector(({ user: { user } }) => user);
   if (user.role != "manager") {
-    return <Navigate to={ROUTES.MANAGER_SCREEN} replace />;
+    return <Navigate to={ROUTES.ERROR["404"]} replace />;
   }
 
   return <Outlet />;
