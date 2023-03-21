@@ -151,7 +151,7 @@ export const fetchAllStaffContract = createAsyncThunk(
         });
     } catch (_error) {
       return rejectWithValue(
-        "An error occurred while insert new contract type"
+        "Có lỗi xảy ra khi lấy danh sách hợp đồng"
       );
     }
   }
@@ -171,7 +171,7 @@ export const fetchAllStaffContractList = createAsyncThunk(
         });
     } catch (_error) {
       return rejectWithValue(
-        "An error occurred while insert new contract type"
+        "Có lỗi xảy ra khi lấy danh sách hợp đồng"
       );
     }
   }

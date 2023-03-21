@@ -60,7 +60,6 @@ const ManageCustomer = () => {
           ci: customerView.ci,
           is_active: customerView.active,
         }));
-        console.log(payload);
         setCustomerList(payload);
       } else {
         console.log(

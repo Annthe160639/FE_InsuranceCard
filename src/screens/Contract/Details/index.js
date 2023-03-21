@@ -107,8 +107,7 @@ export default function ViewContract() {
           }}
         >
           {user.role === "customer" &&
-            (contractDetails?.status == "Ðang chờ xử lý" ||
-              contractDetails?.status == "Đang xử lý") && (
+            contractDetails?.status == "Ðang chờ xử lý" && (
               <Space>
                 <Popconfirm
                   title="Huỷ hợp đồng"
@@ -132,14 +131,14 @@ export default function ViewContract() {
               {user.role === "staff" &&
                 contractDetails?.status == "Ðang chờ xử lý" && (
                   <Button type="primary" onClick={handleApproveContract}>
-                    "Duyệt"
+                    Duyệt
                   </Button>
                 )}
 
               {user.role === "manager" &&
                 contractDetails?.status == "Đang xử lý" && (
                   <Button type="primary" onClick={handleApproveContract}>
-                    "Duyệt"
+                    Duyệt
                   </Button>
                 )}
             </Space>
@@ -184,7 +183,10 @@ export default function ViewContract() {
           <TabPane tab="Thông tin người mua" key="1">
             <Row>
               <Col span={8}>
-                <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
+                <Image
+                  height={"100%"}
+                  src="https://mybic.vn/uploads/photos/75/xe-may.jpg"
+                />
               </Col>
               <Col span={16} style={{ paddingLeft: 20 }}>
                 <Descriptions size="small" column={1}>

@@ -15,7 +15,7 @@ import "./style.css";
 import { ROUTES } from "../../constants/routerConst";
 import Title from "antd/es/typography/Title";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { contractTypeDetailsById } from "../../redux/features/contract";
 import Paragraph from "antd/es/skeleton/Paragraph";
 
@@ -200,6 +200,7 @@ const menuContent = {
 export default function ContractTypeDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(({ user: { user } }) => user);
   const { id } = useParams();
   const [content, setContent] = useState(menuContent[1]);
   const [contractTypeDetails, setContractTypeDetails] = useState({});

@@ -17,47 +17,6 @@ const initialState = {
   loading: false,
 };
 
-export const managerRegister = createAsyncThunk(
-  "@Manager/Register",
-  (
-    { username, password, name, gmail, phone, address, ci },
-    { rejectWithValue }
-  ) => {
-    try {
-      axios
-        .post(
-          "http://localhost:8080/api/manager/register",
-          { username, password, name, gmail, phone, address, ci },
-          config
-        )
-        .then((res) => {})
-        .catch();
-      return { username, password, name, gmail, phone, address, ci };
-    } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
-    }
-  }
-);
-
-export const managerResetPassword = createAsyncThunk(
-  "@Manager/Password",
-  ({ username }, { rejectWithValue }) => {
-    try {
-      axios
-        .post(
-          "http://localhost:8080/api/manager/password/reset",
-          { username },
-          config
-        )
-        .then((res) => {})
-        .catch();
-      return { username };
-    } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
-    }
-  }
-);
-
 export const managerLogin = createAsyncThunk(
   "@Manager/Login",
   async ({ username, password }, { rejectWithValue }) => {
@@ -137,7 +96,7 @@ export const getManagerUserSession = createAsyncThunk(
       }
       return parseJwt(userToken);
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy khi lấy thông tin đăng nhập");
     }
   }
 );
@@ -158,9 +117,7 @@ export const insertContractType = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi thêm loại hợp đồng!");
     }
   }
 );
@@ -182,9 +139,7 @@ export const updateContractType = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi cập nhật loại hợp đồng!");
     }
   }
 );
@@ -201,9 +156,7 @@ export const fetchAllCustomers = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách khách hàng!");
     }
   }
 );
@@ -221,9 +174,7 @@ export const fetchAllStaff = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách nhân viên!");
     }
   }
 );
@@ -241,7 +192,7 @@ export const fetchAllManager = createAsyncThunk(
         });
     } catch (_error) {
       return rejectWithValue(
-        "An error occurred while insert new contract type"
+        "Có lỗi xảy ra khi thay đổi chức vị của nhân viên!"
       );
     }
   }
@@ -267,7 +218,7 @@ export const changeRoleEmployee = createAsyncThunk(
         });
     } catch (_error) {
       return rejectWithValue(
-        "An error occurred while insert new contract type"
+        "Có lỗi xảy ra khi thay đổi chức vị của nhân viên!"
       );
     }
   }
@@ -286,9 +237,7 @@ export const fetchAllManagerContract = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách hợp đồng!");
     }
   }
 );
@@ -351,9 +300,7 @@ export const fetchAllManagerCompensation = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách yêu cầu đền bù");
     }
   }
 );
@@ -371,9 +318,7 @@ export const fetchAllManagerCompensationList = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue(
-        "An error occurred while insert new contract type"
-      );
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách yêu cầu đền bù");
     }
   }
 );
@@ -395,7 +340,7 @@ export const managerCompensationApprove = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue("Duyệt đơn không thành công");
+      return rejectWithValue("Duyệt yêu cầu đền bù không thành công");
     }
   }
 );
@@ -417,13 +362,13 @@ export const managerCompensationReject = createAsyncThunk(
           throw new Error(data);
         });
     } catch (_error) {
-      return rejectWithValue("Huỷ hợp đồng đền bù không thành công");
+      return rejectWithValue("Huỷ yều cầu đền bù không thành công");
     }
   }
 );
 
 export const customerViewListManager = createAsyncThunk(
-  "@Manager/list",
+  "@Manager/Customer/List",
   async ({}, { rejectWithValue }) => {
     try {
       const res = await axios
@@ -436,7 +381,7 @@ export const customerViewListManager = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách khách hàng!");
     }
   }
 );
@@ -455,7 +400,7 @@ export const deleteManager = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi xoá nhân viên");
     }
   }
 );
@@ -474,7 +419,30 @@ export const deleteStaff = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi xoá nhân viên");
+    }
+  }
+);
+
+export const addNewStaff = createAsyncThunk(
+  "@Manager/Staff/Add",
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const res = await axios
+        .post(
+          `http://localhost:8080/api/manager/staff/add`,
+          { username, password },
+          config
+        )
+        .then((res) => {
+          return res.data;
+        })
+        .catch(() => {
+          return res;
+        });
+      return res;
+    } catch (_error) {
+      return rejectWithValue("Có lỗi xảy ra khi thêm nhânh viên mới");
     }
   }
 );

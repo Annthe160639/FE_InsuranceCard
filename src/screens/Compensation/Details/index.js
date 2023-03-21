@@ -104,27 +104,29 @@ export default function ViewCompensation() {
             }}
           >
             <Space>
-              {(compensationDetails.status === "Ðang chờ xử lý" ||
-                compensationDetails.status == "Đang xử lý") && (
-                <Button danger onClick={handleRejectCompensation}>
-                  Từ chối
-                </Button>
-              )}
-              {(compensationDetails.status === "Ðang chờ xử lý" ||
-                (compensationDetails.status === "Đang xử lý" &&
-                  user.role == "manager")) && (
-                <Button type="primary" onClick={handleApproveCompensation}>
-                  {user.role === "staff" &&
-                  compensationDetails.status === "Ðang chờ xử lý"
-                    ? "Duyệt"
-                    : ""}
-                  {user.role === "manager" &&
-                  (compensationDetails.status === "Ðang chờ xử lý" ||
-                    compensationDetails.status === "Đang xử lý")
-                    ? "Duyệt"
-                    : ""}
-                </Button>
-              )}
+              {user.role !== "customer" &&
+                (compensationDetails.status === "Ðang chờ xử lý" ||
+                  compensationDetails.status == "Đang xử lý") && (
+                  <Button danger onClick={handleRejectCompensation}>
+                    Từ chối
+                  </Button>
+                )}
+              {user.role !== "customer" &&
+                (compensationDetails.status === "Ðang chờ xử lý" ||
+                  (compensationDetails.status === "Đang xử lý" &&
+                    user.role == "manager")) && (
+                  <Button type="primary" onClick={handleApproveCompensation}>
+                    {user.role === "staff" &&
+                    compensationDetails.status === "Ðang chờ xử lý"
+                      ? "Duyệt"
+                      : ""}
+                    {user.role === "manager" &&
+                    (compensationDetails.status === "Ðang chờ xử lý" ||
+                      compensationDetails.status === "Đang xử lý")
+                      ? "Duyệt"
+                      : ""}
+                  </Button>
+                )}
             </Space>
             <Statistic
               title="Trạng thái"

@@ -1,5 +1,6 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { isEmpty, map } from "lodash";
+import Title from "antd/es/typography/Title";
+import { concat, isEmpty, map } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,11 +45,10 @@ export default function RequestContractScreen() {
 
   const handleSelectDuration = useCallback(
     (value) => {
-      if (duration && startDate) {
+      console.log(duration);
+      if (parseInt(duration) && startDate) {
         let splitSDate = startDate.split("-");
-        splitSDate[0] = String(
-          parseInt(splitSDate[0]) + parseInt(duration) + 1
-        );
+        splitSDate[0] = String(parseInt(splitSDate[0]) + parseInt(duration));
         form.setFieldValue("endDate", splitSDate.join("-"));
       }
     },
@@ -72,7 +72,7 @@ export default function RequestContractScreen() {
 
   useEffect(() => {
     handleSelectDuration(startDate);
-  }, [startDate, JSON.stringify(form)]);
+  }, [startDate, duration, handleSelectDuration]);
 
   useEffect(() => {
     if (isEmpty(user)) {
@@ -108,6 +108,7 @@ export default function RequestContractScreen() {
           buyer: {
             ci: customerInfo.ci,
           },
+          duration: 1,
         }}
         fields={map(customerInfo, (v, k) => ({
           name: ["buyer", k],
@@ -208,17 +209,13 @@ export default function RequestContractScreen() {
           }}
         >
           <Select
-            defaultValue={"0"}
+            defaultValue="1"
             style={{
               textAlign: "left",
               width: 120,
             }}
             onChange={handleSelectDuration}
             options={[
-              {
-                value: "",
-                label: "",
-              },
               {
                 value: "1",
                 label: "1 năm",
@@ -234,8 +231,21 @@ export default function RequestContractScreen() {
             ]}
           />
         </Form.Item>
+
         <Form.Item label="Ngày kết thúc" name="endDate">
           <Input type="date" readOnly />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 6 }}>
+          <Title level={4} style={{ margin: 0, textAlign: "left" }}>
+            Thành tiền:{" "}
+            {new Intl.NumberFormat("de-DE", {
+              style: "currency",
+              currency: "VND",
+            }).format(
+              parseInt(form.getFieldValue(["contractType", "price"])) *
+                parseInt(form.getFieldValue("duration")) ?? 0
+            )}
+          </Title>
         </Form.Item>
         <Row>
           <Col offset={6} span={18}>
@@ -254,6 +264,7 @@ export default function RequestContractScreen() {
         >
           <Input />
         </Form.Item>
+
         <Form.Item
           label="Họ và Tên"
           name={["buyer", "name"]}

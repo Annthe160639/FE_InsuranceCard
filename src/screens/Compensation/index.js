@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Divider, Table } from "antd";
+import { Button, Divider, Table, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Title from "antd/es/skeleton/Title";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import {
   fetchAllManagerCompensation,
   fetchAllManagerCompensationList,
 } from "../../redux/features/manager";
-import { concat, isEmpty } from "lodash";
+import { concat, isEmpty, orderBy } from "lodash";
 
 export default function ListCompensions() {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export default function ListCompensions() {
       })
     );
     if (res.payload) {
-      setCompansations(res.payload);
+      setCompansations(orderBy(res.payload, "id", "desc"));
     }
   }, []);
 
@@ -100,8 +100,46 @@ export default function ListCompensions() {
       },
       {
         title: "Trạng thái",
-        dataIndex: ["status"],
+        dataIndex: "status",
         key: "status",
+        render: (_, { status }) => {
+          let color = status === "Đang xử lý" ? "blue" : "";
+          if (status === "Ðã duyệt") {
+            color = "green";
+          } else if (status === "Ðang chờ xử lý") {
+            color = "orange";
+          } else if (status === "Đã hủy" || status === "Đã từ chối") {
+            color = "red";
+          }
+          return (
+            <Tag color={color} key={status}>
+              {status.toUpperCase()}
+            </Tag>
+          );
+        },
+        filters: [
+          {
+            text: "Ðang xử lý",
+            value: "Ðang xử lý",
+          },
+          {
+            text: "Đã duyệt",
+            value: "Đã duyệt",
+          },
+          {
+            text: "Ðang chờ xử lý",
+            value: "Ðang chờ xử lý",
+          },
+          {
+            text: "Đã từ chối",
+            value: "Đã từ chối",
+          },
+          {
+            text: "Đã hủy",
+            value: "Đã hủy",
+          },
+        ],
+        onFilter: (value, record) => record.status.indexOf(value) === 0,
       },
       {
         title: "",

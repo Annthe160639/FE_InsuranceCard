@@ -9,7 +9,7 @@ import {
   fetchAllStaffContract,
   fetchAllStaffContractList,
 } from "../../../redux/features/staff";
-import { concat, isEmpty, set } from "lodash";
+import { concat, isEmpty, orderBy, set } from "lodash";
 
 const { Title } = Typography;
 
@@ -90,11 +90,13 @@ export default function ListContracts() {
         dataIndex: "status",
         key: "status",
         render: (_, { status }) => {
-          let color = status === "Ðang xử lý" ? "blue" : "";
-          if (status === "Đã duyệt") {
+          let color = status === "Đang xử lý" ? "blue" : "";
+          if (status === "Ðã duyệt") {
             color = "green";
           } else if (status === "Ðang chờ xử lý") {
             color = "orange";
+          } else if (status === "Đã hủy" || status === "Đã từ chối") {
+            color = "red";
           }
           return (
             <Tag color={color} key={status}>
@@ -115,6 +117,14 @@ export default function ListContracts() {
             text: "Ðang chờ xử lý",
             value: "Ðang chờ xử lý",
           },
+          {
+            text: "Đã từ chối",
+            value: "Đã từ chối",
+          },
+          {
+            text: "Đã hủy",
+            value: "Đã hủy",
+          },
         ],
         onFilter: (value, record) => record.status.indexOf(value) === 0,
       },
@@ -125,14 +135,14 @@ export default function ListContracts() {
   const fetchContractHistory = useCallback(async () => {
     if (user.role === "customer") {
       const { payload } = await dispatch(fetchAllContractHistory());
-      setData(payload);
+      setData(orderBy(payload, "id", "desc"));
     } else if (user.role === "staff") {
       const { payload: list1 } = await dispatch(fetchAllStaffContract());
       const { payload: list2 } = await dispatch(fetchAllStaffContractList());
-      setData(concat(list1, list2));
+      setData(orderBy(concat(list1, list2), "id", "desc"));
     } else if (user.role === "manager") {
       const { payload } = await dispatch(fetchAllManagerContract());
-      setData(payload);
+      setData(orderBy(payload, "id", "desc"));
     }
   }, [JSON.stringify(user)]);
 

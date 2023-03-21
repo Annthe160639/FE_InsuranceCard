@@ -5,7 +5,7 @@ import { ROUTES } from "../constants/routerConst";
 export default function CustomerRoute() {
   const user = useSelector(({ user: { user } }) => user);
   if (user.role != "customer") {
-    return <Navigate to={ROUTES.ERROR["404"]} replace />;
+    return <Navigate to={ROUTES.ERROR["404"]} />;
   }
 
   return <Outlet />;
