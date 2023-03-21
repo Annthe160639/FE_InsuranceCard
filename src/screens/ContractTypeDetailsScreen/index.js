@@ -268,34 +268,33 @@ export default function ContractTypeDetails() {
                   <label style={{ width: 20 }}>Mô tả: </label>
                   <span>{contractTypeDetails.description}</span>
                 </Space>
-                <Space>
-                  <Button
-                    type="primary"
-                    danger
-                    style={{
-                      margin: "10px 0",
-                      
-                    }}
-                    size="large"
-                    className="btnBuy"
-                    onClick={() => {
-                      navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
-                        state: { contractTypeDetails },
-                      });
-                    }}
-                    
-                  >
-                    Mua ngay
-                  </Button>
-                </Space>
+                {(user.role === "customer" || !user.role) && (
+                  <Space>
+                    <Button
+                      type="primary"
+                      danger
+                      style={{
+                        margin: "10px 0",
+                      }}
+                      size="large"
+                      className="btnBuy"
+                      onClick={() => {
+                        navigate(!user.role ? ROUTES.CUSTOMER_LOGIN : ROUTES.CUSTOMER_CONTRACT_REQUEST, {
+                          state: { contractTypeDetails },
+                        });
+                      }}
+                    >
+                      Mua ngay
+                    </Button>
+                  </Space>
+                )}
               </Space>
             </Content>
           </Layout>
         </Col>
       </Row>
       <Row>
-        <Col>
-        </Col>
+        <Col></Col>
         <Layout
           style={{
             padding: "16px 0",
@@ -316,7 +315,6 @@ export default function ContractTypeDetails() {
               defaultSelectedKeys="1"
               style={{
                 height: "100%",
-                
               }}
               items={[
                 { key: 1, label: "Thông tin chung" },

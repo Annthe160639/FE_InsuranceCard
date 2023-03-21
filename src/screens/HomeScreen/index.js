@@ -154,16 +154,23 @@ export default function HomeScreen() {
                         >
                           Chi tiết
                         </Button>
-                        {user.role === 'customer' && <Button
-                          type="primary"
-                          onClick={() => {
-                            navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
-                              state: { contractTypeDetails },
-                            });
-                          }}
-                        >
-                          Mua ngay
-                        </Button>}
+                        {(user.role === "customer" || !user.role) && (
+                          <Button
+                            type="primary"
+                            onClick={() => {
+                              navigate(
+                                !user.role
+                                  ? ROUTES.CUSTOMER_LOGIN
+                                  : ROUTES.CUSTOMER_CONTRACT_REQUEST,
+                                {
+                                  state: { contractTypeDetails },
+                                }
+                              );
+                            }}
+                          >
+                            Mua ngay
+                          </Button>
+                        )}
                       </Space>
                     </Content>
                   </Layout>

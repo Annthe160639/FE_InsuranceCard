@@ -80,7 +80,9 @@ export const customerCompensationRequest = createAsyncThunk(
         .then((res) => {
           return res.data;
         })
-        .catch(() => {});
+        .catch((res) => {
+          throw "Có lỗi xảy ra"
+        });
     } catch (_error) {
       return rejectWithValue("Có lỗi xảy ra khi tạo yêu cầu đền bù mới");
     }
