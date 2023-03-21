@@ -18,7 +18,7 @@ const Banner = () => {
           <Image
             height={250}
             width={800}
-            src="https://mybic.vn/uploads/slide/36/Nam-moi.jpg"
+            src="https://mybic.vn/uploads/slide/18/GPA.jpg"
           />
         </h3>
       </div>

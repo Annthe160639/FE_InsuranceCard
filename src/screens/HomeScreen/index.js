@@ -128,6 +128,7 @@ export default function HomeScreen() {
                     }}
                   >
                     <Button
+                    danger
                       type="default"
                       onClick={() => {
                         navigate(
@@ -140,6 +141,10 @@ export default function HomeScreen() {
                       Chi tiết
                     </Button>
                     <Button
+                      style={{
+                        margin: "10px 0",
+                        backgroundColor: "#ee1c24"
+                      }}
                       type="primary"
                       onClick={() => {
                         navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {

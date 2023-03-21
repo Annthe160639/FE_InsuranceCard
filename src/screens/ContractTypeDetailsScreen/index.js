@@ -1,4 +1,13 @@
-import { Button, Col, Image, Layout, Menu, Row, Space } from "antd";
+import {
+  AutoComplete,
+  Button,
+  Col,
+  Image,
+  Layout,
+  Menu,
+  Row,
+  Space,
+} from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useNavigate, useParams } from "react-router-dom";
@@ -207,110 +216,131 @@ export default function ContractTypeDetails() {
   }, [id]);
 
   return (
-    <Row className="contract">
-      <Col span={24}>
-        <Layout
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          <Sider width={"25vw"}>
-            <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
-          </Sider>
-          <Content style={{ paddingLeft: "20px" }}>
-            <Space direction="vertical">
-              <Title className="contractName" level={3} type="danger">
-                BẢO HIỂM TRÁCH NHIỆM DÂN SỰ
-              </Title>
-              <Space>
-                <label>Phân khúc: </label>
-                <span>{contractTypeDetails.name}</span>
-              </Space>
-              <Space>
-                <label>Giá bán: </label>
-                <span>
-                  {new Intl.NumberFormat("de-DE", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(contractTypeDetails.price)}
-                </span>
-              </Space>
-              <Space>
-                <label>Mức độ bồi thường: </label>
-                <span>
-                  {new Intl.NumberFormat("de-DE", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(contractTypeDetails.insuranceLevel)}
-                </span>
-              </Space>
-              <Space>
-                <label>Mô tả: </label>
-                <span>{contractTypeDetails.description}</span>
-              </Space>
-              <Space>
-                <Button
-                  type="primary"
-                  danger
-                  size="large"
-                  className="btnBuy"
-                  onClick={() => {
-                    navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
-                      state: { contractTypeDetails },
-                    });
+    <>
+      <Row className="contract">
+        <Col span={20} style={{ margin: "auto" }}>
+          <Layout
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <Sider width={"25vw"}>
+              <Image
+                height={"100%"}
+                src="https://mybic.vn/uploads/photos/75/xe-may.jpg"
+              />
+            </Sider>
+            <Content style={{ paddingLeft: "20px" }}>
+              <Space direction="vertical">
+                <Title className="contractName" level={3} type="danger">
+                  BẢO HIỂM TRÁCH NHIỆM DÂN SỰ
+                </Title>
+                <Space>
+                  <label>Phân khúc: </label>
+                  <span>{contractTypeDetails.name}</span>
+                </Space>
+                <Space>
+                  <label>Giá bán: </label>
+                  <span>
+                    {new Intl.NumberFormat("de-DE", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(contractTypeDetails.price)}
+                  </span>
+                </Space>
+                <Space>
+                  <label>Mức độ bồi thường: </label>
+                  <span>
+                    {new Intl.NumberFormat("de-DE", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(contractTypeDetails.insuranceLevel)}
+                  </span>
+                </Space>
+                <Space
+                  style={{
+                    flexDirection: "row",
+                    alignItem: "flex-start",
+                    flexWrap: "wrap",
                   }}
                 >
-                  Mua ngay
-                </Button>
+                  <label style={{ width: 20 }}>Mô tả: </label>
+                  <span>{contractTypeDetails.description}</span>
+                </Space>
+                <Space>
+                  <Button
+                    type="primary"
+                    danger
+                    style={{
+                      margin: "10px 0",
+                      
+                    }}
+                    size="large"
+                    className="btnBuy"
+                    onClick={() => {
+                      navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
+                        state: { contractTypeDetails },
+                      });
+                    }}
+                    
+                  >
+                    Mua ngay
+                  </Button>
+                </Space>
               </Space>
-            </Space>
-          </Content>
-        </Layout>
-      </Col>
-
-      <Layout
-        style={{
-          padding: "16px 0",
-          //background: colorBgContainer,
-        }}
-      >
-        <Sider
-          style={
-            {
-              //background: colorBgContainer,
-            }
-          }
-          width={200}
-        >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={[1]}
-            style={{
-              height: "100%",
-            }}
-            items={[
-              { key: 1, label: "Thông tin chung" },
-              { key: 2, label: "Quyền lợi bảo hiểm" },
-              { key: 3, label: "Biểu phí bảo hiểm" },
-              { key: 4, label: "Hướng dẫn bồi thường" },
-              { key: 5, label: "Quy tắc, biểu mẫu" },
-            ]}
-            onSelect={({ key }) => setContent(menuContent[key])}
-          />
-        </Sider>
-        <Content
-          className="content"
+            </Content>
+          </Layout>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+        </Col>
+        <Layout
           style={{
-            padding: "24px 24px",
-            minHeight: 280,
-            backgroundColor: "white",
-            marginLeft: "16px",
-            textAlign: "left",
+            padding: "16px 0",
+
+            //background: colorBgContainer,
           }}
         >
-          {content}
-        </Content>
-      </Layout>
-    </Row>
+          <Sider
+            style={
+              {
+                //background: colorBgContainer,
+              }
+            }
+            width={300}
+          >
+            <Menu
+              mode="inline"
+              defaultSelectedKeys="1"
+              style={{
+                height: "100%",
+                
+              }}
+              items={[
+                { key: 1, label: "Thông tin chung" },
+                { key: 2, label: "Quyền lợi bảo hiểm" },
+                { key: 3, label: "Biểu phí bảo hiểm" },
+                { key: 4, label: "Hướng dẫn bồi thường" },
+                { key: 5, label: "Quy tắc, biểu mẫu" },
+              ]}
+              onSelect={({ key }) => setContent(menuContent[key])}
+            />
+          </Sider>
+          <Content
+            className="content"
+            style={{
+              padding: "24px 24px",
+              minHeight: 280,
+              backgroundColor: "white",
+              marginLeft: "16px",
+              textAlign: "left",
+            }}
+          >
+            {content}
+          </Content>
+        </Layout>
+      </Row>
+    </>
   );
 }
