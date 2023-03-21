@@ -6,7 +6,7 @@ export default function CustomerPrivateRoute() {
   const key = searchParams.get("key");
   
   if (!key) {
-    return <Navigate to={ROUTES.ERROR["404"]} replace />;
+    return <Navigate to={ROUTES.ERROR["404"]} />;
   }
 
   return <Outlet />;

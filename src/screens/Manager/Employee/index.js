@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Space, Table } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Space, Table } from "antd";
 import {
   DeleteOutlined,
   PlusOutlined,
@@ -8,6 +8,7 @@ import Title from "antd/es/typography/Title";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
+  addNewStaff,
   changeRoleEmployee,
   deleteManager,
   deleteStaff,
@@ -22,9 +23,9 @@ import { orderBy, pick, sortBy, uniqBy } from "lodash";
 export default function ListEmployees() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [form] = Form.useForm();
   const [data, setData] = useState([]);
-
+  const [isOpen, setOpen] = useState(false);
   const handleChangeRole = useCallback(async ({ role, id }) => {
     let { error } = await dispatch(changeRoleEmployee({ role, id }));
 
@@ -169,12 +170,43 @@ export default function ListEmployees() {
     );
   }, []);
 
+  const handleAddNewEmployee = useCallback(async ({ username, password }) => {
+    const { error } = await dispatch(addNewStaff({ username, password }));
+
+    await dispatch(
+      createNotification({
+        type: error ? "error" : "success",
+        message: error ? error : "Thêm nhân viên mới thành công!",
+      })
+    );
+
+    if (!error) {
+      handleFetchAllEmployy();
+      setOpen(false);
+    }
+  });
+
   useEffect(() => {
     handleFetchAllEmployy();
   }, []);
 
   return (
     <div style={{ margin: "16px 0" }}>
+      <Modal
+        maskClosable={false}
+        open={isOpen}
+        onOk={() => form.submit()}
+        onCancel={() => setOpen(false)}
+      >
+        <Form form={form} onFinish={handleAddNewEmployee}>
+          <Form.Item label="Tên người dùng" name="username">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Mật khẩu" name="password">
+            <Input.Password />
+          </Form.Item>
+        </Form>
+      </Modal>
       <div
         style={{
           display: "flex",
@@ -185,7 +217,7 @@ export default function ListEmployees() {
         <Button
           icon={<PlusOutlined />}
           type="primary"
-          onClick={() => navigate(ROUTES.CUSTOMER_COMPENSATION_REQUEST)}
+          onClick={() => setOpen(true)}
         >
           Thêm nhân viên mới
         </Button>

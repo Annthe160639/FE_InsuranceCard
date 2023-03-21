@@ -47,7 +47,7 @@ export const fetchAllCustomerCompensation = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách yêu cầu đền bù của khách hàng");
     }
   }
 );
@@ -63,7 +63,7 @@ export const fetchOneCompensation = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy thông tin yêu cầu đền bù");
     }
   }
 );
@@ -82,7 +82,7 @@ export const customerCompensationRequest = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi tạo yêu cầu đền bù mới");
     }
   }
 );

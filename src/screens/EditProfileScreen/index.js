@@ -30,10 +30,8 @@ export default function EditProfileScreen() {
       "https://api.cloudinary.com/v1_1/dlgs1eqbv/image/upload",
       formData
     ).then((response) => {
-      console.log('32',response.data.url);
       setImage(response.data.url)
     });
-    //return response.data.url;
   };
 
   const handleFetchCustomer = useCallback(async () => {
@@ -89,6 +87,10 @@ export default function EditProfileScreen() {
     }
   }, []);
 
+  const handleChangePassword = useCallback(async () => {
+    navigate(ROUTES.CUSTOMER_CHANGE_PASSWORD)
+  }, []);
+
   useEffect(() => {
     handleFetchCustomer();
   }, []);
@@ -111,7 +113,7 @@ export default function EditProfileScreen() {
             }}
           />
           <Button onClick={uploadImage}>Change Image</Button>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleChangePassword}>
             Đổi mật khẩu
           </Button>
 

@@ -5,10 +5,13 @@ import { customerRegister } from "../../redux/features/customer";
 import { createNotification } from "../../redux/features/notification";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routerConst";
+import Joi from "joi";
 
 export default function RegisterScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+
   const handleSubmit = useCallback(async (values) => {
     const { error, payload } = await dispatch(customerRegister(values));
 
@@ -46,6 +49,7 @@ export default function RegisterScreen() {
         }}
         onFinish={handleSubmit}
         autoComplete="off"
+        form={form}
       >
         <Form.Item
           wrapperCol={{
@@ -68,8 +72,19 @@ export default function RegisterScreen() {
           name="username"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập tên người dùng!",
+              validator: (_, value) => {
+                const { error } = Joi.string()
+                  .alphanum()
+                  .min(3)
+                  .max(30)
+                  .required()
+                  .validate(value);
+                if (!error) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Hãy nhập tên người dùng");
+                }
+              },
             },
           ]}
         >
@@ -81,8 +96,19 @@ export default function RegisterScreen() {
           name="password"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập mật khẩu!",
+              validator: (_, value) => {
+                const { error } = Joi.string()
+                  .alphanum()
+                  .min(3)
+                  .max(255)
+                  .required()
+                  .validate(value);
+                if (!error) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Hãy nhập mật khẩu");
+                }
+              },
             },
           ]}
         >
@@ -93,8 +119,13 @@ export default function RegisterScreen() {
           name="password2"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập lại mật khẩu!",
+              validator: (_, value) => {
+                if (value === form.getFieldValue("password") && value) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Mật khẩu không khớp");
+                }
+              },
             },
           ]}
         >
@@ -117,8 +148,16 @@ export default function RegisterScreen() {
           name="gmail"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập gmail của bạn!",
+              validator: (_, value) => {
+                const { error } = Joi.string()
+                  .email({ tlds: { allow: false } })
+                  .validate(value);
+                if (!error) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Email không hợp lệ");
+                }
+              },
             },
           ]}
         >
@@ -129,8 +168,18 @@ export default function RegisterScreen() {
           name="phone"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập số điện thoại của bạn!",
+              validator: (_, value) => {
+                const { error } = Joi.string()
+                  .length(10)
+                  .pattern(/^[0-9]+$/)
+                  .required()
+                  .validate(value);
+                if (!error) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Số điện thoại không hợp lệ!");
+                }
+              },
             },
           ]}
         >
@@ -153,8 +202,18 @@ export default function RegisterScreen() {
           name="ci"
           rules={[
             {
-              required: true,
-              message: "Hãy nhập số căn cước công dân của bạn!",
+              validator: (_, value) => {
+                const { error } = Joi.string()
+                  .length(10)
+                  .pattern(/^[0-9]+$/)
+                  .required()
+                  .validate(value);
+                if (!error) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject("Số CMND/CCCD không hợp lệ!");
+                }
+              },
             },
           ]}
         >

@@ -88,7 +88,12 @@ export default function PageHeader() {
             </Menu.Item>
           </Col>
           <Col span={16} type="flex" justify="center" align="center">
-            <Menu.Item className="menu-pages" key={"home"}>
+            <Menu.Item
+              className="menu-pages"
+              key={"home"}
+              disabled
+              style={{ cursor: "pointer" }}
+            >
               <Button
                 type="link"
                 icon={<HomeOutlined />}
@@ -119,7 +124,7 @@ export default function PageHeader() {
                     icon={<UserOutlined />}
                   >
                     {user && user.username ? (
-                      <>{user.username}</>
+                      <>{user.name ? user.name : user.username}</>
                     ) : (
                       "Đăng nhập"
                     )}

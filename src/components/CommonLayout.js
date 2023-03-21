@@ -1,3 +1,4 @@
+import { ContactsOutlined, UserOutlined, WalletOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
@@ -36,7 +37,7 @@ export default function CommonLayout() {
                 borderRight: 0,
               }}
             >
-              <Menu.Item key={"contract"}>
+              <Menu.Item key={"contract"} icon={<ContactsOutlined />}>
                 {user.role == "customer" && (
                   <Link to={ROUTES.CUSTOMER_CONTRACT_HISTORY}>Hợp đồng</Link>
                 )}
@@ -47,11 +48,9 @@ export default function CommonLayout() {
                   <Link to={ROUTES.MANAGER_CONTRACT}>Hợp đồng</Link>
                 )}
               </Menu.Item>
-              <Menu.Item key={"compensation"}>
+              <Menu.Item key={"compensation"} icon={<WalletOutlined />}>
                 {user.role == "customer" && (
-                  <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>
-                    Đền bù
-                  </Link>
+                  <Link to={ROUTES.CUSTOMER_COMPENSATION_LIST}>Đền bù</Link>
                 )}
                 {user.role == "staff" && (
                   <Link to={ROUTES.STAFF_COMPENSATION}>Đền bù</Link>
@@ -61,7 +60,7 @@ export default function CommonLayout() {
                 )}
               </Menu.Item>
               {user.role == "staff" && (
-                <Menu.Item key={"customer"}>
+                <Menu.Item key={"customer"} icon={<UserOutlined />}>
                   <Link to={ROUTES.STAFF_CUSTOMER}>Khách hàng</Link>
                 </Menu.Item>
               )}

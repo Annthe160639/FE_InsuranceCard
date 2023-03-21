@@ -47,7 +47,7 @@ export const customerRegister = createAsyncThunk(
           throw data;
         });
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi đăng ký tài khoản mới");
     }
   }
 );
@@ -66,7 +66,7 @@ export const customerVerify = createAsyncThunk(
           throw data;
         });
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Không thể xác thực tài khoản!");
     }
   }
 );
@@ -263,7 +263,7 @@ export const getUserSession = createAsyncThunk(
       }
       return parseJwt(userToken);
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy khi xác thực tài khoản");
     }
   }
 );
@@ -282,7 +282,7 @@ export const customerViewList = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi thấy thông tin khách hàng");
     }
   }
 );

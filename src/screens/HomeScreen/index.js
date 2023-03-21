@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { generatePath, useNavigate } from "react-router-dom";
-import { Button, Layout, Menu, Space, theme } from "antd";
+import { Button, Col, Image, Layout, Menu, Row, Space, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
 import { IdcardOutlined } from "@ant-design/icons";
@@ -16,6 +16,7 @@ import { map } from "lodash";
 export default function HomeScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(({ user: { user } }) => user);
   const [contractTypes, setContractTypes] = useState([]);
   const [contractTypeDetails, setContractTypeDetails] = useState(null);
 
@@ -77,82 +78,95 @@ export default function HomeScreen() {
               minHeight: 280,
             }}
           >
-            <Layout
-              style={{ height: "100%", backgroundColor: colorBgContainer }}
-            >
-              <Layout style={{ backgroundColor: colorBgContainer }}>
-                <Header
-                  style={{
-                    backgroundColor: colorBgContainer,
-                    textAlign: "center",
-                    overflow: "hidden",
-                    overflowWrap: "none",
-                  }}
-                >
-                  <h2 style={{ color: "red" }}>{contractTypeDetails.name}</h2>
-                </Header>
-                <Content
-                  style={{
-                    paddingTop: "20px",
-                    paddingLeft: "30px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Space
-                    direction="vertical"
-                    style={{
-                      display: "flex",
-                    }}
-                  >
-                    <div>
-                      <label>Phân khúc: </label>
-                      {contractTypeDetails.vehicleType}
-                    </div>
-                    <div>
-                      <label>Giá bán: </label>
-                      {contractTypeDetails.price}
-                    </div>
-                    <div>
-                      <label>Hạn mức bảo hiểm: </label>
-                      {contractTypeDetails.insuranceLevel}
-                    </div>
-                  </Space>
-                  <Space
-                    direction="horizontal"
-                    style={{
-                      display: "flex",
-                      justifyContent: "end",
-                      padding: 20,
-                    }}
-                  >
-                    <Button
-                      type="default"
-                      onClick={() => {
-                        navigate(
-                          generatePath(ROUTES.CONTRACT_TYPE, {
-                            id: contractTypeDetails.id,
-                          })
-                        );
+            <Row style={{ backgroundColor: colorBgContainer }}>
+              <Col span={8}>
+                <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
+              </Col>
+              <Col span={16}>
+                <Layout style={{ height: "100%" }}>
+                  <Layout style={{ backgroundColor: colorBgContainer }}>
+                    <Header
+                      style={{
+                        backgroundColor: colorBgContainer,
+                        textAlign: "center",
+                        overflow: "hidden",
+                        overflowWrap: "none",
                       }}
                     >
-                      Chi tiết
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
-                          state: { contractTypeDetails },
-                        });
+                      <h2 style={{ color: "red" }}>
+                        {contractTypeDetails.name}
+                      </h2>
+                    </Header>
+                    <Content
+                      style={{
+                        paddingTop: "20px",
+                        paddingLeft: "30px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
                       }}
                     >
-                      Mua ngay
-                    </Button>
-                  </Space>
-                </Content>
-              </Layout>
-            </Layout>
+                      <Space
+                        direction="vertical"
+                        style={{
+                          display: "flex",
+                        }}
+                      >
+                        <div>
+                          <label>Phân khúc: </label>
+                          {contractTypeDetails.vehicleType}
+                        </div>
+                        <div>
+                          <label>Giá bán: </label>
+                          {new Intl.NumberFormat("de-DE", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(contractTypeDetails.price)}
+                        </div>
+                        <div>
+                          <label>Hạn mức bảo hiểm: </label>
+                          {new Intl.NumberFormat("de-DE", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(contractTypeDetails.insuranceLevel)}
+                        </div>
+                      </Space>
+                      <Space
+                        direction="horizontal"
+                        style={{
+                          display: "flex",
+                          justifyContent: "end",
+                          padding: 20,
+                        }}
+                      >
+                        <Button
+                          type="default"
+                          onClick={() => {
+                            navigate(
+                              generatePath(ROUTES.CONTRACT_TYPE, {
+                                id: contractTypeDetails.id,
+                              })
+                            );
+                          }}
+                        >
+                          Chi tiết
+                        </Button>
+                        {user.role === 'customer' && <Button
+                          type="primary"
+                          onClick={() => {
+                            navigate(ROUTES.CUSTOMER_CONTRACT_REQUEST, {
+                              state: { contractTypeDetails },
+                            });
+                          }}
+                        >
+                          Mua ngay
+                        </Button>}
+                      </Space>
+                    </Content>
+                  </Layout>
+                </Layout>
+              </Col>
+            </Row>
           </Content>
         )}
       </Layout>

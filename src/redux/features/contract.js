@@ -30,7 +30,7 @@ export const contractTypeList = createAsyncThunk(
         });
       return res;
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách loại hợp đồng");
     }
   }
 );
@@ -50,7 +50,7 @@ export const contractTypeDetailsById = createAsyncThunk(
       return res;
     } catch (_error) {
       return rejectWithValue(
-        "An error occurred while getting contract type details"
+        "Có lỗi xảy ra khi lấy thông tin chi tiết loại hợp đồng"
       );
     }
   }
@@ -67,7 +67,7 @@ export const fetchAllContractHistory = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy danh sách hợp đồng");
     }
   }
 );
@@ -83,7 +83,7 @@ export const fetchOneContract = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi lấy thông tin hợp đồng");
     }
   }
 );
@@ -103,7 +103,7 @@ export const requestNewContract = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi tạo ra hợp đồng mới");
     }
   }
 );
@@ -119,7 +119,7 @@ export const fetchAllContractType = createAsyncThunk(
         })
         .catch(() => {});
     } catch (_error) {
-      return rejectWithValue("An error occurred while open local directory");
+      return rejectWithValue("Có lỗi xảy ra khi danh sách loại hợp đồng");
     }
   }
 );

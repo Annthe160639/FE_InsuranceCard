@@ -46,10 +46,7 @@ export default function App() {
               path={ROUTES.CONTRACT_TYPE}
               element={<ContractTypeDetails />}
             />
-            <Route
-              path={ROUTES.CUSTOMER_CONTRACT_REQUEST}
-              element={<RequestContractScreen />}
-            />
+
             {/* Guest Route */}
             <Route element={<GuestRoute />}>
               <Route path={ROUTES.CUSTOMER_LOGIN} element={<LoginScreen />} />
@@ -80,7 +77,6 @@ export default function App() {
                 path={ROUTES.CUSTOMER_PROFILE}
                 element={<EditProfileScreen />}
               />
-
               <Route
                 path={ROUTES.CUSTOMER_CONTRACT_HISTORY}
                 element={<ListContracts />}
@@ -89,7 +85,10 @@ export default function App() {
                 path={ROUTES.CUSTOMER_CONTRACT_DETAILS}
                 element={<ViewContract />}
               />
-
+              <Route
+                path={ROUTES.CUSTOMER_CONTRACT_REQUEST}
+                element={<RequestContractScreen />}
+              />
               <Route
                 path={ROUTES.CUSTOMER_COMPENSATION_LIST}
                 element={<ListCompensions />}
@@ -163,7 +162,7 @@ export default function App() {
                 element={<ViewCompensation />}
               />
             </Route>
-            <Route path="*" element={<Screen404 />} />
+            <Route path='*' element={<Screen404 />} />
           </Route>
         </Routes>
       </Router>
