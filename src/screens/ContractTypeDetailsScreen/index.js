@@ -29,7 +29,7 @@ const menuContent = {
       </p>
       <label>Phạm vi bảo hiểm</label>
       <p>
-        BIC thay mặt cho chủ xe bồi thường cho các tổn thất về người và tài sản
+        IMMS thay mặt cho chủ xe bồi thường cho các tổn thất về người và tài sản
         cho bên thứ ba (bên bị thiệt hai do xe của chủ xe gây ra).
       </p>
     </>
@@ -42,7 +42,7 @@ const menuContent = {
         <p>
           <span style={{ fontSize: "16px" }}>
             <span>
-              BIC sẽ thay mặt cho chủ xe bồi thường cho bên thứ ba những thiệt
+              IMMS sẽ thay mặt cho chủ xe bồi thường cho bên thứ ba những thiệt
               hại về người và tài sản, cho hành khách những thiệt hại về người
               với mức tối đa như sau:
             </span>
@@ -153,7 +153,7 @@ const menuContent = {
     <>
       <label>Trong mọi trường hợp Quý khách cần hỗ trợ xử lý bồi thường?</label>
       <p>
-        Gọi tổng đài 24/7 của BIC: <label>1900 9456</label>
+        Gọi tổng đài 24/7 của IMMS: <label>1900 9456</label>
       </p>
     </>
   ),

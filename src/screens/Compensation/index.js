@@ -119,12 +119,12 @@ export default function ListCompensions() {
         },
         filters: [
           {
-            text: "Ðang xử lý",
-            value: "Ðang xử lý",
+            text: "Đang xử lý",
+            value: "Đang xử lý",
           },
           {
-            text: "Đã duyệt",
-            value: "Đã duyệt",
+            text: "Ðã duyệt",
+            value: "Ðã duyệt",
           },
           {
             text: "Ðang chờ xử lý",

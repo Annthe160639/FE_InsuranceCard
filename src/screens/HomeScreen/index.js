@@ -58,10 +58,10 @@ export default function HomeScreen() {
           padding: "24px 0",
         }}
       >
-        <Sider width={400}>
+        <Sider width={"25vw"}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys="1"
             defaultOpenKeys={["sub1"]}
             selectable
             style={{
@@ -74,13 +74,15 @@ export default function HomeScreen() {
         {contractTypeDetails && (
           <Content
             style={{
-              padding: "0 24px",
+              padding: "0 0 0 24px",
               minHeight: 280,
+              
             }}
           >
-            <Row style={{ backgroundColor: colorBgContainer }}>
-              <Col span={8}>
-                <Image src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
+            <Row style={{ backgroundColor: colorBgContainer, height: "100%"}}>
+              <Col span={8} >
+                <Image style={{ height: "100%"}}
+                src="https://mybic.vn/uploads/photos/75/xe-may.jpg" />
               </Col>
               <Col span={16}>
                 <Layout style={{ height: "100%" }}>
@@ -124,7 +126,7 @@ export default function HomeScreen() {
                           }).format(contractTypeDetails.price)}
                         </div>
                         <div>
-                          <label>Hạn mức bảo hiểm: </label>
+                          <label>Mức trách nhiệm bảo hiểm: </label>
                           {new Intl.NumberFormat("de-DE", {
                             style: "currency",
                             currency: "VND",
@@ -141,6 +143,7 @@ export default function HomeScreen() {
                       >
                         <Button
                           type="default"
+                          danger
                           onClick={() => {
                             navigate(
                               generatePath(ROUTES.CONTRACT_TYPE, {
