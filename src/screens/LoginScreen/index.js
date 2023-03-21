@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Input, Row, Col, Select, Space } from "antd";
@@ -12,6 +12,9 @@ import { staffLogin } from "../../redux/features/staff";
 export default function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [form] = Form.useForm();
+  const selectedRole = Form.useWatch("role", form);
   const handleFormSubmit = useCallback(async ({ username, password, role }) => {
     let res = { payload: null, error: null };
 
@@ -52,6 +55,9 @@ export default function LoginScreen() {
     }
   });
 
+  useEffect(() => {
+    form.setFieldValue("role", "customer");
+  }, []);
   return (
     <>
       <Row type="flex" justify="center" align="center">
@@ -76,14 +82,12 @@ export default function LoginScreen() {
                 wrapperCol={{
                   span: 16,
                 }}
+                form={form}
                 autoComplete="off"
                 layout="vertical"
-                fields={[
-                  {
-                    name: "role",
-                    value: "customer",
-                  },
-                ]}
+                defaultValue={{
+                  role: "customer",
+                }}
                 onFinish={handleFormSubmit}
               >
                 <Form.Item
@@ -100,6 +104,7 @@ export default function LoginScreen() {
                     addonBefore={
                       <Form.Item name="role" noStyle>
                         <Select
+                          defaultValue="customer"
                           style={{ width: 120 }}
                           options={[
                             {
@@ -135,26 +140,34 @@ export default function LoginScreen() {
                 >
                   <Input type="password" placeholder="Mật khẩu" />
                 </Form.Item>
-                <Form.Item
-                  wrapperCol={16}
-                  style={{ marginBottom: 0, textAlign: "right" }}
-                >
-                  <Space
-                    type="flex"
-                    style={{ justifyContent: "space-between", width: "100%" }}
+                {selectedRole === "customer" && (
+                  <Form.Item
+                    name="footer"
+                    wrapperCol={16}
+                    style={{ marginBottom: 0, textAlign: "right" }}
                   >
-                    <span>
-                      <Link to={ROUTES.CUSTOMER_FORGET_PASSWORD}>
-                        Quên mật khẩu
-                      </Link>
-                    </span>
-                    <span>
-                      Chưa có tài khoản?{" "}
-                      <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
-                    </span>
-                  </Space>
-                </Form.Item>
-                <Form.Item wrapperCol={16} style={{ textAlign: "center" }}>
+                    <Space
+                      type="flex"
+                      style={{ justifyContent: "space-between", width: "100%" }}
+                    >
+                      <span>
+                        <Link to={ROUTES.CUSTOMER_FORGET_PASSWORD}>
+                          Quên mật khẩu
+                        </Link>
+                      </span>
+                      <span>
+                        Chưa có tài khoản?{" "}
+                        <Link to={ROUTES.CUSTOMER_REGISTER}>Đăng ký</Link>
+                      </span>
+                    </Space>
+                  </Form.Item>
+                )}
+
+                <Form.Item
+                  name="submit"
+                  wrapperCol={16}
+                  style={{ textAlign: "center", paddingTop: 10 }}
+                >
                   <Button
                     type="primary"
                     htmlType="submit"
