@@ -97,6 +97,11 @@ export default function ListCompensions() {
         title: "Phí bảo hiểm",
         dataIndex: ["payment"],
         key: "payment",
+        render: (_, { payment }) =>
+          new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "VND",
+          }).format(payment),
       },
       {
         title: "Trạng thái",

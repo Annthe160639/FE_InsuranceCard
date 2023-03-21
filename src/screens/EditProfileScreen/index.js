@@ -12,7 +12,7 @@ import {
   updateUserProfile
 } from "../../redux/features/customer";
 import { createNotification } from "../../redux/features/notification";
-import { deleteUser } from "../../redux/features/user";
+import { deleteUser, setUser } from "../../redux/features/user";
 
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ export default function EditProfileScreen() {
 
   const uploadImage = () => {
     const formData = new FormData();
+    console.log(imageSelected)
     formData.append("file", imageSelected);
     formData.append("upload_preset", "zmtq5y1s");
     Axios.post(

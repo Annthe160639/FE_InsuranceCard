@@ -9,6 +9,7 @@ import {
   Button,
   Space,
   Spin,
+  Popconfirm,
 } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useCallback, useEffect, useState } from "react";
@@ -86,7 +87,7 @@ export default function ViewCompensation() {
   useEffect(() => {
     handleGetCompensationDetail();
   }, []);
-  console.log(compensationDetails?.status, user.role);
+  console.log(compensationDetails?.images);
   return (
     <Spin spinning={!compensationDetails}>
       <PageHeader
@@ -107,9 +108,17 @@ export default function ViewCompensation() {
               {user.role !== "customer" &&
                 (compensationDetails.status === "Ðang chờ xử lý" ||
                   compensationDetails.status == "Đang xử lý") && (
-                  <Button danger onClick={handleRejectCompensation}>
-                    Từ chối
-                  </Button>
+                  <Popconfirm
+                    title="Từ chối yêu cầu đền bù"
+                    onConfirm={handleRejectCompensation}
+                    okText="Không"
+                    cancelText="Từ chối"
+                    style={{ width: 50 }}
+                  >
+                    <Button danger onClick={handleRejectCompensation}>
+                      Từ chối
+                    </Button>
+                  </Popconfirm>
                 )}
               {user.role !== "customer" &&
                 (compensationDetails.status === "Ðang chờ xử lý" ||
@@ -159,8 +168,10 @@ export default function ViewCompensation() {
           <Tabs defaultActiveKey="1">
             <TabPane tab="Hình ảnh tai nạn" key="1">
               <Row>
-                <Col span={8}>
-                  <Image src={compensationDetails?.images} />
+                <Col>
+                  {`${compensationDetails?.images}`.split("\\/").map((i) => (
+                    <Image src={i} style={{width: 200, display: 'inline'}}/>
+                  ))}
                 </Col>
               </Row>
             </TabPane>
