@@ -88,7 +88,9 @@ export default function RequestCompensation() {
 
   const handleFormSubmit = useCallback(
     async (values) => {
-      values.images = fileUrlList.map((u) => decodeURIComponent(u)).join("\\/");
+      const contract = find(customerContracts, { typeId: contractId });
+      values.contractId = contract?.id;
+      values.images = fileUrlList.join("\\/");
       values.payment = totalPayment;
       const { error, payload } = await dispatch(
         customerCompensationRequest(values)
